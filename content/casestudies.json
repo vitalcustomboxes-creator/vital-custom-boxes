@@ -1,0 +1,53 @@
+[
+  {
+    "slug": "wholesale-candle-boxes-boutique-brand",
+    "title": "Wholesale Candle Boxes for a Boutique Candle Brand",
+    "industry": "Home fragrance",
+    "categorySlug": "custom-candle-boxes",
+    "imageUrl": "/img/hm/wp-content/uploads/2025/03/Custom-Candle-Boxes-Wholesale.jpg",
+    "summary": "A boutique candle maker moved from plain stock cartons to branded wholesale candle boxes with fitted inserts.",
+    "challenge": "Glass jar candles were arriving chipped from transit, and unbranded packaging undersold a premium hand-poured product.",
+    "solution": "Die-cut cardboard inserts sized to the jar, a sturdier stock, and full-color printing with a soft-touch finish — produced at wholesale volume pricing.",
+    "results": [
+      "Fitted inserts addressed transit damage on glass jars",
+      "Packaging now matches the premium positioning of the product",
+      "Brand moved to repeat wholesale ordering"
+    ],
+    "todo": "TODO client: verify project details and approve copy before publishing.",
+    "copyStatus": "derived"
+  },
+  {
+    "slug": "custom-pizza-boxes-multi-location-pizzeria",
+    "title": "Custom Pizza Boxes for a Multi-Location Pizzeria",
+    "industry": "Food service",
+    "categorySlug": "custom-pizza-boxes",
+    "imageUrl": "/img/hm/wp-content/uploads/2025/03/Pizza-Boxes01-1-600x500-1.jpg",
+    "summary": "A growing pizzeria standardized branded corrugated pizza boxes across all of its locations.",
+    "challenge": "Each location ordered generic boxes separately, so costs varied and the brand disappeared the moment a delivery left the store.",
+    "solution": "A single corrugated box program in two sizes with vent design for steam control and one consolidated print run for every location.",
+    "results": [
+      "One consistent branded box across all locations",
+      "Consolidated ordering simplified purchasing",
+      "Delivery packaging now carries the brand to the doorstep"
+    ],
+    "todo": "TODO client: verify project details and approve copy before publishing.",
+    "copyStatus": "derived"
+  },
+  {
+    "slug": "counter-display-boxes-smoke-shop-line",
+    "title": "Counter Display Boxes for a CBD and Smoke Shop Product Line",
+    "industry": "CBD / tobacco retail",
+    "categorySlug": "custom-display-boxes",
+    "imageUrl": "/img/hm/wp-content/uploads/2025/03/countertop-display-neba-01-1000px.jpg",
+    "summary": "A CBD and smoke shop brand needed countertop displays that sold product at the register, plus compliant printed cigarette-style cartons.",
+    "challenge": "Loose product near the point of sale was easy to miss, and the existing cartons did not meet the retailer’s presentation standards.",
+    "solution": "Auto-locking counter display boxes with a branded riser card, paired with printed cartons sized for the retailer’s shelving.",
+    "results": [
+      "Product gained dedicated, branded space at the register",
+      "Display assembles flat-packed in seconds for store staff",
+      "Carton printing brought the line up to retailer standards"
+    ],
+    "todo": "TODO client: verify project details and approve copy before publishing.",
+    "copyStatus": "derived"
+  }
+]

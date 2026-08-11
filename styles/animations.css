@@ -1,0 +1,619 @@
+/* ============================================================================
+   styles/animations.css — Vital Custom Boxes motion system
+   Owner: DESIGNER · Consumed by all FE/BE agents. Spec: docs/DESIGN_SPEC.md §4.
+
+   RULES (from brief — non-negotiable)
+   - transform + opacity ONLY. Never animate width/height/top/margin/padding.
+     Single sanctioned exception: SVG stroke-dashoffset for the hero dieline
+     draw-in (paint-level, no reflow).
+   - Everything here is disabled/neutralised under prefers-reduced-motion
+     (final block).
+   - Durations/easing come from tokens.css (--dur-*, --ease-out).
+
+   JS CONTRACTS
+   1. html[data-js]: root layout includes, first thing in <head>:
+        <script dangerouslySetInnerHTML={{ __html:
+          "document.documentElement.setAttribute('data-js','')" }} />
+      Scroll-reveal hidden states only apply under html[data-js], so content
+      is NEVER invisible if JS fails (progressive enhancement).
+   2. [data-inview]: a small client component <Reveal> (FE-1) attaches an
+      IntersectionObserver (threshold 0, rootMargin '0px 0px -10% 0px') to
+      every .reveal / .reveal-stagger element, sets data-inview="" the first
+      time it intersects, then unobserves (one-time reveal).
+   3. --stagger-i: set per child as inline style={{ '--stagger-i': i }}.
+      The nth-child fallback below covers the first 12 children automatically.
+   4. Composition rule: never put .card-lift (or any hover-transform class) on
+      the SAME node that .reveal-stagger animates — make the grid cell the
+      stagger child and the card its inner child. Otherwise delays/fills clash.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   Keyframes (transform/opacity only)
+   -------------------------------------------------------------------------- */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-visual {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes menu-pop-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes menu-pop-out {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.985);
+  }
+}
+
+/* Hero dieline. Elements need pathLength="100" (public/dieline.svg has it). */
+@keyframes draw-stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes sheen-sweep {
+  0% {
+    transform: translateX(-130%) skewX(-18deg);
+  }
+
+  20% {
+    transform: translateX(330%) skewX(-18deg);
+  }
+
+  100% {
+    transform: translateX(330%) skewX(-18deg);
+  }
+
+  /* rest of 6s = idle */
+}
+
+@keyframes skeleton-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll reveal — .reveal / .reveal-stagger  (trigger: [data-inview])
+   Hidden state requires html[data-js] (no-JS users always see content).
+   -------------------------------------------------------------------------- */
+[data-js] .reveal:not([data-inview]) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal[data-inview] {
+  animation: rise-in var(--dur-slow) var(--ease-out) backwards;
+}
+
+[data-js] .reveal-stagger:not([data-inview])>* {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal-stagger[data-inview]>* {
+  animation: rise-in var(--dur-slow) var(--ease-out) calc(var(--stagger-i, 0) * var(--stagger-step, 70ms)) backwards;
+}
+
+/* nth-child fallback when --stagger-i isn't set inline (first 12 children). */
+.reveal-stagger> :nth-child(1) {
+  --stagger-i: 0;
+}
+
+.reveal-stagger> :nth-child(2) {
+  --stagger-i: 1;
+}
+
+.reveal-stagger> :nth-child(3) {
+  --stagger-i: 2;
+}
+
+.reveal-stagger> :nth-child(4) {
+  --stagger-i: 3;
+}
+
+.reveal-stagger> :nth-child(5) {
+  --stagger-i: 4;
+}
+
+.reveal-stagger> :nth-child(6) {
+  --stagger-i: 5;
+}
+
+.reveal-stagger> :nth-child(7) {
+  --stagger-i: 6;
+}
+
+.reveal-stagger> :nth-child(8) {
+  --stagger-i: 7;
+}
+
+.reveal-stagger> :nth-child(9) {
+  --stagger-i: 8;
+}
+
+.reveal-stagger> :nth-child(10) {
+  --stagger-i: 9;
+}
+
+.reveal-stagger> :nth-child(11) {
+  --stagger-i: 10;
+}
+
+.reveal-stagger> :nth-child(12) {
+  --stagger-i: 11;
+}
+
+/* ----------------------------------------------------------------------------
+   Hero entrance — one-time, on load, home hero only (~1.2s total signature)
+   Markup: text column children wrapped by .hero-enter (eyebrow, h1, sub, CTA
+   row…); visual column gets .hero-enter-visual; inline SVG gets .draw-in.
+   Pure CSS — runs with or without JS; never re-triggers (no observer).
+   -------------------------------------------------------------------------- */
+.hero-enter>* {
+  animation: hero-rise 600ms var(--ease-out) backwards;
+}
+
+.hero-enter> :nth-child(1) {
+  animation-delay: 80ms;
+}
+
+.hero-enter> :nth-child(2) {
+  animation-delay: 200ms;
+}
+
+.hero-enter> :nth-child(3) {
+  animation-delay: 320ms;
+}
+
+.hero-enter> :nth-child(4) {
+  animation-delay: 440ms;
+}
+
+.hero-enter> :nth-child(n + 5) {
+  animation-delay: 560ms;
+}
+
+.hero-enter-visual {
+  animation: hero-visual 900ms var(--ease-out) 150ms backwards;
+}
+
+/* Dieline draw-in. Apply .draw-in to the INLINED <svg> (must be inline JSX —
+   external <img src> cannot receive these styles). All drawable elements need
+   pathLength="100". Fold (dashed) lines carry class="fold" and fade in late
+   instead of drawing, so their own dasharray isn't hijacked. */
+.draw-in :is(path, line, polyline, polygon, rect, circle, ellipse):not(.fold) {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw-stroke var(--dur-hero) var(--ease-out) forwards;
+}
+
+.draw-in .draw-delay-1 {
+  animation-delay: 150ms;
+}
+
+.draw-in .draw-delay-2 {
+  animation-delay: 300ms;
+}
+
+.draw-in .draw-delay-3 {
+  animation-delay: 450ms;
+}
+
+.draw-in .fold {
+  opacity: 0;
+  animation: fade-in 500ms var(--ease-out) 850ms forwards;
+}
+
+/* ----------------------------------------------------------------------------
+   Card hover lift — ProductCard, CategoryTile, BlogCard, case-study cards
+   Markup: .card-lift on the card root; image wrapped in .card-media.
+   translateY(-4px) + shadow-e3 + media scale 1.04 @ 250ms. Hover-capable
+   pointers only (no sticky-hover on touch); focus-within mirrors for keyboard.
+   -------------------------------------------------------------------------- */
+.card-lift {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.card-media {
+  overflow: hidden;
+  /* contains the img scale */
+}
+
+.card-media img {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .card-lift:hover,
+  .card-lift:focus-within {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-e3);
+  }
+
+  .card-lift:hover .card-media img,
+  .card-lift:focus-within .card-media img {
+    transform: scale(1.04);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Button press — all buttons / pressable chips
+   -------------------------------------------------------------------------- */
+.press {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.press:active:not(:disabled, [aria-disabled='true']) {
+  transform: scale(0.98);
+}
+
+/* ----------------------------------------------------------------------------
+   CTA sheen — 6s loop, primary hero/CTA-band buttons ONLY (max 1 per viewport)
+   Pausable: add .is-paused (or [data-paused]) to the button, or
+   data-motion="paused" on any ancestor (global pause switch).
+   -------------------------------------------------------------------------- */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.sheen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  background: linear-gradient(100deg,
+      rgba(255, 255, 255, 0) 10%,
+      rgba(255, 255, 255, 0.32) 50%,
+      rgba(255, 255, 255, 0) 90%);
+  transform: translateX(-130%) skewX(-18deg);
+  animation: sheen-sweep 6s linear infinite;
+  pointer-events: none;
+}
+
+.sheen.is-paused::after,
+.sheen[data-paused]::after,
+[data-motion='paused'] .sheen::after {
+  animation-play-state: paused;
+}
+
+/* ----------------------------------------------------------------------------
+   Accordion — chevron rotates; panel height change is INSTANT (no layout
+   animation); panel content fades in via .anim-fade-in on the inner wrapper.
+   Markup: trigger <button aria-expanded> wraps an icon with .chevron.
+   -------------------------------------------------------------------------- */
+.chevron {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+[aria-expanded='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ----------------------------------------------------------------------------
+   Menus & dropdowns — fade + slide tuned for desktop nav popovers
+   (mega menu panel, search popover). Panel stays mounted; toggle with
+   [data-open] or .is-open. visibility delays on close so the fade-out is
+   visible but the closed menu is unfocusable/unhoverable.
+   -------------------------------------------------------------------------- */
+/* Apple-style shell: Framer drives the inline `height` (0 ↔ measured content),
+   morphing on open/close AND when sliding between groups; `overflow` clips the
+   content through the morph. CSS only manages focusability — visibility is
+   delayed on close so the collapse is fully visible, then snaps the closed
+   panel unfocusable/unhoverable. */
+.menu-pop-shell {
+  visibility: hidden;
+  overflow: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear var(--dur-nav);
+}
+
+.menu-pop-shell[data-open] {
+  visibility: visible;
+  pointer-events: auto;
+  transition: visibility 0s linear 0s;
+}
+
+/* Stable background layer measured for the morph. Groups crossfade inside it;
+   the one exiting via popLayout is absolutely positioned, so it anchors + clips
+   here instead of stacking and briefly doubling the panel height. */
+.menu-pop-inner {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.menu-pop {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate3d(0, 8px, 0) scale(0.985);
+  transform-origin: top center;
+  pointer-events: none;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transition:
+    opacity var(--dur-menu) var(--ease-menu),
+    transform var(--dur-menu) var(--ease-menu),
+    visibility 0s linear var(--dur-menu);
+}
+
+.menu-pop[data-open],
+.menu-pop.is-open {
+  visibility: visible;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  pointer-events: auto;
+  animation: menu-pop-in var(--dur-menu) var(--ease-menu) both;
+  transition:
+    opacity var(--dur-menu) var(--ease-menu),
+    transform var(--dur-menu) var(--ease-menu);
+}
+
+.menu-pop:not([data-open]):not(.is-open) {
+  animation: menu-pop-out var(--dur-menu) var(--ease-menu) both;
+}
+
+/* Backdrop scrim — dims + blurs the page below the header while a mega menu
+   or the search popover is open (Apple-style focus). Anchored to the sticky
+   <header> at its bottom edge (top:100%) so it always starts below the bar
+   regardless of promo/scroll, and extends down over the viewport. Rendered
+   before the panels so those paint on top of it. */
+.menu-scrim {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  /* Focus backdrop: the page should recede so attention lands on the nav +
+     open menu. Strong blur removes detail, a slight DESATURATE makes the page
+     read as muted/inactive (not competing for the eye), and a modest dim
+     completes the fall-back — without going to a flat grey wash. */
+  background: rgba(16, 24, 32, 0.2);
+  -webkit-backdrop-filter: blur(28px) saturate(0.85);
+  backdrop-filter: blur(28px) saturate(0.85);
+  transition:
+    opacity var(--dur-menu) var(--ease-menu),
+    visibility 0s linear var(--dur-menu);
+}
+
+.menu-scrim[data-open] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  animation: fade-in var(--dur-menu) var(--ease-menu) both;
+  transition: opacity var(--dur-menu) var(--ease-menu);
+}
+
+.menu-scrim:not([data-open]) {
+  animation: fade-out var(--dur-menu) var(--ease-menu) both;
+}
+
+/* ----------------------------------------------------------------------------
+   Drawer (mobile nav) + overlays — transform/opacity slide & fade
+   -------------------------------------------------------------------------- */
+.drawer-panel {
+  visibility: hidden;
+  transform: translateX(100%);
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    visibility 0s linear var(--dur-slow);
+}
+
+.drawer-panel--left {
+  transform: translateX(-100%);
+}
+
+.drawer-panel[data-open],
+.drawer-panel.is-open {
+  visibility: visible;
+  transform: translateX(0);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.overlay-fade {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    visibility 0s linear var(--dur-base);
+}
+
+.overlay-fade[data-open],
+.overlay-fade.is-open {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+/* ----------------------------------------------------------------------------
+   Mount utilities — for conditionally-rendered nodes (modal, toast, accordion
+   content, tab panels). Apply on the element that just mounted.
+   NOTE: 'both' fill pins the end transform — don't combine with hover-transform
+   classes on the same node (see composition rule in header).
+   -------------------------------------------------------------------------- */
+.anim-fade-in {
+  animation: fade-in var(--dur-fast) var(--ease-out) both;
+}
+
+.anim-rise-in {
+  animation: rise-in var(--dur-base) var(--ease-out) both;
+}
+
+.anim-pop-in {
+  animation: pop-in var(--dur-base) var(--ease-out) both;
+}
+
+/* Toast lifecycle (FE toggles classes; remove node after exit ends). */
+.toast-enter {
+  animation: rise-in var(--dur-base) var(--ease-out) backwards;
+}
+
+.toast-exit {
+  animation: fade-out var(--dur-fast) var(--ease-out) forwards;
+}
+
+/* ----------------------------------------------------------------------------
+   Skeleton — loading placeholder (FE-1 Skeleton primitive)
+   -------------------------------------------------------------------------- */
+.skeleton {
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+/* ----------------------------------------------------------------------------
+   prefers-reduced-motion — EVERYTHING above is neutralised. Content must be
+   fully visible and functional with zero movement.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Reveal/hero states: force fully visible, no offsets. */
+  [data-js] .reveal:not([data-inview]),
+  [data-js] .reveal-stagger:not([data-inview])>*,
+  .hero-enter>*,
+  .hero-enter-visual {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* Dieline: render complete, no draw. */
+  .draw-in :is(path, line, polyline, polygon, rect, circle, ellipse) {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
+
+  .draw-in .fold {
+    stroke-dasharray: 5 7 !important;
+    /* keep dashed fold styling */
+  }
+
+  /* No movement on hover/press; elevation snaps without motion. */
+  .card-lift:hover,
+  .card-lift:focus-within,
+  .press:active,
+  .menu-pop,
+  .drawer-panel,
+  .drawer-panel--left {
+    transform: none !important;
+  }
+
+  .card-lift:hover .card-media img,
+  .card-lift:focus-within .card-media img {
+    transform: none !important;
+  }
+
+  .sheen::after {
+    display: none !important;
+  }
+
+  .skeleton {
+    animation: none !important;
+  }
+}

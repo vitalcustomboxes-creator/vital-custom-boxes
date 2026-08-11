@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "turnaround",
+    "question": "How long does production and delivery take?",
+    "answer": "Standard production takes 8–12 business days, depending on order size, and free shipping across the USA & Canada is included. If you have a hard deadline, mention it in your quote request and we will confirm the schedule before production starts."
+  },
+  {
+    "slug": "free-shipping",
+    "question": "Do you offer free shipping?",
+    "answer": "Yes — shipping is free across the USA & Canada. The price you are quoted is the price you pay, with delivery included on top of the 8–12 business day standard production window."
+  },
+  {
+    "slug": "moq",
+    "question": "What is your minimum order quantity (MOQ)?",
+    "answer": "Run size depends on your box style, dimensions, stock, and finish. Tell us what you need in the quote form and we will confirm the best production quantity for your order."
+  },
+  {
+    "slug": "design-support",
+    "question": "Do you offer free design support?",
+    "answer": "Yes. Our in-house design team helps with dielines, artwork setup, and print-ready file checks at no extra cost, and you approve a digital proof before anything goes to press."
+  },
+  {
+    "slug": "file-formats",
+    "question": "What file formats do you accept for artwork?",
+    "answer": "Print-ready PDF, AI, or EPS files with outlined fonts work best; high-resolution (300 DPI) PSD or TIFF files are also accepted. If your files are not print-ready, our design team will prepare them for you."
+  },
+  {
+    "slug": "prototype",
+    "question": "Can I get a sample or prototype before the full run?",
+    "answer": "Yes. We provide digital 3D mock-ups with every order, and physical prototypes or sample kits are available on request so you can approve structure and finish before full production."
+  },
+  {
+    "slug": "materials",
+    "question": "What materials can I choose from?",
+    "answer": "We offer cardstock (12pt–24pt), kraft, corrugated, rigid board, SBS, and eco-friendly recycled stocks, plus finishes like matte or gloss lamination, soft-touch, spot UV, foil stamping, and embossing."
+  },
+  {
+    "slug": "quote-process",
+    "question": "How does the quote process work?",
+    "answer": "Submit the quote form with your box style, size, stock, and quantity, and our team replies with pricing — typically within one business day. Approve your quote and artwork proof, and production begins."
+  }
+]

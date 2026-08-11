@@ -1,0 +1,63 @@
+# .github/workflows/ci.yml — owner: DEVOPS.
+#
+# Single job, strict stage order (mirrors the PROJECT_BRIEF quality budgets):
+#   npm ci → lint → typecheck → vitest → build → check-budgets → smoke
+#
+# check-budgets and smoke REQUIRE the .next/ output of the build step — they
+# parse production manifests / boot `next start`. They therefore live in the
+# SAME job, after `npm run build` (splitting them into another job would need
+# an actions/upload-artifact + download of .next/, which is slower than just
+# keeping the order). smoke binds 127.0.0.1:3100 inside the runner.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install (clean, from lockfile)
+        run: npm ci
+
+      - name: Lint (eslint flat config)
+        run: npm run lint
+
+      - name: Typecheck (tsc --noEmit, strict)
+        run: npm run typecheck
+
+      - name: Unit tests (vitest — node + jsdom projects)
+        run: npm test
+
+      - name: Build (next build — produces .next/ used below)
+        run: npm run build
+
+      - name: Performance budget (first-load JS ≤150 kB/route)
+        run: node scripts/check-budgets.mjs
+
+      - name: Smoke (boots `next start`, route status + single-h1 + title checks)
+        run: node scripts/smoke.mjs
+
+      # QA-AUTO 2026-06-12: deep HTML quality crawl over a ~23-page sample —
+      # single h1, ≤1 FAQPage JSON-LD, BreadcrumbList on inner pages, no
+      # undefined/NaN/[object Object] literals, banned-claims scan, canonical
+      # tel: links, https-only own-domain links, img alt. Needs .next/ from
+      # the build stage (same job, after smoke — port 3200 vs smoke's 3100).
+      - name: QA crawl (JSON-LD + content-quality checks on page sample)
+        run: node scripts/qa-crawl.mjs

@@ -1,0 +1,22 @@
+{
+  "sla": "Standard production in 8–12 business days, depending on order size",
+  "moq": "flexible — ask for your run size",
+  "shipping": "Free shipping across the USA & Canada",
+  "phone": "+1 (828) 455-0798",
+  "phoneHref": "tel:+18284550798",
+  "email": "sales@vitalcustomboxes.com",
+  "promo": {
+    "text": "Get 40% Off + Free Design Support + Free Shipping",
+    "href": "/get-custom-quote/"
+  },
+  "address": "3000 Shelby St, Indianapolis, IN 46227, USA",
+  "complianceDisclaimer": "Vital Custom Boxes supplies packaging exclusively to legally operating businesses. Regulatory compliance of the packaged product, including labeling and warnings, remains the responsibility of the brand.",
+  "social": {
+    "facebook": "https://www.facebook.com/profile.php?id=61582325878379",
+    "instagram": "https://www.instagram.com/vital_custom_boxes/",
+    "linkedin": "",
+    "x": "https://x.com/VitalBoxes",
+    "pinterest": "https://www.pinterest.com/vitalcustomboxes/",
+    "trustpilot": "https://www.trustpilot.com/review/vitalcustomboxes.com"
+  }
+}

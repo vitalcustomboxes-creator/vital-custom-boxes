@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Vital Custom Boxes — Custom Packaging Boxes Wholesale">
+  <!--
+    og-default.svg — site-wide default Open Graph card. 1200x630, brand tokens
+    only (ink-900 bg, terra-500 accent, paper-50/ink-100/slate-400 text).
+    A raster og-default.png is exported from this card (via sharp) and is what
+    DEFAULT_OG_IMAGE points to, since several social scrapers ignore SVG og:image.
+  -->
+  <rect width="1200" height="630" fill="#0B2536"/>
+  <rect width="1200" height="8" y="622" fill="#E06A4D"/>
+
+  <!-- decorative isometric box, right side (brand tokens + opacity only) -->
+  <g>
+    <polygon points="950,150 1106,228 950,306 794,228" fill="#E06A4D"/>
+    <polygon points="794,228 950,306 950,492 794,414" fill="#163A52"/>
+    <polygon points="1106,228 950,306 950,492 1106,414" fill="#163A52" opacity="0.62"/>
+    <polygon points="950,150 1106,228 950,306 794,228" fill="#FAF8F5" opacity="0.08"/>
+    <!-- tape seam on the top face -->
+    <polygon points="936,157 964,143 1120,221 1092,235" fill="#FBE9E3" opacity="0.35"/>
+    <!-- V monogram on the front face -->
+    <text x="872" y="408" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="84" font-weight="700" fill="#FAF8F5" text-anchor="middle">V</text>
+  </g>
+
+  <!-- text block -->
+  <rect x="96" y="208" width="128" height="10" rx="5" fill="#E06A4D"/>
+  <text x="96" y="304" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="74" font-weight="700" fill="#FAF8F5">Vital Custom</text>
+  <text x="96" y="390" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="74" font-weight="700" fill="#FAF8F5">Boxes</text>
+  <text x="96" y="452" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-size="32" font-weight="600" fill="#E7EEF3">Custom Packaging Boxes Wholesale</text>
+  <text x="96" y="540" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="2" fill="#8294A3">WWW.VITALCUSTOMBOXES.COM</text>
+</svg>

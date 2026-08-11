@@ -1,0 +1,238 @@
+/* ============================================================================
+   styles/tokens.css — Vital Custom Boxes design tokens (single source of truth)
+   Owner: DESIGNER · Everyone consumes. Do not fork values — change them here.
+
+   CONTRACT
+   - styles/globals.css imports this file FIRST, then animations.css, then the
+     Tailwind layers (see globals.css).
+   - tailwind.config.ts (ARCHITECT) maps utility classes to these variable
+     names — see docs/ARCHITECTURE.md §5. Class names: bg-terra-500, text-ink-900,
+     rounded-md, shadow-e2, font-display, ease-brand, etc.
+   - Fonts: BE-1's root layout loads next/font with
+       Poppins({ weight:['600','700'], variable:'--font-poppins' })
+       Manrope({ variable:'--font-manrope' })
+     and puts both .variable classes on <html>. tokens.css aliases them to
+     --font-display / --font-body below (per docs/ARCHITECTURE.md §5).
+   - Translucency: Tailwind opacity modifiers do NOT work on brand colors
+     (opaque var refs) — use the rgba tokens provided here (--color-overlay,
+     --scrim-*, dark-section borders) or arbitrary rgba(11,37,54,…) values.
+   ========================================================================== */
+
+:root {
+  /* ----- Color · raw palette (derived from the Vital logo) ---------------- */
+  --color-ink-900: #101820;
+  /* near-black logo type, dark sections, footer */
+  --color-ink-700: #183860;
+  /* exact dominant navy from the box mark */
+  --color-ink-100: #E1E8EF;
+  /* cool hairlines, borders, subtle fills */
+  --color-terra-500: #F8A718;
+  /* exact logo amber; pair with ink-900 text */
+  --color-terra-600: #974A00;
+  /* accessible amber-brown for links on light */
+  --color-terra-100: #FFF0CC;
+  /* amber tint, selected chips, focus halo */
+  --color-paper-50: #F8FAFC;
+  /* crisp cool-white page background */
+  --color-kraft-100: #EEF3F7;
+  /* pale blue-gray alternating sections */
+  --color-slate-600: #435466;
+  /* body text */
+  --color-slate-400: #748596;
+  /* muted text, placeholders, decorative icons */
+  --color-gold-500: #F8A718;
+  /* logo amber for ratings and flourishes */
+  --color-success: #26734D;
+  --color-error: #B42318;
+  --color-white: #FFFFFF;
+
+  /* ----- Color · semantic roles (re-mapped inside .dark-section) ----------- */
+  --color-bg: var(--color-paper-50);
+  --color-surface: var(--color-white);
+  /* cards, inputs, popovers */
+  --color-surface-alt: var(--color-kraft-100);
+  /* zebra rows, wells */
+  --color-heading: var(--color-ink-900);
+  --color-text: var(--color-slate-600);
+  --color-text-muted: var(--color-slate-400);
+  --color-border: var(--color-ink-100);
+  --color-border-strong: var(--color-slate-400);
+  --color-link: var(--color-terra-600);
+  --focus-ring-color: var(--color-terra-600);
+
+  /* ----- Color · translucent helpers (opacity modifiers unavailable) ------- */
+  --color-overlay: rgba(16, 24, 32, 0.58);
+  /* modal/drawer backdrop */
+  --scrim-tile: linear-gradient(180deg, rgba(16, 24, 32, 0) 35%, rgba(16, 24, 32, 0.76) 100%);
+  /* CategoryTile text scrim */
+  --header-bg-blur: rgba(248, 250, 252, 0.94);
+  /* sticky header w/ backdrop-blur */
+
+  /* ----- Typography --------------------------------------------------------- */
+  --font-display: var(--font-poppins, 'Poppins', ui-sans-serif, system-ui, sans-serif);
+  --font-body: var(--font-manrope, 'Manrope', ui-sans-serif, system-ui, sans-serif);
+
+  /* Fixed sizes (px) + unitless line-heights. Poppins 600/700 headings,
+     Manrope body. */
+  --text-h1-desktop: 44px;
+  --text-h1-mobile: 32px;
+  --leading-h1: 1.15;
+  --text-h2-desktop: 34px;
+  --text-h2-mobile: 26px;
+  --leading-h2: 1.2;
+  --text-h3-desktop: 26px;
+  --text-h3-mobile: 21px;
+  --leading-h3: 1.25;
+  --text-h4-desktop: 20px;
+  --text-h4-mobile: 18px;
+  --leading-h4: 1.35;
+  --text-body: 16px;
+  --leading-body: 1.6;
+  --text-small: 14px;
+  --leading-small: 1.5;
+  --text-tiny: 12px;
+  --leading-tiny: 1.4;
+  /* badges, captions */
+  --text-eyebrow: 13px;
+  --tracking-eyebrow: 0.08em;
+  /* uppercase kickers */
+  --tracking-tight: -0.02em;
+  /* H1/H2 display tracking */
+
+  /* Responsive aliases — mobile value by default, desktop from 768px
+     (@media block at bottom). Components use these and respond for free. */
+  --text-h1: var(--text-h1-mobile);
+  --text-h2: var(--text-h2-mobile);
+  --text-h3: var(--text-h3-mobile);
+  --text-h4: var(--text-h4-mobile);
+
+  /* ----- Spacing · 4px grid (token N = N × 4px; mirrors Tailwind scale) ---- */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  /* minimum touch target */
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-28: 112px;
+  --space-32: 128px;
+
+  /* ----- Layout rhythm ------------------------------------------------------ */
+  --container-max: 1240px;
+  --header-container-max: 1560px;
+  --container-pad: 20px;
+  /* 32px from 768px up (media below) */
+  --section-y: 64px;
+  /* default section padding (96 @768) */
+  --section-y-compact: 40px;
+  /* compact bands (56 @768) */
+  --header-h: 64px;
+  /* 72px from 768px up */
+
+  /* ----- Radius -------------------------------------------------------------- */
+  --radius-sm: 6px;
+  /* chips, badges, tags */
+  --radius-md: 10px;
+  /* buttons, inputs, small cards */
+  --radius-lg: 16px;
+  /* cards, panels, modals, images */
+  --radius-full: 9999px;
+
+  /* ----- Elevation · logo-navy tint ---------------------------------------- */
+  --shadow-e1: 0 1px 2px rgba(24, 56, 96, 0.06), 0 1px 3px rgba(24, 56, 96, 0.09);
+  --shadow-e2: 0 2px 4px rgba(24, 56, 96, 0.06), 0 6px 16px rgba(24, 56, 96, 0.11);
+  --shadow-e3: 0 4px 10px rgba(24, 56, 96, 0.08), 0 16px 32px rgba(24, 56, 96, 0.16);
+
+  /* ----- Motion --------------------------------------------------------------- */
+  --dur-fast: 150ms;
+  /* presses, tooltips, micro feedback */
+  --dur-base: 250ms;
+  /* hovers, lifts, modal pop */
+  --dur-slow: 350ms;
+  /* reveals, drawers */
+  --dur-menu: 260ms;
+  /* dropdown/mega-menu fade+slide (per brief) */
+  --dur-nav: 440ms;
+  /* Apple-style mega-menu height morph + content crossfade */
+  --dur-hero: 1200ms;
+  /* one-time hero signature (dieline draw-in) */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* = Tailwind ease-brand */
+  --ease-menu: cubic-bezier(0.2, 0.9, 0.22, 1);
+  /* desktop nav dropdowns */
+  --ease-nav: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Apple-style mega-menu morph (soft, weighty deceleration) */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* symmetric moves only */
+  --stagger-step: 70ms;
+  /* .reveal-stagger per-child increment */
+
+  /* ----- Z-index ladder -------------------------------------------------------- */
+  --z-promo: 30;
+  /* promo bar */
+  --z-header: 40;
+  /* sticky header + mega menu */
+  --z-sticky-cta: 45;
+  /* mobile sticky CTA bar */
+  --z-drawer: 50;
+  /* mobile nav drawer + its overlay */
+  --z-modal: 60;
+  /* modal / lightbox + its overlay */
+  --z-toast: 70;
+  --z-tooltip: 80;
+}
+
+/* ----- Dark section scope -----------------------------------------------------
+   Wrap any ink-900 band (footer, stats band, dark CTA) in .dark-section.
+   Semantic roles re-map; components built on semantic tokens adapt for free. */
+.dark-section {
+  --color-bg: var(--color-ink-900);
+  --color-surface: var(--color-ink-700);
+  --color-surface-alt: rgba(231, 238, 243, 0.06);
+  --color-heading: var(--color-white);
+  --color-text: var(--color-ink-100);
+  --color-text-muted: var(--color-slate-400);
+  --color-border: rgba(231, 238, 243, 0.16);
+  --color-border-strong: rgba(231, 238, 243, 0.4);
+  --color-link: var(--color-terra-100);
+  --focus-ring-color: var(--color-paper-50);
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* ----- Focus helper (for non-Tailwind contexts; Tailwind recipe in
+   docs/DESIGN_SPEC.md §3). Never remove an outline without this replacement. -- */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+}
+
+.focus-ring:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ----- Responsive token swaps -------------------------------------------------- */
+@media (min-width: 768px) {
+  :root {
+    --text-h1: var(--text-h1-desktop);
+    --text-h2: var(--text-h2-desktop);
+    --text-h3: var(--text-h3-desktop);
+    --text-h4: var(--text-h4-desktop);
+    --container-pad: 32px;
+    --section-y: 96px;
+    --section-y-compact: 56px;
+    --header-h: 72px;
+  }
+}

@@ -1,0 +1,40 @@
+<svg viewBox="0 0 480 360" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Vital Custom Boxes — hero signature: tuck-end box dieline (unfolded).
+    Owner: DESIGNER. Strokes only, inherits currentColor (set text color on a
+    wrapper, e.g. text-ink-700 on light / text-terra-100 in dark sections).
+
+    Draw-in animation contract (styles/animations.css):
+      * INLINE this file as JSX and add class "draw-in" to the <svg> — an
+        external <img src="/dieline.svg"> renders fine but cannot animate.
+      * Every drawable element carries pathLength="100" so the CSS
+        stroke-dasharray/offset (100) works regardless of true path length.
+      * Solid cut lines draw over the dur-hero token (1.2s); dashed fold lines
+        have class="fold" and fade in at ~0.85s instead of drawing.
+      * Decorative: keep aria-hidden="true" when inlining.
+  -->
+  <g id="dieline">
+    <!-- Cut outline: one continuous path — base, side flaps, tuck flaps -->
+    <path
+      id="cut-outline"
+      pathLength="100"
+      d="M160 120 L160 48 L168 48 L176 20 L304 20 L312 48 L320 48 L320 120 L384 132 L384 228 L320 240 L320 312 L312 312 L304 340 L176 340 L168 312 L160 312 L160 240 L96 228 L96 132 Z"
+    />
+    <!-- Thumb notch on the top tuck flap (draws slightly later) -->
+    <path
+      id="thumb-notch"
+      class="draw-delay-2"
+      pathLength="100"
+      d="M226 20 A 14 14 0 0 0 254 20"
+    />
+    <!-- Fold lines (dashed) — fade in late; excluded from draw-in -->
+    <g id="folds" class="fold-lines" stroke-dasharray="5 7" stroke-opacity="0.5" stroke-width="1.5">
+      <path id="fold-top" class="fold" d="M160 120 L320 120" />
+      <path id="fold-bottom" class="fold" d="M160 240 L320 240" />
+      <path id="fold-left" class="fold" d="M160 120 L160 240" />
+      <path id="fold-right" class="fold" d="M320 120 L320 240" />
+      <path id="fold-tuck-top" class="fold" d="M168 48 L312 48" />
+      <path id="fold-tuck-bottom" class="fold" d="M168 312 L312 312" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+# Local source-image recovery archive; optimized copies live in public/.
+asset-archive/
+theme-backups/
+
+# Design-source exports are not consumed by the application.
+Blogs Banner for Vital/
+
+# Local dependencies and Next.js build/dev caches. Vercel rebuilds these.
+node_modules/
+.next/
+.next-dev/
+
+# Local repository/editor/runtime files.
+.git/
+.github/
+.vercel/
+.DS_Store
+.env*
+*.tsbuildinfo
+coverage/
+data/
+
+# Development and QA files are not needed by the production build.
+tests/
+docs/

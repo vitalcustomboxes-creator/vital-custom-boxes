@@ -1,0 +1,155 @@
+# ARCHITECTURE — HM Custom Packaging rebuild
+
+Author: ARCHITECT · 2026-06-12 · Source of truth for requirements: `docs/PROJECT_BRIEF.md`
+
+## 1. Stack (fixed by brief)
+
+- Next.js **15** (App Router) · React **19** · TypeScript **strict** · npm
+- Tailwind CSS **3.4** + CSS variables for all design tokens (no CSS-in-JS)
+- Content: local JSON in `/content` + typed loaders in `lib/content.ts` (CMS-ready shape). No database.
+- Forms: server actions + zod. Email = stub (console + `data/leads.jsonl`).
+- Icons: lucide-react. Fonts: next/font (Poppins display 600/700, Manrope body).
+- Tests: vitest + @testing-library/react. Lint: eslint + eslint-config-next.
+
+## 2. Folder structure & ownership
+
+```
+hm-rebuild/
+├── app/                      # Routes — BE-1 (layout, home, [category], products[/slug]),
+│   │                         #          BE-2 (all other routes, not-found, sitemap.ts, robots.ts),
+│   │                         #          BE-3 (app/api/search, server actions)
+│   ├── layout.tsx            # Root layout (currently PLACEHOLDER — BE-1 replaces)
+│   └── page.tsx              # Home (currently PLACEHOLDER — BE-1 replaces)
+├── components/
+│   ├── ui/                   # FE-1 — primitives (Button, Input, Card, Badge, …)
+│   ├── patterns/             # FE-2 — nav/layout (Header, MegaMenu, MobileDrawer, Footer,
+│   │                         #         Hero, StickyMobileCTA, CTABand, PromoBar)
+│   │                         # FE-3 — content (ProductCard, CategoryTile, QuoteForm, SpecTable,
+│   │                         #         ProcessSteps, ReviewWall, FAQAccordion, Gallery, BlogCard)
+│   └── blocks/               # Page-level composed sections (shared FE)
+├── content/                  # DATA-ENG — categories.json, products.json (153), posts.json (16),
+│                             #            reviews.json, globals.json, faqs, pages content
+├── lib/                      # content.ts + types.ts (DATA-ENG), redirects.ts (SEO-1),
+│                             # seo.ts (SEO-2), search.ts (BE-3)
+├── styles/                   # DESIGNER — tokens.css (design tokens), globals.css, animations
+├── public/                   # Static assets (logo, payment icons as text/SVG)
+├── data/                     # Runtime: leads.jsonl (gitignored)
+├── tests/                    # QA-AUTO — unit + content-integrity tests
+├── scripts/                  # DEVOPS — validation/build scripts
+├── docs/                     # Brief, this file, team/, seo/, qa/
+├── next.config.ts            # ARCHITECT (redirects wired from lib/redirects.ts)
+├── tailwind.config.ts        # ARCHITECT (token mapping — see §5)
+├── tsconfig.json             # ARCHITECT (strict, @/* alias)
+└── package.json              # ARCHITECT (scripts: dev/build/start/lint/test/typecheck)
+```
+
+Do not edit another role's files except to fix a listed issue (note it in your report).
+
+## 3. Data flow
+
+```
+content/*.json  ──>  lib/content.ts (typed loaders, zod-validated, lib/types.ts)
+                          │
+                          ▼
+            Server Components in app/ (async, direct loader calls)
+                          │
+                          ├── generateStaticParams()  → static paths for [category] / products/[slug] / blog/[slug]
+                          ├── generateMetadata()      → via lib/seo.ts helpers (titles ≤60, meta ≤160)
+                          └── JSON-LD builders        → lib/seo.ts (Organization, BreadcrumbList, FAQPage,
+                                                        Product WITHOUT fabricated ratings)
+```
+
+Rules:
+
+- **Server components by default.** Client components (`"use client"`) only for interactivity
+  (menus, accordion, quote form steps, gallery). Keep them leaf-level to protect the
+  ≤150KB first-load JS budget.
+- **All shared facts come from `content/globals.json`** (SLA, MOQ, shipping, phone, email, promo).
+  Never hardcode these in components — single source of truth is an audit fix.
+- Loaders in `lib/content.ts` are synchronous JSON imports or fs reads behind a typed API;
+  shape stays CMS-ready (swap implementation later without touching pages).
+
+## 4. Rendering strategy
+
+- **SSG everywhere.** All routes are statically generated at build time:
+  - `/[category]` — `generateStaticParams()` from `content/categories.json` (22 slugs).
+  - `/products/[slug]` — from `content/products.json` (153 products).
+  - `/blog/[slug]` — from `content/posts.json` (16 posts).
+  - Static routes (home, hub pages, policies, etc.) are static by default.
+  - Set `export const dynamicParams = false` on dynamic routes → unknown slugs hit the branded 404.
+- No ISR, no runtime data fetching for pages. The only dynamic pieces: server actions
+  (quote/contact form POSTs) and `app/api/search` (route handler reading the same content loaders).
+- `sitemap.ts` + `robots.ts` generate from the same content JSON — never hand-maintained lists.
+- Redirects are build-time config: `lib/redirects.ts` (263 static 308s, generated by
+  `scripts/gen-redirects.mjs`) → `next.config.ts redirects()`. Exception: `/?page_id=3` is a
+  query-string source which `next.config` redirects cannot match — handled in `middleware.ts`
+  (SEO-1). See `docs/seo/REDIRECTS.md`.
+- **`trailingSlash: true`** is set in `next.config.ts` (SEO-1, with ARCHITECT sign-off): the live
+  WordPress URLs all use trailing slashes; this preserves indexed URL forms zero-hop and is
+  required for the redirect sources to match. Do not change without regenerating
+  `lib/redirects.ts` and updating `lib/seo.ts` canonicals.
+- Images: `next/image` with `remotePatterns` for `www.hmcustompackaging.com`; `unoptimized: true`
+  for sandbox/CI builds (decision: keep it on for this engagement; flip off when deployed behind
+  a real image optimizer).
+
+## 5. Design-token contract (Tailwind ↔ CSS variables)
+
+`tailwind.config.ts` maps utilities to CSS variables; DESIGNER defines values in
+`styles/tokens.css`. Variable names are the contract:
+
+| Tailwind class                  | CSS variable                            | Brief value      |
+| ------------------------------- | --------------------------------------- | ---------------- |
+| `ink-900 / ink-700 / ink-100`   | `--color-ink-900/-700/-100`             | #0B2536 / #163A52 / #E7EEF3 |
+| `terra-500 / terra-600 / terra-100` | `--color-terra-500/-600/-100`       | #E06A4D / #C24E33 / #FBE9E3 |
+| `paper-50` / `kraft-100`        | `--color-paper-50` / `--color-kraft-100`| #FAF8F5 / #F2ECE3 |
+| `slate-600 / slate-400`         | `--color-slate-600/-400`                | #4A5A68 / #8294A3 |
+| `gold-500` / `success` / `error`| `--color-gold-500/-success/-error`      | #C9A227 / #2E7D4F / #B3402A |
+| `rounded-sm/md/lg`              | `--radius-sm/-md/-lg`                   | 6 / 10 / 16 px   |
+| `shadow-e1/e2/e3`               | `--shadow-e1/-e2/-e3`                   | warm navy tint   |
+| `font-display` / `font-body`    | `--font-display` / `--font-body`        | Poppins / Manrope |
+| `ease-brand`                    | (literal)                               | cubic-bezier(.16,1,.3,1) |
+
+Notes:
+
+- Brand `slate` **replaces** Tailwind's default slate scale (only 600/400 exist) — off-system
+  shades can't sneak in.
+- Colors are opaque `var()` references → **opacity modifiers (`bg-ink-900/50`) do not work** on
+  brand colors. If translucency is needed, DESIGNER adds explicit rgba tokens.
+- Fonts: BE-1 loads next/font with `variable:` option; DESIGNER aliases those variables to
+  `--font-display` / `--font-body` in tokens.css.
+- Spacing uses Tailwind's default 4px grid (matches brief) — no override.
+- Type scale (H1 44/32 … small 14) is DESIGNER's to implement in `tokens.css` / `globals.css`
+  base layer (one `<h1>` per page is a page-author rule, enforced in QA).
+
+## 6. Key decisions log
+
+| # | Decision | Rationale |
+|---|----------|-----------|
+| 1 | `next.config.ts` (TypeScript) over `.mjs` | Next 15 supports TS config natively; allows direct typed import of `lib/redirects.ts`. An `.mjs` config cannot import TS modules. |
+| 2 | Redirects live in `lib/redirects.ts`, config only spreads them | SEO-1 owns the data without touching shared config; testable as plain data. |
+| 3 | `images.unoptimized: true` + remotePatterns | Sandbox/CI has no optimizer; live image URLs are kept per brief. |
+| 4 | Tokens as opaque CSS vars (hex), not RGB channels | Simplest for DESIGNER; tradeoff documented (no `/opacity` modifiers on brand colors). |
+| 5 | `test` script uses `--passWithNoTests` | Pipeline green before QA-AUTO lands tests; harmless after. |
+| 6 | typescript/@types/tailwind/postcss in `devDependencies` | Standard Next convention (create-next-app layout); runtime deps stay minimal. |
+| 7 | Added `@types/react-dom` beyond the brief's dep list | Required peer for React 19 typings + @testing-library/react; standard in Next TS apps. |
+| 8 | `next lint` kept as lint script | DEVOPS owns the eslint config; script fails until config lands (logged in ISSUES). |
+| 9 | Pinned `eslint-config-next@15` | Latest major targets newer Next; must match Next 15. |
+| 10 | Pinned `typescript@^5` (npm resolved TS 6.0 first) | Next 15.5 / typescript-eslint peer ranges target TS 5.x; TS 6 is too new for this stack. Do not bump without checking peers. |
+| 11 | Pinned `@types/node@^22` | Matches the Node 22 runtime (engines: >=20). |
+| 12 | Added `server-only` package; guard imported in `lib/content.ts` + `lib/seo.ts` | Both modules use node:fs; the guard turns accidental client-component imports into build-time errors (per ISSUES log). |
+| 13 | `trailingSlash: true` in next.config.ts | SEO-1 decision, ARCHITECT sign-off — see §4. |
+
+## 6a. Installed versions (resolved 2026-06-12)
+
+next 15.5.19 · react/react-dom 19.2.7 · typescript 5.9.3 · tailwindcss 3.4.19 · postcss 8.5.15 ·
+autoprefixer 10.5.0 · lucide-react 1.18.0 · **zod 4.4.3 (v4 API — BE-3 note)** · server-only ·
+vitest 4.1.8 · @vitejs/plugin-react 6.0.2 · @testing-library/react 16.3.2 ·
+@testing-library/jest-dom 6.9.1 · jsdom 29.1.1 · eslint 9.39.4 (flat config era — DEVOPS) ·
+eslint-config-next 15.5.19 · @types/react 19.2.17 · @types/react-dom 19.2.3 · @types/node 22.x.
+`package-lock.json` is committed — install with plain `npm install`.
+
+## 7. Quality budgets (enforced by CI + QA)
+
+TS strict no errors · eslint clean · vitest green · every route renders · no console errors ·
+JS first-load ≤ 150KB/route · a11y: visible labels, focus-visible, aria-expanded, skip link ·
+single H1 · one FAQ block/page · titles ≤60 chars (`<Name> | HM Custom Packaging`) · meta ≤160.

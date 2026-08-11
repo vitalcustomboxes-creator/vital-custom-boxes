@@ -1,0 +1,202 @@
+/* ============================================================================
+   styles/globals.css — base layer + shared layout primitives
+   Owner: DESIGNER · Import order matters: tokens → animations → Tailwind.
+   Spec: docs/DESIGN_SPEC.md (§1 foundations, §2 rhythm, §3 a11y).
+   ========================================================================== */
+@import "./tokens.css";
+@import "./animations.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* A subdomain rewrite keeps the visible pathname at `/`, so pathname-only
+   client checks cannot reliably identify admin.localhost/admin.<domain>.
+   The first head script marks the host before paint, preventing storefront
+   chrome from flashing while React hydrates and switches to the admin shell. */
+html[data-admin-host] [data-public-site-chrome] {
+  display: none !important;
+}
+
+html[data-admin-host] body {
+  background-color: #f8fafc;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth; /* reduced-motion override lives in animations.css */
+    scroll-padding-top: calc(var(--header-h) + 16px); /* anchors clear sticky header */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Type ramp — semantic elements + class aliases for when the visual level
+     differs from the document level (single-H1-per-page audit rule). Colors
+     come from semantic tokens, so headings flip to white inside .dark-section
+     automatically. Responsive via the --text-h* aliases (swap at 768px). */
+  h1, .h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-heading);
+  }
+  h2, .h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-heading);
+  }
+  h3, .h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--text-h3);
+    line-height: var(--leading-h3);
+    color: var(--color-heading);
+  }
+  h4, .h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--text-h4);
+    line-height: var(--leading-h4);
+    color: var(--color-heading);
+  }
+  h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+    text-wrap: balance;
+  }
+
+  small {
+    font-size: var(--text-small);
+    line-height: var(--leading-small);
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-terra-100);
+    color: var(--color-ink-900);
+  }
+  .dark-section ::selection {
+    background-color: var(--color-ink-700);
+    color: var(--color-white);
+  }
+
+  /* A11y baseline — visible keyboard focus everywhere, never for mouse.
+     Components may replace with an equal-or-stronger indicator (spec §3). */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer components {
+  /* react-phone-number-input, aligned with the shared Input field chrome. */
+  .hm-phone-input .PhoneInputCountry {
+    margin-right: 10px;
+  }
+  .hm-phone-input .PhoneInputCountrySelect {
+    cursor: pointer;
+  }
+  .hm-phone-input .PhoneInputCountryIcon {
+    box-shadow: none;
+  }
+  .hm-phone-input .PhoneInputInput {
+    min-width: 0;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--color-ink-900);
+    outline: none;
+  }
+  .hm-phone-input .PhoneInputInput::placeholder {
+    color: var(--color-slate-400);
+  }
+
+  /* The product-gallery hover hint is omitted on coarse/touch pointers. */
+  .gallery-zoom-hint {
+    display: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .gallery-zoom-hint {
+      display: inline-flex;
+    }
+  }
+
+  /* Page shell ------------------------------------------------------------- */
+  .container-hm {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+  }
+
+  .header-container-hm {
+    width: 100%;
+    max-width: var(--header-container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+  }
+
+  /* Section rhythm (spec §2): bg alternation paper-50 → kraft-100 → … is set
+     per-section with bg utilities or .dark-section. */
+  .section {
+    padding-block: var(--section-y);
+  }
+  .section-compact {
+    padding-block: var(--section-y-compact);
+  }
+
+  /* Uppercase kicker above H2s (premium-minimal section intro) */
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-link);
+  }
+
+  /* Intro/lede paragraph under page titles */
+  .lead {
+    font-size: 18px;
+    line-height: 1.55;
+  }
+
+  /* Skip link — first focusable element in <body> (a11y budget item).
+     Hidden via transform (no layout shift), appears on keyboard focus. */
+  .skip-link {
+    position: fixed;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 100;
+    padding: var(--space-3) var(--space-5);
+    background-color: var(--color-ink-900);
+    color: var(--color-white);
+    font-weight: 600;
+    font-size: var(--text-small);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-e3);
+    transform: translateY(calc(-100% - var(--space-6)));
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,54 @@
+# .github/workflows/localize-images.yml
+#
+# One-time (re-runnable) image migration. The Cowork build sandbox has no
+# network egress to the old WordPress hosts, so this runs on a GitHub runner
+# (which has internet): it downloads every hmcustompackaging.com /
+# vitalcustomboxes.com image referenced in content/*.json into public/img/**,
+# rewrites those references to local /img/... paths, then commits the result.
+#
+# Trigger it from the repo's Actions tab → "Localize images" → Run workflow.
+# After it commits, redeploy. Safe to re-run (idempotent: existing files are
+# skipped and already-local paths are ignored).
+name: Localize images
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to commit the localized images to"
+        required: true
+        default: "main"
+
+permissions:
+  contents: write
+
+jobs:
+  localize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # The script uses only Node built-ins (fs + global fetch) — no install needed.
+      - name: Download images + rewrite content references
+        run: node scripts/localize-images.mjs
+
+      - name: Commit localized images
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes — images already localized."
+            exit 0
+          fi
+          git add public/img content/*.json
+          git commit -m "chore(images): localize hm/vital images into public/img and rewrite content refs"
+          git push origin HEAD:${{ github.event.inputs.branch }}
