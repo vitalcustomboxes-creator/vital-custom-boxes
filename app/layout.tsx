@@ -145,7 +145,6 @@ export default function RootLayout({
               s1.async=true;
               s1.src='https://embed.tawk.to/68f51361abd1d819558fb399/1j8b78kcq';
               s1.charset='UTF-8';
-              s1.setAttribute('crossorigin','*');
               s0.parentNode.insertBefore(s1,s0);
             })();
           `}

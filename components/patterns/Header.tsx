@@ -369,6 +369,7 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
               width={LOGO_WIDTH}
               height={LOGO_HEIGHT}
               priority
+              sizes="160px"
               className="h-9 w-auto md:h-10"
             />
           </Link>

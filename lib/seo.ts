@@ -124,7 +124,7 @@ export const FALLBACK_GLOBALS: SiteGlobals = {
   phoneHref: "tel:+18284550798",
   email: "sales@vitalcustomboxes.com",
   promo: {
-    text: "Get 40% Off + Free Design Support + Free Shipping",
+    text: "Get 40% Off On First Order + Get Free Shipping Across the US",
     href: "/get-custom-quote",
   },
   address: "3000 Shelby St, Indianapolis, IN 46227, USA",

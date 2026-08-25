@@ -190,7 +190,7 @@ export function GalleryLightbox({ images, alt, className }: GalleryLightboxProps
             >
               <Image
                 src={src}
-                alt=""
+                alt={imageAlt(i)}
                 fill
                 unoptimized={src.startsWith('/api/product-images/')}
                 sizes="120px"

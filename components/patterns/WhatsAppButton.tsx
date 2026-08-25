@@ -30,7 +30,7 @@ export function WhatsAppButton({ globals, message = DEFAULT_MESSAGE }: WhatsAppB
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"
-      className="press fixed right-4 top-[30%] z-[var(--z-header)] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-e3 transition-transform duration-150 ease-brand hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"    
+      className="press fixed left-5 bottom-28 z-[var(--z-header)] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-e3 transition-transform duration-150 ease-brand hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"    
       >
       <svg
         viewBox="0 0 32 32"
