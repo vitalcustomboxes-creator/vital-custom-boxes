@@ -42,6 +42,8 @@ import { SiteChrome } from "@/components/patterns/SiteChrome";
 import { SmoothScroll } from "@/components/patterns/SmoothScroll";
 import { ToastProvider } from "@/components/ui";
 import { getCategories, getGlobals } from "@/lib/content";
+import { ConversionClickTracker } from "@/lib/conversion-tracking";
+import { GOOGLE_ADS_CONVERSION_ID } from "@/lib/conversion-ids";
 import {
   buildMetadata,
   JsonLd,
@@ -125,6 +127,26 @@ export default function RootLayout({
         </a>
         <SmoothScroll />
         <JsonLd data={orgSchema()} />
+
+        {/* Google Ads conversion tracking (account 358-006-7062) — gtag.js
+            loaded once here; ConversionClickTracker fires phone/WhatsApp
+            conversions on tel:/wa.me clicks anywhere on the site; the
+            quote-form conversion fires on /thank-you (QuoteForm's success
+            redirect target). See docs/team/vcb-conversion-tracking-spec.html. */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_CONVERSION_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ADS_CONVERSION_ID}');
+          `}
+        </Script>
+        <ConversionClickTracker />
         {/* ToastProvider wired once at the root (ISSUES, FE-1 item) so any
             client component can useToast(); children stay server-rendered. */}
         <ToastProvider>
