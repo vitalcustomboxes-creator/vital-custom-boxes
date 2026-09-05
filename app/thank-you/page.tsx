@@ -7,8 +7,8 @@
  * wrongly included it; we do not copy that). No CTABand and no breadcrumbs:
  * this is a terminal utility page reached after QuoteForm/LeadForm success.
  */
-import Script from "next/script";
-import { GOOGLE_ADS_CONVERSION_ID } from "@/lib/conversion-ids";
+// import Script from "next/script";
+// import { GOOGLE_ADS_CONVERSION_ID } from "@/lib/conversion-ids";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Mail, MailCheck, Phone } from "lucide-react";
@@ -18,8 +18,7 @@ import { buildMetadata, STATIC_PAGE_META } from "@/lib/seo";
 
 const META = STATIC_PAGE_META["/thank-you"];
 
-/** Google Ads: primary conversion action, "Quote form submitted". */
-const QUOTE_CONVERSION_LABEL = "Egt7COTFnOscEIbk-51D";
+
 
 export const metadata: Metadata = buildMetadata({
   ...META,
@@ -32,17 +31,6 @@ export default function ThankYouPage() {
 
   return (
     <section className="relative overflow-hidden bg-paper-50 py-14 sm:py-20 lg:py-24">
-      {/* Fires once per real page load — this route is reached only after
-        QuoteForm/LeadForm's success redirect, is noindexed, and is excluded
-        from the sitemap, so there is no risk of inflating conversions via
-        crawlers or direct bookmarking traffic. */}
-    <Script id="quote-form-conversion" strategy="afterInteractive">
-      {`
-        window.gtag && window.gtag('event', 'conversion', {
-          send_to: '${GOOGLE_ADS_CONVERSION_ID}/${QUOTE_CONVERSION_LABEL}'
-        });
-      `}
-    </Script>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-kraft-100 to-transparent"

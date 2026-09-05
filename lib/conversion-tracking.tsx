@@ -7,7 +7,13 @@
  * campaign "VCB | Search | US | Custom Boxes"). This file only holds the
  * client-side click listener; the IDs/labels themselves live in
  * lib/conversion-ids.ts (a plain module) so Server Components like
- * app/layout.tsx and app/thank-you/page.tsx can read them directly.
+ * app/layout.tsx can read them directly.
+ *
+ * fireConversion() is defensive: gtag.js loads via next/script
+ * strategy="afterInteractive", so window.gtag should normally exist by the
+ * time any click happens — but if it's ever called in the narrow window
+ * before that script has run (e.g. a very fast click right after
+ * navigation), we retry briefly instead of silently dropping the event.
  *
  * Delegated listener (rather than per-component onClick) so every current
  * and future tel:/wa.me link on the site is covered automatically —
@@ -24,11 +30,23 @@ declare global {
   }
 }
 
-/** Fires one of the three conversion actions. Safe to call before gtag.js loads (no-ops). */
-export function fireConversion(key: ConversionKey): void {
-  window.gtag?.('event', 'conversion', {
-    send_to: `${GOOGLE_ADS_CONVERSION_ID}/${CONVERSION_LABELS[key]}`,
-  });
+const RETRY_INTERVAL_MS = 200;
+const MAX_RETRIES = 10; // ~2 seconds total
+
+/**
+ * Fires one of the conversion actions. If window.gtag isn't ready yet
+ * (gtag.js hasn't finished loading), retries briefly instead of dropping
+ * the event — a click can happen before the script has executed.
+ */
+export function fireConversion(key: ConversionKey, attempt = 0): void {
+  if (window.gtag) {
+    window.gtag('event', 'conversion', {
+      send_to: `${GOOGLE_ADS_CONVERSION_ID}/${CONVERSION_LABELS[key]}`,
+    });
+    return;
+  }
+  if (attempt >= MAX_RETRIES) return; // gtag never loaded (blocked, offline, etc.) — give up quietly
+  window.setTimeout(() => fireConversion(key, attempt + 1), RETRY_INTERVAL_MS);
 }
 
 function isWhatsAppHref(href: string): boolean {

@@ -34,6 +34,7 @@ import {
 import { applyQuoteDraft, clearQuoteDraft, readQuoteDraft, saveQuoteDraft } from '@/lib/quote-draft';
 import { cn } from '@/lib/utils';
 import { useProductOptions } from './use-product-options';
+import { fireConversion } from '@/lib/conversion-tracking';
 
 
 export interface QuoteFormProps {
@@ -310,13 +311,17 @@ export function QuoteForm({
     setPending(true);
     try {
       const result = await action(confirmationData);
-      if (result.ok) {
-        // Only a confirmed send clears it — a failed submit must leave the
-        // visitor's work exactly where it was so they can retry.
-        clearQuoteDraft();
-        router.push('/thank-you');
-        return;
-      }
+        if (result.ok) {
+          // Fire the Google Ads quote-conversion here — right after a
+          // confirmed successful submission, before the redirect — rather
+          // than relying on the /thank-you page's own timing.
+          fireConversion('quote');
+          // Only a confirmed send clears it — a failed submit must leave the
+          // visitor's work exactly where it was so they can retry.
+          clearQuoteDraft();
+          router.push('/thank-you');
+          return;
+        }
       setServerError(
         result.error ?? 'Something went wrong while sending your request. Please try again.',
       );
