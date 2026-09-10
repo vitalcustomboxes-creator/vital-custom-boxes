@@ -221,11 +221,11 @@ export function ProductSpecConfigurator({
         <Field label="Printing" value={colors} onChange={setColors} options={COLORS} placeholder="Select colors" />
         <Field label="Print surface" value={surface} onChange={setSurface} options={SURFACE} placeholder="Select surface" />
         <Field label="Lamination" value={lamination} onChange={setLamination} options={LAMINATION} placeholder="Select lamination" />
-        <Field label={preset.detailLabel} value={detail} onChange={setDetail} options={preset.details} placeholder={preset.detailPlaceholder} />
-        <Field label="Artwork status" value={artwork} onChange={setArtwork} options={ARTWORK} placeholder="Select artwork status" />
-        <div className="sm:col-span-2">
+        {/* <Field label={preset.detailLabel} value={detail} onChange={setDetail} options={preset.details} placeholder={preset.detailPlaceholder} /> */}
+        {/* <Field label="Artwork status" value={artwork} onChange={setArtwork} options={ARTWORK} placeholder="Select artwork status" /> */}
+        {/* <div className="sm:col-span-2">
           <Field label="Deadline" value={deadline} onChange={setDeadline} options={DEADLINES} placeholder="Select a deadline" />
-        </div>
+        </div> */}
       </div>
       <fieldset className="mt-4">
         <legend className="text-sm font-semibold text-ink-700">

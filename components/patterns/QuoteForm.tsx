@@ -106,6 +106,7 @@ const validators: Record<string, FieldValidator> = {
       return `Quantity must be a whole number of ${MIN_QUANTITY} or more`;
     return null;
   },
+  country: requiredField('Enter your shipping address'),
 };
 
 const FIELD_ORDER = [
@@ -127,7 +128,7 @@ const FIELD_LABELS: Record<string, string> = {
   surface: 'Print surface',
   lamination: 'Lamination',
   quantity: 'Quantity',
-  country: 'Shipping country',
+  country: 'Shipping address',
   artwork: 'Artwork files',
 };
 
@@ -643,7 +644,8 @@ export function QuoteForm({
           <Input
             id={fieldId('country')}
             name="country"
-            label="Shipping Country"
+            label="Shipping Address (Street Address, City, State, ZIP Code, Country)"
+            required
             placeholder="Shipping Country"
             autoComplete="country-name"
             error={errors.country}
