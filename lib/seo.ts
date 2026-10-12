@@ -127,7 +127,7 @@ export const FALLBACK_GLOBALS: SiteGlobals = {
     text: "Get 40% Off On First Order + Get Free Shipping Across the US",
     href: "/get-custom-quote",
   },
-  address: "3000 Shelby St, Indianapolis, IN 46227, USA",
+  address: "1209 Mountain Road Pl Ne Ste N, Albuquerque, NM 87110",
   social: {},
 };
 
@@ -391,10 +391,10 @@ export function orgSchema(overrides?: Partial<SiteGlobals>): JsonLdObject {
     email: g.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "3000 Shelby St",
-      addressLocality: "Indianapolis",
-      addressRegion: "IN",
-      postalCode: "46227",
+      streetAddress: "1209 Mountain Road Pl NE, Ste N",
+      addressLocality: "Albuquerque",
+      addressRegion: "NM",
+      postalCode: "87110",
       addressCountry: "US",
     },
     areaServed: [

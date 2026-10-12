@@ -24,13 +24,13 @@ import { FileUpload } from '@/components/ui/file-upload';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  QUOTE_COLORS,
-  QUOTE_FINISHES,
-  QUOTE_LAMINATIONS,
-  QUOTE_STOCKS,
-  QUOTE_SURFACES,
-} from '@/lib/quote-options';
+// import {
+//   QUOTE_COLORS,
+//   QUOTE_FINISHES,
+//   QUOTE_LAMINATIONS,
+//   QUOTE_STOCKS,
+//   QUOTE_SURFACES,
+// } from '@/lib/quote-options';
 import { applyQuoteDraft, clearQuoteDraft, readQuoteDraft, saveQuoteDraft } from '@/lib/quote-draft';
 import { cn } from '@/lib/utils';
 import { useProductOptions } from './use-product-options';
@@ -95,10 +95,10 @@ const validators: Record<string, FieldValidator> = {
     if (v.length < 7 || !/^[+()\d\s.-]+$/.test(v)) return 'Enter a valid phone number';
     return null;
   },
-  stock: requiredField('Select a stock'),
-  colors: requiredField('Select a printing option'),
-  surface: requiredField('Select a print surface'),
-  lamination: requiredField('Select a lamination'),
+  // stock: requiredField('Select a stock'),
+  // colors: requiredField('Select a printing option'),
+  // surface: requiredField('Select a print surface'),
+  // lamination: requiredField('Select a lamination'),
   quantity: (raw) => {
     const v = raw.trim();
     if (v.length < 1) return 'Enter a quantity';
@@ -470,7 +470,41 @@ export function QuoteForm({
             }
           />
 
-          {/* Row 1: Dimensions */}
+          
+          {/* Row 2: Name & Email */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Input
+              id={fieldId('name')}
+              name="name"
+              label="Name"
+              placeholder="Name*"
+              required
+              autoComplete="name"
+              error={errors.name}
+            />
+            <Input
+              id={fieldId('email')}
+              name="email"
+              label="Email"
+              type="email"
+              placeholder="Email*"
+              required
+              autoComplete="email"
+              error={errors.email}
+            />
+            <Input
+              id={fieldId('phone')}
+              name="phone"
+              label="Phone"
+              type="tel"
+              placeholder="Phone*"
+              required
+              autoComplete="tel"
+              error={errors.phone}
+            />
+          </div>
+
+{/* Row 1: Dimensions */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <Input
               id={fieldId('length')}
@@ -510,42 +544,10 @@ export function QuoteForm({
             />
           </div>
 
-          {/* Row 2: Name & Email */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Input
-              id={fieldId('name')}
-              name="name"
-              label="Name"
-              placeholder="Name*"
-              required
-              autoComplete="name"
-              error={errors.name}
-            />
-            <Input
-              id={fieldId('email')}
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="Email*"
-              required
-              autoComplete="email"
-              error={errors.email}
-            />
-          </div>
-
           {/* Row 3: Phone & Stock */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Input
-              id={fieldId('phone')}
-              name="phone"
-              label="Phone"
-              type="tel"
-              placeholder="Phone*"
-              required
-              autoComplete="tel"
-              error={errors.phone}
-            />
-            <Select
+            
+            {/* <Select
               id={fieldId('stock')}
               name="stock"
               label="Choose Stock"
@@ -554,11 +556,11 @@ export function QuoteForm({
               defaultValue={defaultSpecs?.stock}
               error={errors.stock}
               options={QUOTE_STOCKS.map((o) => ({ value: o, label: o }))}
-            />
+            /> */}
           </div>
 
           {/* Row 4: Color & Color Surface */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Select
               id={fieldId('colors')}
               name="colors"
@@ -579,11 +581,11 @@ export function QuoteForm({
               error={errors.surface}
               options={QUOTE_SURFACES.map((o) => ({ value: o, label: o }))}
             />
-          </div>
+          </div> */}
 
           {/* Row 5: Lamination & Quantity */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Select
+            {/* <Select
               id={fieldId('lamination')}
               name="lamination"
               label="Choose Lamination"
@@ -592,7 +594,7 @@ export function QuoteForm({
               defaultValue={defaultSpecs?.lamination}
               error={errors.lamination}
               options={QUOTE_LAMINATIONS.map((o) => ({ value: o, label: o }))}
-            />
+            /> */}
             <Input
               id={fieldId('quantity')}
               name="quantity"
@@ -606,10 +608,21 @@ export function QuoteForm({
               hint={moq ? `Minimum order: ${moq}` : `Minimum order: ${MIN_QUANTITY}`}
               error={errors.quantity}
             />
+
+            {/* Shipping Country */}
+          <Input
+            id={fieldId('country')}
+            name="country"
+            label="Shipping Address (Street, City, State, ZIP Code)"
+            required
+            placeholder="Shipping Country"
+            autoComplete="country-name"
+            error={errors.country}
+          />
           </div>
 
           {/* Finishes checkboxes */}
-          <fieldset className="rounded-lg border border-ink-100 bg-paper-50 p-4">
+          {/* <fieldset className="rounded-lg border border-ink-100 bg-paper-50 p-4">
             <legend className="text-sm font-semibold text-ink-700">
               Additional finishes
             </legend>
@@ -625,7 +638,7 @@ export function QuoteForm({
                 />
               ))}
             </div>
-          </fieldset>
+          </fieldset> */}
 
           {/* File upload */}
           <div>
@@ -640,16 +653,7 @@ export function QuoteForm({
             />
           </div>
 
-          {/* Shipping Country */}
-          <Input
-            id={fieldId('country')}
-            name="country"
-            label="Shipping Address (Street Address, City, State, ZIP Code, Country)"
-            required
-            placeholder="Shipping Country"
-            autoComplete="country-name"
-            error={errors.country}
-          />
+          
 
           {/* Additional Information */}
           <Textarea

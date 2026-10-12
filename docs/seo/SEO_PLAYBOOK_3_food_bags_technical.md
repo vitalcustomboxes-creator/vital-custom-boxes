@@ -272,7 +272,7 @@ Whole-bean vs ground sizing? · MOQ and lead time? · Recyclable/compostable fil
   the canonical host (or a shared CDN) and rewrite the `imageUrl` values.
 - **GAP 3 — `LocalBusiness` address mismatch:** `orgSchema()` hardcodes
   `addressLocality: "Los Angeles", addressRegion: "CA"` (lines 320–322) while
-  `FALLBACK_GLOBALS.address` says "3000 Shelby St, Indianapolis, IN 46227". The
+  `FALLBACK_GLOBALS.address` says "1209 Mountain Road Pl Ne Ste N, Albuquerque, NM 87110". The
   structured-data NAP and the human-readable NAP disagree, and street address is
   a TODO. **Fix before launch** — pick the real address, add full `streetAddress`
   + `postalCode`, and make schema + globals agree. Inconsistent NAP actively

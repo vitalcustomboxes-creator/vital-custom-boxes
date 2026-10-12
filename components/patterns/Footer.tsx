@@ -231,6 +231,17 @@ export function Footer({
             <CreditCard size={16} className="shrink-0" aria-hidden="true" />
             We accept: Visa · Mastercard · Amex · Discover · PayPal
           </p>
+
+          <div className="mt-5 flex items-center gap-2.5 text-xs text-[var(--color-text-muted)]">
+          <Image
+            src="/LLC-Icon-White.svg"
+            alt="Vital Custom Boxes LLC"
+            width={LOGO_WIDTH}
+            height={LOGO_HEIGHT}
+            className="h-10 w-auto"
+          />
+         <p className="max-w-[36ch] text-sm text-[var(--color-text)]">Vital Custom Boxes LLC</p>
+          </div>
         </div>
       </div>
 

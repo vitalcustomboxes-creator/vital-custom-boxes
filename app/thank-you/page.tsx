@@ -7,8 +7,6 @@
  * wrongly included it; we do not copy that). No CTABand and no breadcrumbs:
  * this is a terminal utility page reached after QuoteForm/LeadForm success.
  */
-// import Script from "next/script";
-// import { GOOGLE_ADS_CONVERSION_ID } from "@/lib/conversion-ids";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Mail, MailCheck, Phone } from "lucide-react";

@@ -210,24 +210,24 @@ export function ProductSpecConfigurator({
     setFinishes((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]));
 
   return (
-    <div className="rounded-lg border border-ink-100 bg-white p-5 shadow-e1">
-      <p className="eyebrow mb-1">{categoryName}</p>
+    <div className="rounded-lg border border-ink-100  p-5">
+      {/* <p className="eyebrow mb-1">{categoryName}</p>
       <h2 className="h4">Build your {productName} quote</h2>
       <p className="mb-4 text-sm text-slate-600">
         Pick the options that matter for this product and we&rsquo;ll pre-fill your quote — no obligation, free design support included.
-      </p>
+      </p> */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Field label="Stock" value={stock} onChange={setStock} options={preset.stock ?? BASE_STOCK} placeholder="Select a stock" />
+        {/* <Field label="Stock" value={stock} onChange={setStock} options={preset.stock ?? BASE_STOCK} placeholder="Select a stock" />
         <Field label="Printing" value={colors} onChange={setColors} options={COLORS} placeholder="Select colors" />
         <Field label="Print surface" value={surface} onChange={setSurface} options={SURFACE} placeholder="Select surface" />
-        <Field label="Lamination" value={lamination} onChange={setLamination} options={LAMINATION} placeholder="Select lamination" />
+        <Field label="Lamination" value={lamination} onChange={setLamination} options={LAMINATION} placeholder="Select lamination" /> */}
         {/* <Field label={preset.detailLabel} value={detail} onChange={setDetail} options={preset.details} placeholder={preset.detailPlaceholder} /> */}
         {/* <Field label="Artwork status" value={artwork} onChange={setArtwork} options={ARTWORK} placeholder="Select artwork status" /> */}
         {/* <div className="sm:col-span-2">
           <Field label="Deadline" value={deadline} onChange={setDeadline} options={DEADLINES} placeholder="Select a deadline" />
         </div> */}
       </div>
-      <fieldset className="mt-4">
+      {/* <fieldset className="mt-4">
         <legend className="text-sm font-semibold text-ink-700">
           Finishes <span className="font-normal text-slate-600">(optional)</span>
         </legend>
@@ -266,8 +266,8 @@ export function ProductSpecConfigurator({
           Get a Quote with these specs
           <ArrowRight size={18} aria-hidden="true" />
         </Button>
-      </div>
-      <ConfirmDialog open={confirmOpen} onClose={() => setConfirmOpen(false)} onConfirm={() => router.push(href)} title="Continue with these specifications?" description="Your selected product options will be carried into the full quote request form, where you can review them before submitting." confirmLabel="Continue to quote" />
+      </div> */}
+      {/* <ConfirmDialog open={confirmOpen} onClose={() => setConfirmOpen(false)} onConfirm={() => router.push(href)} title="Continue with these specifications?" description="Your selected product options will be carried into the full quote request form, where you can review them before submitting." confirmLabel="Continue to quote" /> */}
     </div>
   );
 }

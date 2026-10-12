@@ -6,7 +6,7 @@
 Canonical NAP under audit:
 
 - **Name:** Vital Custom Boxes
-- **Address:** 3000 Shelby St, Indianapolis, IN 46227, USA
+- **Address:** 1209 Mountain Road Pl Ne Ste N, Albuquerque, NM 87110
 - **Phone:** +1 (828) 455-0798 (`tel:+18284550798`)
 - **Email:** sales@vitalcustomboxes.com
 
@@ -33,11 +33,11 @@ LocalBusiness has no exact "packaging manufacturer" subtype, so keep `LocalBusin
 ```jsonc
 "geo": {
   "@type": "GeoCoordinates",
-  "latitude": 39.7050,
-  "longitude": -86.1490
+  "latitude": 35.0915177,
+  "longitude": -106.5580599
 }
 ```
-> ⚠ The lat/long above is an approximation for 3000 Shelby St, Indianapolis. Replace with the **exact coordinates of the verified Google Business Profile pin** so schema, GBP, and Maps agree.
+> ⚠ The lat/long above is an approximation for 1209 Mountain Road Pl Ne Ste N, Albuquerque, NM 87110. Replace with the **exact coordinates of the verified Google Business Profile pin** so schema, GBP, and Maps agree.
 
 ### 1c. `hasMap` — link to the canonical Google Maps place
 ```jsonc
@@ -98,7 +98,7 @@ Local-pack ranking weight (2026): **GBP signals ~32%, reviews ~16%, citation/NAP
 - [ ] **Primary category:** `Box manufacturer` (or `Packaging supply store` / `Packaging company` — pick the closest Google offers and keep it consistent everywhere).
 - [ ] **Secondary categories:** add `Printing equipment supplier`, `Custom label printer`, `Corrugated box supplier` only where genuinely accurate.
 - [ ] Business name on GBP = **exactly** "Vital Custom Boxes" (no keyword stuffing like "Vital Custom Boxes | Wholesale Packaging" — that risks suspension).
-- [ ] Address on GBP = `3000 Shelby St, Indianapolis, IN 46227` — char-for-char identical to schema and site footer.
+- [ ] Address on GBP = `1209 Mountain Road Pl Ne Ste N, Albuquerque, NM 87110` — char-for-char identical to schema and site footer.
 - [ ] Phone on GBP = `(828) 455-0798` — **see §3, the area-code concern.**
 - [ ] Website = `https://www.vitalcustomboxes.com/` (trailing slash, www, matches canonical policy in `lib/seo.ts`).
 - [ ] Service area set to **US (+ Canada)** to match `areaServed` and shipping promise.
@@ -123,7 +123,7 @@ Local-pack ranking weight (2026): **GBP signals ~32%, reviews ~16%, citation/NAP
 - It is **not** an internal-consistency bug (the same 828 number is used everywhere in the repo, correctly). The mismatch is between the number's origin region and the stated city.
 
 **Recommendation (in priority order):**
-1. **Confirm the address is real and staffed.** If 3000 Shelby St, Indianapolis is the genuine, verifiable place of business, GBP can still be verified — but get a **local 317/463 number** (port or add one) as the public/GBP phone. This is the highest-trust fix and removes the area-code flag entirely.
+1. **Confirm the address is real and staffed.** If 1209 Mountain Road Pl Ne Ste N, Albuquerque, NM 87110 is the genuine, verifiable place of business, GBP can still be verified — but get a **local 317/463 number** (port or add one) as the public/GBP phone. This is the highest-trust fix and removes the area-code flag entirely.
 2. If a local number isn't feasible short-term, **keep 828 consistent everywhere** (do not introduce a second number) and lean on GBP verification + reviews to carry trust. Accept the soft signal hit.
 3. **Do NOT** list the Indianapolis address on GBP if no one actually operates from it — a non-genuine address risks GBP suspension, which is far worse than an area-code mismatch. Verify the address legitimacy before citation-building.
 
