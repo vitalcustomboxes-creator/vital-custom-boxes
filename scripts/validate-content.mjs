@@ -22,7 +22,13 @@ const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'content', f), 'utf8'));
 
 const PRODUCT_COUNT = 285;
-const IMG_PREFIXES = ['/img/', '/Products%20Images/', '/Product%20Images%202/', '/blog-banners/'];
+const IMG_PREFIXES = [
+  '/api/product-images/',
+  '/img/',
+  '/Products%20Images/',
+  '/Product%20Images%202/',
+  '/blog-banners/',
+];
 const MERGED = [
   'custom-hangtags',
   'custom-drawer-style-boxes',

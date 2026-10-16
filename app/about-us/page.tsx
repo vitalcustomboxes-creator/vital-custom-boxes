@@ -1,19 +1,23 @@
-/**
- * /about-us/ — company page (owner: BE-2).
- * E-E-A-T trust page. No fabricated history, team names, or stats — qualitative
- * copy only; all SLA/MOQ/shipping facts come from content/globals.json.
- */
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
+
 import { PageHero } from "@/components/blocks/PageHero";
 import { CTABand } from "@/components/patterns/CTABand";
 import { getGlobals } from "@/lib/content";
-import { breadcrumbSchema, buildMetadata, JsonLd, STATIC_PAGE_META } from "@/lib/seo";
+import {
+  breadcrumbSchema,
+  buildMetadata,
+  JsonLd,
+  STATIC_PAGE_META,
+} from "@/lib/seo";
 
 const META = STATIC_PAGE_META["/about-us"];
 
-export const metadata: Metadata = buildMetadata({ ...META, path: "/about-us/" });
+export const metadata: Metadata = buildMetadata({
+  ...META,
+  path: "/about-us/",
+});
 
 const CRUMBS = [
   { name: "Home", href: "/" },
@@ -22,20 +26,39 @@ const CRUMBS = [
 
 const VALUES = [
   {
-    title: "Design help is part of the job",
-    body: "Dielines, artwork setup, and print-ready file checks are included with every order — you approve a digital proof before anything goes to press.",
+    title: "Design support",
+    body: "Get help preparing your packaging artwork and review a digital proof before printing begins.",
   },
   {
-    title: "Small runs welcome",
-    body: "You should not need a warehouse to look professional. Low minimums let new brands test packaging the same way big brands ship it.",
+    title: "Runs that fit your business",
+    body: "Tell us the quantity you need. We confirm the available minimum and pricing in your quote.",
   },
   {
-    title: "One promise, kept everywhere",
-    body: "The turnaround, minimum, and shipping terms you see anywhere on this site are the same ones on your quote — no surprise fine print.",
+    title: "Clear order details",
+    body: "Review your packaging specifications, pricing, production timeline, and shipping terms before approving your order.",
   },
   {
-    title: "Honest materials",
-    body: "We tell you what a stock is good at and what it is not, including recyclable kraft and food-safe options on request, so you choose with open eyes.",
+    title: "Materials for your product",
+    body: "Explore stock and finish options based on your product, presentation, and shipping needs.",
+  },
+];
+
+const LINKS = [
+  {
+    name: "How ordering works, step by step",
+    href: "/how-it-works/",
+  },
+  {
+    name: "Explore our portfolio",
+    href: "/portfolio/",
+  },
+  {
+    name: "Materials and finish guide",
+    href: "/materials/",
+  },
+  {
+    name: "Our approach to sustainable packaging",
+    href: "/sustainability/",
   },
 ];
 
@@ -45,11 +68,17 @@ export default function AboutUsPage() {
   return (
     <>
       <JsonLd
-        data={breadcrumbSchema(CRUMBS.map((c) => ({ name: c.name, path: c.href })))}
+        data={breadcrumbSchema(
+          CRUMBS.map((crumb) => ({
+            name: crumb.name,
+            path: crumb.href,
+          })),
+        )}
       />
+
       <PageHero
         title={META.h1}
-        lead="An Indianapolis-based custom box maker helping food, beauty, retail, and e-commerce brands turn packaging into part of the product."
+        lead="Founded in 2025, Vital Custom Boxes helps food, beauty, retail, and e-commerce brands create custom packaging."
         crumbs={CRUMBS}
       />
 
@@ -57,27 +86,87 @@ export default function AboutUsPage() {
         <div className="container-hm grid gap-10 lg:grid-cols-2">
           <div>
             <span className="eyebrow">Who we are</span>
-            <h2 className="mt-3 max-w-[24ch]">Packaging people, not a print portal</h2>
+            <h2 className="mt-3 max-w-[24ch]">
+              Packaging built around your product
+            </h2>
           </div>
+
           <div className="flex max-w-[65ch] flex-col gap-4 text-slate-600">
             <p>
-              Vital Custom Boxes designs and produces custom boxes, bags, and
-              business print for brands across the United States. From food-safe
-              bakery cartons to magnetic-lid rigid boxes, every order is made to
-              your exact size, stock, and artwork — there is no off-the-shelf
-              inventory here.
+              Founded in 2025, Vital Custom Boxes provides custom
+              packaging for brands across the United States. We help
+              businesses create boxes and bags tailored to their product
+              size, materials, and artwork, with free design support and
+              a digital proof before printing.
             </p>
+
             <p>
-              Behind every quote is a real team: structural designers who turn a
-              product into a dieline, prepress specialists who make artwork
-              print-ready, and account managers who answer the phone. You talk
-              to people, not ticket queues.
+              Our mission is to make ordering custom packaging clearer:
+              help you explore suitable options, explain the
+              specifications, and confirm the details before production.
             </p>
+
             <p>
-              We keep the promise simple: {globals.sla.toLowerCase()},
-              run sizes confirmed with your quote, and free design support on
-              every job.
+              {globals.sla}. Your run size and order requirements are
+              confirmed with your quote. {globals.shipping}.
             </p>
+
+            <div className="mt-2 rounded-lg border border-ink-100 bg-white p-5">
+              <h3 className="h4 text-ink-900">Business details</h3>
+
+              <dl className="mt-4 space-y-3 text-sm">
+                <div>
+                  <dt className="font-semibold text-ink-900">
+                    Business name
+                  </dt>
+                  <dd>Vital Custom Boxes</dd>
+                </div>
+
+                <div>
+                  <dt className="font-semibold text-ink-900">
+                    Established
+                  </dt>
+                  <dd>2025</dd>
+                </div>
+
+                <div>
+                  <dt className="font-semibold text-ink-900">
+                    Business address
+                  </dt>
+                  <dd className="whitespace-normal">
+                    {globals.address}
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="font-semibold text-ink-900">
+                    Phone
+                  </dt>
+                  <dd>
+                    <a
+                      href={globals.phoneHref}
+                      className="underline underline-offset-4"
+                    >
+                      {globals.phone}
+                    </a>
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="font-semibold text-ink-900">
+                    Email
+                  </dt>
+                  <dd>
+                    <a
+                      href={`mailto:${globals.email}`}
+                      className="break-words underline underline-offset-4"
+                    >
+                      {globals.email}
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
       </section>
@@ -86,17 +175,24 @@ export default function AboutUsPage() {
         <div className="container-hm">
           <div className="mb-10 flex flex-col gap-3 md:mb-12">
             <span className="eyebrow">How we work</span>
-            <h2>What you can hold us to</h2>
+            <h2>What you can expect</h2>
           </div>
+
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((value) => (
               <div
                 key={value.title}
                 className="flex h-full flex-col gap-3 rounded-lg border border-ink-100 bg-white p-6 shadow-e1"
               >
-                <Check size={20} className="text-terra-600" aria-hidden="true" />
+                <Check
+                  size={20}
+                  className="text-terra-600"
+                  aria-hidden="true"
+                />
                 <h3 className="h4">{value.title}</h3>
-                <p className="text-sm text-slate-600">{value.body}</p>
+                <p className="text-sm text-slate-600">
+                  {value.body}
+                </p>
               </div>
             ))}
           </div>
@@ -107,19 +203,17 @@ export default function AboutUsPage() {
         <div className="container-hm grid gap-10 lg:grid-cols-2">
           <div>
             <span className="eyebrow">Where to next</span>
-            <h2 className="max-w-[24ch]">See the work, then put us to work</h2>
+            <h2 className="max-w-[24ch]">
+              Explore your packaging options
+            </h2>
             <p className="mt-3 max-w-[52ch] text-slate-600">
-              The fastest way to judge a packaging partner is to look at the
-              process and the projects.
+              Learn about the ordering process, compare materials,
+              and explore packaging ideas for your next order.
             </p>
           </div>
+
           <ul className="flex flex-col gap-3">
-            {[
-              { name: "How ordering works, step by step", href: "/how-it-works/" },
-              { name: "Recent projects in our portfolio", href: "/portfolio/" },
-              { name: "Materials and finish guide", href: "/materials/" },
-              { name: "Our approach to sustainable packaging", href: "/sustainability/" },
-            ].map((link) => (
+            {LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -128,6 +222,7 @@ export default function AboutUsPage() {
                   <span className="font-display text-base font-semibold text-ink-900">
                     {link.name}
                   </span>
+
                   <ArrowRight
                     size={18}
                     className="shrink-0 text-terra-600 transition-transform duration-200 ease-brand group-hover:translate-x-0.5"
@@ -142,7 +237,7 @@ export default function AboutUsPage() {
 
       <CTABand
         heading="Let's build your box"
-        sub="Free design support and free US shipping on every order."
+        sub={`Free design support. ${globals.shipping}.`}
         phone={globals.phone}
         phoneHref={globals.phoneHref}
       />

@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { unstable_cache } from 'next/cache';
-
+import { cache } from 'react';
 import { getProducts } from '@/lib/content';
 import type { Product } from '@/lib/types';
 
@@ -32,7 +32,7 @@ export const PUBLIC_PRODUCTS_TAG = 'public-products';
  * catalog before re-reading. Matches the `unstable_cache` window below: the
  * memo is a second tier in front of it, not a longer-lived one.
  */
-const MEMO_TTL_MS = 86_400_000;
+// const MEMO_TTL_MS = 86_400_000;
 
 /** Local `npm run dev` must never spend the production read budget. */
 function preferBundledCatalog() {
@@ -110,9 +110,9 @@ interface Catalog {
   byCategory: Map<string, Product[]>;
 }
 
-let memo: { catalog: Catalog; expires: number } | null = null;
+// let memo: { catalog: Catalog; expires: number } | null = null;
 /** Concurrent requests on a cold instance must share one load, not race it. */
-let inFlight: Promise<Catalog> | null = null;
+// let inFlight: Promise<Catalog> | null = null;
 
 function indexCatalog(products: Product[]): Catalog {
   const bySlug = new Map<string, Product>();
@@ -151,29 +151,32 @@ async function readCatalog(): Promise<Catalog> {
   return indexCatalog(getProducts());
 }
 
-async function loadCatalog(): Promise<Catalog> {
-  if (memo && memo.expires > Date.now()) return memo.catalog;
-  inFlight ??= readCatalog()
-    .then((catalog) => {
-      memo = { catalog, expires: Date.now() + MEMO_TTL_MS };
-      return catalog;
-    })
-    .finally(() => {
-      // Clear unconditionally so a failed read is retried rather than pinned.
-      inFlight = null;
-    });
-  return inFlight;
-}
+// async function loadCatalog(): Promise<Catalog> {
+//   if (memo && memo.expires > Date.now()) return memo.catalog;
+//   inFlight ??= readCatalog()
+//     .then((catalog) => {
+//       memo = { catalog, expires: Date.now() + MEMO_TTL_MS };
+//       return catalog;
+//     })
+//     .finally(() => {
+//       // Clear unconditionally so a failed read is retried rather than pinned.
+//       inFlight = null;
+//     });
+//   return inFlight;
+// }
+
+
+const loadCatalog = cache(readCatalog);
 
 /**
  * Drops the in-process memo. `revalidateTag` only busts `unstable_cache`, so
  * the publish route calls this too — otherwise the instance that served the
  * publish would keep answering from its pre-publish copy.
  */
-export function resetPublicProductsMemo() {
-  memo = null;
-  inFlight = null;
-}
+// export function resetPublicProductsMemo() {
+//   memo = null;
+//   inFlight = null;
+// }
 
 export async function getPublicProducts(): Promise<Product[]> {
   return (await loadCatalog()).products;

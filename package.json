@@ -1,8 +1,8 @@
 {
-  "name": "hm-custom-packaging",
+  "name": "vital-custom-boxes",
   "version": "0.1.0",
   "private": true,
-  "description": "Custom Next.js 15 rebuild of hmcustompackaging.com (Codewingz)",
+  "description": "Vital Custom Boxes website — Next.js, Firebase admin CMS and R2 product catalog",
   "engines": {
     "node": "22.x"
   },

@@ -49,6 +49,9 @@ export function legacyProductPath(slug: string): string {
 }
 
 export const STATIC_CONTENT_ROUTES: StaticRoute[] = [
+  { name: "Custom Shipping Boxes", path: "/custom-shipping-boxes/", group: "explore" },
+  { name: "Custom Kraft Boxes", path: "/custom-kraft-boxes/", group: "explore" },
+  { name: "Custom Corrugated Boxes", path: "/custom-corrugated-boxes/", group: "explore" },
   { name: "Get a Custom Quote", path: "/get-custom-quote/", group: "explore" },
   { name: "Box Styles", path: "/box-styles/", group: "explore" },
   { name: "Materials Guide", path: "/materials/", group: "explore" },

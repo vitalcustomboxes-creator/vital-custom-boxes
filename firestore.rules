@@ -4,7 +4,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       return request.auth != null
-        && request.auth.token.email == "admin@vitalcustomboxes.com";
+        && request.auth.token.email == "vitalcustomboxes@gmail.com";
     }
 
     match /products/{productId} {
@@ -23,18 +23,15 @@ service cloud.firestore {
     }
 
     match /contactSubmissions/{submissionId} {
-      allow read, update, delete: if isAdmin();
-      allow create: if isAdmin();
+      allow read, create, update, delete: if isAdmin();
     }
 
     match /quoteRequests/{submissionId} {
-      allow read, update, delete: if isAdmin();
-      allow create: if isAdmin();
+      allow read, create, update, delete: if isAdmin();
     }
 
     match /sampleRequests/{submissionId} {
-      allow read, update, delete: if isAdmin();
-      allow create: if isAdmin();
+      allow read, create, update, delete: if isAdmin();
     }
 
     match /{document=**} {

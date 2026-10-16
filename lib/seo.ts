@@ -368,58 +368,73 @@ export type JsonLdObject = Record<string, unknown>;
  * per page via <JsonLd data={orgSchema()} />. NAP pulled lazily from
  * content/globals.json with safe fallbacks.
  */
-export function orgSchema(overrides?: Partial<SiteGlobals>): JsonLdObject {
-  const g: SiteGlobals = { ...getSiteGlobals(), ...(overrides ?? {}) };
-  const sameAs = Object.values(g.social ?? {}).filter((url) =>
-    /^https:\/\//i.test(url),
+export function orgSchema(
+  overrides?: Partial<SiteGlobals>,
+): JsonLdObject {
+  const g: SiteGlobals = {
+    ...getSiteGlobals(),
+    ...(overrides ?? {}),
+  };
+
+  const sameAs = Array.from(
+    new Set(
+      Object.values(g.social ?? {}).filter((value) => {
+        if (typeof value !== 'string') return false;
+
+        try {
+          const url = new URL(value);
+          return url.protocol === 'https:';
+        } catch {
+          return false;
+        }
+      }),
+    ),
   );
 
-  // Real aggregate rating from content/ratings.json (migrated reviews: 4.9 /
-  // 100). Emitted ONLY here on the Organization node — productSchema stays
-  // free of aggregateRating by design (tests/seo.test.ts locks that).
-  const rating = getSiteRatingSummary();
-
   return {
-    "@context": "https://schema.org",
-    "@type": ["Organization", "LocalBusiness"],
-    "@id": `${SITE_URL}/#organization`,
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+
     name: SITE_NAME,
+    legalName: 'Vital Custom Boxes',
+    foundingDate: '2025',
     url: `${SITE_URL}/`,
     logo: ORG_LOGO_URL,
-    image: DEFAULT_OG_IMAGE,
+
     telephone: g.phone,
     email: g.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "1209 Mountain Road Pl NE, Ste N",
-      addressLocality: "Albuquerque",
-      addressRegion: "NM",
-      postalCode: "87110",
-      addressCountry: "US",
-    },
-    areaServed: [
-      { "@type": "Country", name: "United States" },
-      { "@type": "Country", name: "Canada" },
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "sales",
-      telephone: g.phone,
-      email: g.email,
-      areaServed: ["US", "CA"],
-      availableLanguage: "English",
-    },
-    priceRange: "$$",
-    ...(rating
+
+    ...(g.address.trim()
       ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: rating.ratingValue,
-            reviewCount: rating.reviewCount,
-            bestRating: rating.bestRating,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: g.address.trim(),
+            addressCountry: 'US',
           },
         }
       : {}),
+
+    areaServed: [
+      {
+        '@type': 'Country',
+        name: 'United States',
+      },
+      {
+        '@type': 'Country',
+        name: 'Canada',
+      },
+    ],
+
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'sales',
+      telephone: g.phone,
+      email: g.email,
+      areaServed: ['US', 'CA'],
+      availableLanguage: 'English',
+    },
+
     ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 }
@@ -548,139 +563,115 @@ export interface PageMeta {
  */
 export const CATEGORY_META: Record<string, PageMeta> = {
   "custom-apparel-boxes": {
-    title: "Custom Apparel Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Pack shirts, suits & streetwear in custom apparel boxes with your logo. Free US shipping, free design support.",
-    h1: "Custom Apparel Boxes",
+    "title": "Custom Apparel Boxes | Vital Custom Boxes",
+    "description": "Explore custom apparel boxes for clothing, shirts, shoes and accessories. Get design support, printing options and a custom quote.",
+    "h1": "Custom Apparel Boxes"
   },
   "custom-bakery-boxes": {
-    title: "Custom Bakery Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Order custom bakery boxes with logo or window for cakes, cookies & pastries. Food-safe stocks, free US shipping, free design support.",
-    h1: "Custom Bakery Boxes",
+    "title": "Custom Bakery Boxes | Vital Custom Boxes",
+    "description": "Explore custom bakery boxes for cakes, cupcakes, donuts and pastries. Get design support, printing options and a custom quote.",
+    "h1": "Custom Bakery Boxes"
   },
   "custom-candle-boxes": {
-    title: "Custom Candle Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Protect jars and lift shelf appeal with custom candle boxes with logo. Free design support and free US shipping.",
-    h1: "Custom Candle Boxes",
+    "title": "Custom Candle Boxes | Vital Custom Boxes",
+    "description": "Explore custom candle boxes for jars, tins and candle gift sets. Get design support, printing options and a custom quote.",
+    "h1": "Custom Candle Boxes"
   },
   "custom-cbd-boxes": {
-    title: "Custom CBD Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Retail-ready custom CBD boxes for tinctures, gummies & topicals, with label-friendly panels. Free shipping, free design support.",
-    h1: "Custom CBD Boxes",
+    "title": "Custom CBD Boxes | Vital Custom Boxes",
+    "description": "Explore custom cbd boxes for CBD product containers and retail presentation. Get design support, printing options and a custom quote.",
+    "h1": "Custom CBD Boxes"
   },
   "custom-cosmetics-boxes": {
-    title: "Custom Cosmetics Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Luxury custom cosmetics boxes for skincare, lipstick & beauty kits. Free design support and free US shipping.",
-    h1: "Custom Cosmetics Boxes",
+    "title": "Custom Cosmetic Boxes | Vital Custom Boxes",
+    "description": "Explore custom cosmetic boxes for skincare, makeup, perfume and personal care. Get design support, printing options and a custom quote.",
+    "h1": "Custom Cosmetic Boxes"
   },
   "custom-events-packaging": {
-    title: "Custom Event Packaging & Favor Boxes | Vital Custom Boxes",
-    description:
-      "Custom event packaging for weddings, parties & corporate gifts — favor boxes to gift bags. Free shipping, free design support.",
-    h1: "Custom Events Packaging",
+    "title": "Custom Events Packaging | Vital Custom Boxes",
+    "description": "Explore custom events packaging for event gifts, launches and promotional handouts. Get design support, printing options and a custom quote.",
+    "h1": "Custom Events Packaging"
   },
   "custom-food-boxes": {
-    title: "Custom Food Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Food-safe custom food boxes for restaurants, meal-prep and retail brands. Free US shipping, free design support.",
-    h1: "Custom Food Boxes",
+    "title": "Custom Food Boxes | Vital Custom Boxes",
+    "description": "Explore custom food boxes for snacks, confectionery and foodservice orders. Get design support, printing options and a custom quote.",
+    "h1": "Custom Food Boxes"
   },
   "custom-gift-boxes": {
-    title: "Custom Gift Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Make every order feel like a gift with custom gift boxes with logo, ribbon & inserts. Free shipping, free design support.",
-    h1: "Custom Gift Boxes",
+    "title": "Custom Gift Boxes | Vital Custom Boxes",
+    "description": "Explore custom gift boxes for retail gifts, corporate gifting and PR kits. Get design support, printing options and a custom quote.",
+    "h1": "Custom Gift Boxes"
   },
   "custom-pizza-boxes": {
-    title: "Custom Pizza Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Grease-resistant custom pizza boxes printed with your logo, from slice boxes to 18-inch. Free US shipping, free design support.",
-    h1: "Custom Pizza Boxes",
+    "title": "Custom Pizza Boxes | Vital Custom Boxes",
+    "description": "Explore custom pizza boxes for whole pizzas, slices and Detroit-style orders. Get design support, printing options and a custom quote.",
+    "h1": "Custom Pizza Boxes"
   },
   "custom-takeout-boxes": {
-    title: "Custom Takeout Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Custom takeout boxes that keep food hot and your brand in hand. Food-safe stocks, free design support and free US shipping.",
-    h1: "Custom Takeout Boxes",
+    "title": "Custom Takeout Boxes | Vital Custom Boxes",
+    "description": "Explore custom takeout boxes for burgers, sandwiches, fries and takeaway meals. Get design support, printing options and a custom quote.",
+    "h1": "Custom Takeout Boxes"
   },
   "custom-tobacco-packaging": {
-    title: "Custom Tobacco Packaging Boxes | Vital Custom Boxes",
-    description:
-      "Custom tobacco packaging for licensed cigar, cigarette & accessory brands. Free design support and free US shipping.",
-    h1: "Custom Tobacco Packaging",
+    "title": "Custom Tobacco Packaging | Vital Custom Boxes",
+    "description": "Explore custom tobacco packaging for product presentation and printed outer packs. Get design support, printing options and a custom quote.",
+    "h1": "Custom Tobacco Packaging"
   },
   "custom-toy-boxes": {
-    title: "Custom Toy Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Playful custom toy boxes with window cutouts and vivid print that stand out on shelves. Free shipping, free design support.",
-    h1: "Custom Toy Boxes",
+    "title": "Custom Toy Boxes | Vital Custom Boxes",
+    "description": "Explore custom toy boxes for toys, dolls, figures and accessory sets. Get design support, printing options and a custom quote.",
+    "h1": "Custom Toy Boxes"
   },
   "custom-boxes": {
-    title: "Custom Boxes with Logo Wholesale | Vital Custom Boxes",
-    description:
-      "Design custom boxes with logo in any size, style or material. Fast quotes, free US shipping and free design support.",
-    h1: "Custom Boxes",
+    "title": "Custom Boxes | Vital Custom Boxes",
+    "description": "Explore custom boxes for retail products, gifts and delivery packaging. Get design support, printing options and a custom quote.",
+    "h1": "Custom Boxes"
   },
   "business-card": {
-    title: "Custom Business Card Printing | Vital Custom Boxes",
-    description:
-      "Print custom business cards with foil, emboss & spot UV finishes that match your packaging. Low minimums, free design support, free US shipping.",
-    h1: "Custom Business Cards",
+    "title": "Custom Business Cards | Vital Custom Boxes",
+    "description": "Explore custom business cards for clear contact details and branded presentation. Get design support, printing options and a custom quote.",
+    "h1": "Custom Business Cards"
   },
   "mylar-bags": {
-    // ⚠ Compliance wording rules apply — KEYWORD_META_MAP.md §5 / CONTENT_GUIDELINES.md §7.
-    title: "Custom Mylar Bags Wholesale | Vital Custom Boxes",
-    description:
-      "Custom mylar bags with logo — high-barrier, resealable, with child-resistant options. Free design support and free US shipping.",
-    h1: "Custom Mylar Bags",
+    "title": "Custom Mylar Bags | Vital Custom Boxes",
+    "description": "Explore custom mylar bags for product pouches and printed brand presentation. Get design support, printing options and a custom quote.",
+    "h1": "Custom Mylar Bags"
   },
   "custom-printed-bags": {
-    // Fixes the live "Luxuty" title typo.
-    title: "Custom Printed Bags Wholesale | Vital Custom Boxes",
-    description:
-      "Custom printed bags in kraft, paper and canvas that carry your brand everywhere. Free design support and free US shipping.",
-    h1: "Custom Printed Bags",
+    "title": "Custom Printed Bags | Vital Custom Boxes",
+    "description": "Explore custom printed bags for retail purchases, gifts and carry packaging. Get design support, printing options and a custom quote.",
+    "h1": "Custom Printed Bags"
   },
   "custom-rigid-boxes": {
-    title: "Custom Rigid Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Luxury custom rigid boxes with magnetic lids and foil finishes for premium brands. Free design support and free US shipping.",
-    h1: "Custom Rigid Boxes",
+    "title": "Custom Rigid Boxes | Vital Custom Boxes",
+    "description": "Explore custom rigid boxes for magnetic, drawer and two-piece presentation styles. Get design support, printing options and a custom quote.",
+    "h1": "Custom Rigid Boxes"
   },
   "custom-display-boxes": {
-    title: "Custom Display Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Counter and retail custom display boxes that sell your product at the point of sale. Free design support and free US shipping.",
-    h1: "Custom Display Boxes",
+    "title": "Custom Display Boxes | Vital Custom Boxes",
+    "description": "Explore custom display boxes for counter trays, shelf displays and dispensers. Get design support, printing options and a custom quote.",
+    "h1": "Custom Display Boxes"
   },
   "custom-insert-boxes": {
-    title: "Custom Insert Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Custom insert boxes with die-cut cardboard or foam inserts that lock products in place. Free shipping, free design support.",
-    h1: "Custom Insert Boxes",
+    "title": "Custom Insert Boxes | Vital Custom Boxes",
+    "description": "Explore custom insert boxes for fitted layouts, compartments and product sets. Get design support, printing options and a custom quote.",
+    "h1": "Custom Insert Boxes"
   },
   "custom-mailer-boxes": {
-    title: "Custom Mailer Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "E-commerce-ready custom mailer boxes printed inside and out for a memorable unboxing. Free US shipping and free design support.",
-    h1: "Custom Mailer Boxes",
+    "title": "Custom Mailer Boxes | Vital Custom Boxes",
+    "description": "Explore custom mailer boxes for branded product deliveries and presentation. Get design support, printing options and a custom quote.",
+    "h1": "Custom Mailer Boxes"
   },
   "custom-product-packaging-boxes": {
-    title: "Custom Product Packaging Boxes | Vital Custom Boxes",
-    description:
-      "Custom product packaging boxes engineered around your exact product, brand and budget. Free shipping, free design support.",
-    h1: "Custom Product Packaging Boxes",
+    "title": "Custom Product Boxes | Vital Custom Boxes",
+    "description": "Explore custom product boxes for products, accessories and retail presentation. Get design support, printing options and a custom quote.",
+    "h1": "Custom Product Boxes"
   },
   "custom-retail-boxes": {
-    title: "Custom Retail Boxes Wholesale | Vital Custom Boxes",
-    description:
-      "Shelf-ready custom retail boxes with logo that win the in-store glance. Free US shipping, free design support.",
-    h1: "Custom Retail Boxes",
-  },
+    "title": "Custom Retail Boxes | Vital Custom Boxes",
+    "description": "Explore custom retail boxes for shelf display and branded product presentation. Get design support, printing options and a custom quote.",
+    "h1": "Custom Retail Boxes"
+  }
 };
 
 /**
