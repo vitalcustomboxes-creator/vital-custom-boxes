@@ -30,7 +30,7 @@ export function WhatsAppButton({ globals, message = DEFAULT_MESSAGE }: WhatsAppB
   target="_blank"
   rel="noopener noreferrer"
   aria-label="Chat with us on WhatsApp"
-  className="press fixed left-5 bottom-28 z-[var(--z-header)] flex h-18 w-18 items-center justify-center rounded-full bg-[#25D366] text-white shadow-e3 transition-transform duration-150 ease-brand hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+  className="press fixed left-5 bottom-28 z-[var(--z-header)] flex h-17 w-17 items-center justify-center rounded-full bg-[#25D366] text-white shadow-e3 transition-transform duration-150 ease-brand hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
 >
   {/* Pulse ring */}
   <span
@@ -39,8 +39,8 @@ export function WhatsAppButton({ globals, message = DEFAULT_MESSAGE }: WhatsAppB
   />
   <svg
     viewBox="0 0 32 32"
-    width="100"
-    height="100"
+    width="80"
+    height="80"
     fill="currentColor"
     aria-hidden="true"
   >

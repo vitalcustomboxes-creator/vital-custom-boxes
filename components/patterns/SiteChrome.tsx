@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 
 import { Footer } from '@/components/patterns/Footer';
 import { Header } from '@/components/patterns/Header';
-import { PromoBar } from '@/components/patterns/PromoBar';
 import { RevealProvider } from '@/components/patterns/RevealProvider';
 import { StickyMobileCTA } from '@/components/patterns/StickyMobileCTA';
 import { WhatsAppButton } from '@/components/patterns/WhatsAppButton';
@@ -42,7 +41,6 @@ export function SiteChrome({
   return (
     <>
       <div data-public-site-chrome="header" className="contents">
-        <PromoBar globals={globals} />
         <Header globals={globals} categories={categories} />
       </div>
       <main id="main" className="pb-24 md:pb-0">

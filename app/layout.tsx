@@ -55,6 +55,7 @@ import {
 import "react-phone-number-input/style.css";
 import "../styles/globals.css";
 import "lenis/dist/lenis.css";
+import { META_PIXEL_BASE } from "@/lib/meta-pixel";
 
 const home = STATIC_PAGE_META["/"];
 
@@ -113,6 +114,11 @@ export default function RootLayout({
      */
     <html lang="en" suppressHydrationWarning>
       <head>
+        <Script
+          id="meta-pixel-base"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: META_PIXEL_BASE }}
+        />
         {/* DESIGN_SPEC §0.3 — MUST stay the first tag in <head>. */}
         <script
           dangerouslySetInnerHTML={{
@@ -161,13 +167,28 @@ export default function RootLayout({
         {/* Tawk.to live chat widget */}
         <Script id="tawk-to" strategy="afterInteractive">
           {`
-            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-            (function(){
-              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-              s1.async=true;
-              s1.src='https://embed.tawk.to/68f51361abd1d819558fb399/1j8b78kcq';
-              s1.charset='UTF-8';
-              s0.parentNode.insertBefore(s1,s0);
+            var Tawk_API = Tawk_API || {};
+            var Tawk_LoadStart = new Date();
+
+            Tawk_API.customStyle = {
+              visibility: {
+                mobile: {
+                  position: 'br',
+                  xOffset: 16,
+                  yOffset: 110
+                }
+              }
+            };
+
+            (function() {
+              var s1 = document.createElement("script");
+              var s0 = document.getElementsByTagName("script")[0];
+
+              s1.async = true;
+              s1.src = 'https://embed.tawk.to/68f51361abd1d819558fb399/1j8b78kcq';
+              s1.charset = 'UTF-8';
+
+              s0.parentNode.insertBefore(s1, s0);
             })();
           `}
         </Script>

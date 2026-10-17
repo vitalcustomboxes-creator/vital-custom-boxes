@@ -1,30 +1,9 @@
 'use client';
 
-/**
- * components/patterns/Header.tsx — Client shell. Owner: FE-2.
- *
- * New IA (PM brief — replaces the live header; "Locations" is intentionally
- * REMOVED, its old URLs 308 via lib/redirects.ts):
- *   Home · By Industry ▾ · By Material ▾ · By Style ▾ · Portfolio · Contact
- *   + search (inline GET /shop/?q=) · Get Free Quote.
- *
- * - Mega menus: one full-width panel per group with category image tiles from
- *   content/categories.json (passed as NavCategory props) + "View all" tail.
- *   Open on hover (150ms intent) AND click/Enter/ArrowDown; close on Escape
- *   (focus → trigger), outside click, focus leaving, route change. `.menu-pop`
- *   200ms animation, aria-haspopup/aria-expanded/aria-controls per spec §3.
- *   Panel contents mount on first open so 22 remote images never load eagerly.
- * - Sticky with blur-in: `data-scrolled` set past 80px scroll (rAF-throttled);
- *   styles flip via `data-[scrolled]:` variants.
- * - Content arrives via props (globals + categories) — lib/content.ts is
- *   server-only and must never be imported here (ISSUES #13/#15).
- *
- * Usage (BE-1 layout):
- *   <Header globals={getGlobals()} categories={toNavCategories(getCategories())} />
- */
+/** Two-row Vital header: brand/contact row, dark navigation and existing mega menus. */
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Menu, Search } from 'lucide-react';
+import { ArrowRight, ChevronDown, Mail, Menu, Phone, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -90,7 +69,7 @@ const megaItemVariants = {
 };
 
 const navLinkClass =
-  'flex h-11 items-center gap-1 whitespace-nowrap rounded-md px-3 text-[15px] font-semibold text-ink-700 transition-colors duration-150 ease-brand hover:text-terra-600';
+  'flex h-12 items-center gap-1 whitespace-nowrap px-2 text-[13px] font-semibold text-white transition-colors duration-150 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white xl:px-3 xl:text-sm';
 const iconButtonClass =
   'press flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink-700 transition-colors duration-150 ease-brand hover:bg-ink-100';
 const tileClass =
@@ -115,6 +94,10 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
   const pathname = usePathname();
   const router = useRouter();
   const groups = useMemo(() => groupNavCategories(categories), [categories]);
+  const whatsappDigits = globals.phoneHref.replace(/[^\d]/g, '');
+  const whatsappHref = whatsappDigits
+    ? `https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi! I would like a custom packaging quote.')}`
+    : null;
 
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -188,6 +171,17 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
     setSearchOpen(false);
     setDrawerOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1024px)');
+    const onBreakpoint = () => {
+      setOpenMenu(null);
+      setSearchOpen(false);
+      if (media.matches) setDrawerOpen(false);
+    };
+    media.addEventListener('change', onBreakpoint);
+    return () => media.removeEventListener('change', onBreakpoint);
+  }, []);
 
   /* ---------------- outside click closes menus/search --------------------- */
   useEffect(() => {
@@ -296,7 +290,9 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
     }
     if (searchOpen) {
       setSearchOpen(false);
-      searchButtonRef.current?.focus();
+      headerRef.current?.querySelectorAll<HTMLButtonElement>('button[aria-controls="header-search"]').forEach((button) => {
+        if (button.getClientRects().length) button.focus();
+      });
     }
   };
 
@@ -358,10 +354,10 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
         data-scrolled={scrolled ? '' : undefined}
         onKeyDown={onHeaderKeyDown}
         onBlur={onHeaderBlur}
-        className="sticky top-0 z-[var(--z-header)] h-[var(--header-h)] border-b border-transparent bg-paper-50 backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-200 ease-brand data-[scrolled]:border-ink-100 data-[scrolled]:bg-[var(--header-bg-blur)] data-[scrolled]:shadow-e1"
+        className="sticky top-0 z-[var(--z-header)] bg-white shadow-sm [--header-h:72px] lg:[--header-h:124px]"
       >
-        <div className="header-container-hm flex h-full items-center gap-3 lg:gap-6">
-          {/* Logo */}
+        {/* Upper row: brand and direct contact options. */}
+        <div className="header-container-hm flex h-[72px] items-center justify-between gap-3 lg:h-[76px]">
           <Link href="/" className="shrink-0 rounded-md" aria-label="Vital Custom Boxes — home">
             <Image
               src={logoUrl}
@@ -369,97 +365,80 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
               width={LOGO_WIDTH}
               height={LOGO_HEIGHT}
               priority
-              sizes="160px"
-              className="h-9 w-auto md:h-10"
+              sizes="(min-width: 1024px) 150px, 120px"
+              className="h-auto w-[120px] lg:w-[150px]"
             />
           </Link>
 
-          {/* Desktop nav */}
-          <nav aria-label="Main" className="ml-auto hidden items-center gap-1 lg:flex">
-            <Link
-              href="/"
-              className={`${navLinkClass} ${isActivePath(pathname, '/') ? 'text-terra-600' : ''}`}
-              aria-current={isActivePath(pathname, '/') ? 'page' : undefined}
-            >
-              Home
-            </Link>
-            {groups.map((group) => (
-              <button
-                key={group.key}
-                ref={(el) => {
-                  if (el) triggerRefs.current.set(group.key, el);
-                  else triggerRefs.current.delete(group.key);
-                }}
-                type="button"
-                aria-haspopup="true"
-                aria-expanded={openMenu === group.key}
-                aria-controls="mega-menu-panel"
-                onPointerEnter={onTriggerEnter(group.key)}
-                onPointerLeave={onZoneLeave}
-                onClick={() => toggleMenu(group.key)}
-                onKeyDown={onTriggerKeyDown(group)}
-                className={navLinkClass}
-              >
-                {group.label}
-                <ChevronDown size={16} className="chevron text-slate-400" aria-hidden="true" />
-              </button>
-            ))}
+          <div className="ml-auto hidden items-center gap-4 lg:flex xl:gap-6">
+            <a href={globals.phoneHref} className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-ink-900 hover:text-terra-600">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-terra-500 text-white"><Phone size={17} aria-hidden="true" /></span>
+              {globals.phone}
+            </a>
+            <a href={`mailto:${globals.email}`} className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-ink-900 hover:text-terra-600">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-terra-500 text-white"><Mail size={18} aria-hidden="true" /></span>
+              {globals.email}
+            </a>
+            {whatsappHref ? (
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Chat with Vital Custom Boxes on WhatsApp" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#25D366] text-white transition-colors hover:bg-[#128C7E]">
+                <svg viewBox="0 0 32 32" width="27" height="27" fill="currentColor" aria-hidden="true">
+                  <path d="M16.04 4C9.96 4 5 8.95 5 15.02c0 2.12.6 4.1 1.64 5.79L5 28l7.36-1.6a11 11 0 0 0 3.68.63h.01C22.13 27.03 27.1 22.08 27.1 16 27.1 8.95 22.12 4 16.04 4Zm0 20.2c-1.13 0-2.24-.2-3.28-.6l-.24-.1-4.37.95.93-4.26-.16-.25a9.1 9.1 0 0 1-1.4-4.85c0-5.03 4.1-9.12 9.13-9.12 2.44 0 4.73.95 6.45 2.67a9.06 9.06 0 0 1 2.68 6.46c0 5.03-4.1 9.12-9.13 9.12Zm5.01-6.83c-.27-.14-1.62-.8-1.87-.89-.25-.09-.43-.14-.62.14-.18.27-.71.88-.87 1.06-.16.18-.32.2-.59.07-.27-.14-1.16-.43-2.2-1.36-.81-.72-1.36-1.62-1.52-1.89-.16-.27-.02-.42.12-.55.12-.12.27-.32.41-.48.14-.16.18-.27.27-.46.09-.18.05-.34-.02-.48-.07-.14-.62-1.49-.85-2.04-.22-.53-.45-.46-.62-.47l-.53-.01c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.29s.98 2.66 1.12 2.84c.14.18 1.93 2.95 4.68 4.14.65.28 1.16.45 1.56.58.66.21 1.25.18 1.72.11.53-.08 1.62-.66 1.85-1.3.23-.64.23-1.18.16-1.3-.07-.12-.25-.18-.52-.32Z" />
+                </svg>
+              </a>
+            ) : null}
+            <Button href="/get-custom-quote/" variant="primary" size="md">Get Quote</Button>
+          </div>
 
-            <Link
-              href="/about-us/"
-              className={`${navLinkClass} ${isActivePath(pathname, '/about-us/') ? 'text-terra-600' : ''}`}
-              aria-current={isActivePath(pathname, '/about-us/') ? 'page' : undefined}
-            >
-              About Us
-            </Link>
-            <Link
-              href="/portfolio/"
-              className={`${navLinkClass} ${isActivePath(pathname, '/portfolio/') ? 'text-terra-600' : ''}`}
-              aria-current={isActivePath(pathname, '/portfolio/') ? 'page' : undefined}
-            >
-              Portfolio
-            </Link>
-            <Link
-              href="/contact/"
-              className={`${navLinkClass} ${isActivePath(pathname, '/contact/') ? 'text-terra-600' : ''}`}
-              aria-current={isActivePath(pathname, '/contact/') ? 'page' : undefined}
-            >
-              Contact
-            </Link>
-          </nav>
+          {/* Compact touch controls retain the existing drawer and search. */}
+          <div className="ml-auto flex items-center gap-1 lg:hidden">
+            <button type="button" aria-label="Search products" aria-expanded={searchOpen} aria-controls="header-search" onClick={toggleSearch} className={iconButtonClass}>
+              <Search size={21} aria-hidden="true" />
+            </button>
+            <Button href="/get-custom-quote/" variant="primary" size="md" className="hidden min-[480px]:inline-flex">Get Quote</Button>
+            <button type="button" aria-label="Open menu" aria-haspopup="dialog" aria-expanded={drawerOpen} aria-controls="mobile-nav" onClick={() => setDrawerOpen(true)} className={iconButtonClass}>
+              <Menu size={24} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
 
-          {/* Right cluster */}
-          <div className="flex items-center gap-1 md:gap-2">
-            <button
-              ref={searchButtonRef}
-              type="button"
-              aria-label="Search products"
-              aria-expanded={searchOpen}
-              aria-controls="header-search"
-              onClick={toggleSearch}
-              className={iconButtonClass}
-            >
-              <Search size={20} aria-hidden="true" />
+        {/* Lower row: full-width brand-dark navigation. */}
+        <div className="hidden bg-[#101820] lg:block">
+          <div className="header-container-hm flex h-12 items-center">
+            <nav aria-label="Main" className="flex h-full min-w-0 flex-1 items-center gap-1">
+              <Link href="/" className={navLinkClass} aria-current={isActivePath(pathname, '/') ? 'page' : undefined}>Home</Link>
+              {groups.map((group) => (
+                <button
+                  key={group.key}
+                  ref={(el) => {
+                    if (el) triggerRefs.current.set(group.key, el);
+                    else triggerRefs.current.delete(group.key);
+                  }}
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={openMenu === group.key}
+                  aria-controls="mega-menu-panel"
+                  onPointerEnter={onTriggerEnter(group.key)}
+                  onPointerLeave={onZoneLeave}
+                  onClick={() => toggleMenu(group.key)}
+                  onKeyDown={onTriggerKeyDown(group)}
+                  className={navLinkClass}
+                >
+                  {`Boxes ${group.label.toLowerCase()}`}
+                  <ChevronDown size={15} className="chevron text-terra-500" aria-hidden="true" />
+                </button>
+              ))}
+              {[
+                { name: 'Blog', href: '/blog/' },
+                { name: 'About Us', href: '/about-us/' },
+                { name: 'Reviews', href: '/reviews/' },
+              ].map((link) => (
+                <Link key={link.href} href={link.href} className={navLinkClass} aria-current={isActivePath(pathname, link.href) ? 'page' : undefined}>{link.name}</Link>
+              ))}
+            </nav>
+            <button ref={searchButtonRef} type="button" aria-label="Search products" aria-expanded={searchOpen} aria-controls="header-search" onClick={toggleSearch} className="flex h-12 w-14 shrink-0 items-center justify-center text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white">
+              <Search size={24} aria-hidden="true" />
             </button>
-            <Button
-              href="/get-custom-quote/"
-              variant="primary"
-              size="md"
-              className="hidden min-[480px]:inline-flex"
-            >
-              Get Free Quote
-            </Button>
-            <button
-              type="button"
-              aria-label="Open menu"
-              aria-haspopup="dialog"
-              aria-expanded={drawerOpen}
-              aria-controls="mobile-nav"
-              onClick={() => setDrawerOpen(true)}
-              className={`${iconButtonClass} lg:hidden`}
-            >
-              <Menu size={22} aria-hidden="true" />
-            </button>
+            <Link href="/portfolio/" aria-current={isActivePath(pathname, '/portfolio/') ? 'page' : undefined} className="flex h-12 shrink-0 items-center justify-center bg-terra-500 px-7 text-sm font-bold text-white transition-colors hover:bg-terra-600">Portfolio</Link>
           </div>
         </div>
 

@@ -130,7 +130,7 @@
 
   /* ----- Layout rhythm ------------------------------------------------------ */
   --container-max: 1240px;
-  --header-container-max: 1560px;
+  --header-container-max: 1320px;
   --container-pad: 20px;
   /* 32px from 768px up (media below) */
   --section-y: 64px;
