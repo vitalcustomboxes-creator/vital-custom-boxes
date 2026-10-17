@@ -12,7 +12,7 @@
  *  - meta descriptions ≤160 chars
  *  - canonical = https://www.vitalcustomboxes.com + path, TRAILING-SLASH form
  *    (SEO-1 set `trailingSlash: true`; all live URLs/canonicals use it)
- *  - Product JSON-LD WITHOUT aggregateRating/review/offers (nothing fabricated)
+ *  - Product JSON-LD with confirmed pricing and genuine product reviews only
  *  - word-boundary truncation helper (shared; FE may re-export for card excerpts)
  *
  * content/globals.json is owned by DATA-ENG and is written in parallel with this
@@ -23,6 +23,8 @@
 // ARCHITECT (ISSUES log, 2026-06-12): explicit server-only guard — importing
 // this module from a "use client" component now fails at build time.
 import "server-only";
+import type { ProductPricing } from "@/lib/product-pricing";
+import type { ProductReviewSummary } from "@/lib/product-reviews";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { createElement, type ReactElement } from "react";
@@ -76,6 +78,11 @@ export function toAbsoluteUrl(pathOrUrl: string): string {
   if (!path.startsWith("/")) path = `/${path}`;
   if (!path.endsWith("/")) path = `${path}/`;
   return `${SITE_URL}${path}`;
+}
+
+/** Asset URLs preserve case, query strings, and file endings. */
+export function toAbsoluteAssetUrl(pathOrUrl: string): string {
+  return new URL(pathOrUrl.trim(), `${SITE_URL}/`).href;
 }
 
 /**
@@ -240,7 +247,7 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
   }
 
   const canonical = toAbsoluteUrl(path);
-  const image = ogImage ? toAbsoluteUrl(ogImage) : DEFAULT_OG_IMAGE;
+  const image = ogImage ? toAbsoluteAssetUrl(ogImage) : DEFAULT_OG_IMAGE;
 
   const metadata: Metadata = {
     title,
@@ -364,7 +371,7 @@ export function buildProductDescription(
 export type JsonLdObject = Record<string, unknown>;
 
 /**
- * Organization + LocalBusiness (single node) for the root layout — render once
+ * Organization (single node) for the root layout — render once
  * per page via <JsonLd data={orgSchema()} />. NAP pulled lazily from
  * content/globals.json with safe fallbacks.
  */
@@ -401,6 +408,7 @@ export function orgSchema(
     foundingDate: '2025',
     url: `${SITE_URL}/`,
     logo: ORG_LOGO_URL,
+    image: DEFAULT_OG_IMAGE,
 
     telephone: g.phone,
     email: g.email,
@@ -409,7 +417,14 @@ export function orgSchema(
       ? {
           address: {
             '@type': 'PostalAddress',
-            streetAddress: g.address.trim(),
+            ...(g.address.trim() === FALLBACK_GLOBALS.address
+              ? {
+                  streetAddress: '1209 Mountain Road Pl Ne Ste N',
+                  addressLocality: 'Albuquerque',
+                  addressRegion: 'NM',
+                  postalCode: '87110',
+                }
+              : { streetAddress: g.address.trim() }),
             addressCountry: 'US',
           },
         }
@@ -493,22 +508,20 @@ export interface ProductSchemaInput {
   url: string;
   sku?: string;
   category?: string;
+  pricing?: ProductPricing;
+  reviewSummary?: ProductReviewSummary;
 }
 
-/**
- * Product schema. AUDIT RULE: NO aggregateRating and NO review — the live
- * site's rating badges are unverified and must not be fabricated in structured
- * data. `offers` is also intentionally omitted: pricing is quote-based and an
- * invented price would be fake data. Do not "enhance" this without real data.
- */
+/** Product pricing and reviews must match visible page content. */
 export function productSchema(input: ProductSchemaInput): JsonLdObject {
   const images = (Array.isArray(input.image) ? input.image : [input.image])
     .filter((src) => src.trim().length > 0)
-    .map(toAbsoluteUrl);
+    .map(toAbsoluteAssetUrl);
 
   return {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${toAbsoluteUrl(input.url)}#product`,
     name: input.name,
     ...(images.length > 0 ? { image: images } : {}),
     description: input.description,
@@ -516,6 +529,37 @@ export function productSchema(input: ProductSchemaInput): JsonLdObject {
     brand: { "@type": "Brand", name: SITE_NAME },
     ...(input.sku ? { sku: input.sku } : {}),
     ...(input.category ? { category: input.category } : {}),
+    ...(input.pricing ? {
+      offers: {
+        "@type": "AggregateOffer",
+        url: toAbsoluteUrl(input.url),
+        priceCurrency: input.pricing.currency,
+        lowPrice: input.pricing.lowPrice,
+        highPrice: input.pricing.highPrice,
+      },
+    } : {}),
+    ...(input.reviewSummary && input.reviewSummary.reviewCount > 0 ? {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: input.reviewSummary.ratingValue,
+        reviewCount: input.reviewSummary.reviewCount,
+        bestRating: 5,
+        worstRating: 1,
+      },
+      review: input.reviewSummary.reviews.map((review) => ({
+        "@type": "Review",
+        author: { "@type": "Person", name: review.author },
+        reviewBody: review.body,
+        datePublished: review.datePublished,
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: review.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        ...(review.sourceUrl ? { url: review.sourceUrl } : {}),
+      })),
+    } : {}),
   };
 }
 

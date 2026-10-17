@@ -11,7 +11,7 @@
  * Audit/ISSUES hooks:
  *  - SINGLE H1 = product name (the live second "marketing H1" is the H2 of
  *    the details section); title/meta via buildProductTitle/Description;
- *  - Product JSON-LD WITHOUT aggregateRating/review/offers (lib/seo enforces);
+ *  - Product JSON-LD shares confirmed pricing and genuine reviews with visible content;
  *  - FAQPage JSON-LD only when the FAQ block visibly renders;
  *  - ISSUES (SEO-2 claims): MOQ/SLA/shipping/tel from getGlobals() only —
  *    SpecTable appends the three rows from the globals prop itself;
@@ -47,6 +47,8 @@ import {
   type JsonLdObject,
 } from "@/lib/seo";
 import { categoryPath as buildCategoryPath, productPath as buildProductPath } from "@/lib/routes";
+import { getProductPricing, formatProductPriceRange } from "@/lib/product-pricing";
+import { getProductReviewSummary } from "@/lib/product-reviews";
 import type { Product } from "@/lib/types";
 
 interface Params {
@@ -174,18 +176,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
     { name: product.name, href: productPath },
   ];
 
+  const pricing = getProductPricing(product.slug);
+  const reviewSummary = getProductReviewSummary(product.slug);
+
   const quoteHref = `/get-custom-quote/?product=${encodeURIComponent(slug)}`;
 
   const schema: JsonLdObject[] = [
     breadcrumbSchema(crumbs.map((c) => ({ name: c.name, path: c.href }))),
-    // NO ratings/reviews/offers — quote-based, nothing fabricated (audit).
+    // Schema and visible content share the same pricing/review data.
     productSchema({
       name: product.name,
-      image: product.imageUrl,
+      image: Array.from(new Set([product.imageUrl, ...(product.images ?? []).map((image) => image.src)])),
       description: product.description,
       url: productPath,
       sku: product.sku,
       category: categoryName,
+      pricing,
+      reviewSummary,
     }),
   ];
   if (hasFaqs) {
@@ -216,6 +223,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <Badge variant="outline">SKU {product.sku}</Badge>
               ) : null}
               <p className="max-w-[60ch]">{product.description}</p>
+
+              <div className="w-full rounded-lg border border-ink-100 bg-kraft-100 p-4">
+                <p className="font-semibold text-ink-900">{formatProductPriceRange(pricing)}</p>
+                <p className="mt-2 text-sm text-slate-600">{pricing.note}</p>
+              </div>
 
               {/* Spec summary — every figure from globals (single source). */}
               <ul className="flex flex-col gap-2 text-sm text-slate-600">
@@ -286,7 +298,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
               {/* On-page spec configurator (UX-D): builds a deep link that
                   pre-fills the quote form with the chosen specs. Quote-only
-                  model preserved — no pricing/cart. */}
+                  model preserved — final pricing confirmed by quote. */}
               <div className="mt-6">
                 <ProductSpecConfigurator
                   productSlug={product.slug}
@@ -390,6 +402,27 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </section>
+
+      {reviewSummary ? (
+        <section className="section bg-paper-50" aria-labelledby="product-reviews-heading">
+          <div className="container-hm">
+            <h2 id="product-reviews-heading">Customer reviews for {product.name}</h2>
+            <p className="mt-3 text-slate-600">
+              {reviewSummary.ratingValue} out of 5 from {reviewSummary.reviewCount} product reviews
+            </p>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              {reviewSummary.reviews.map((review, index) => (
+                <article key={`${review.author}-${review.datePublished}-${index}`} className="rounded-lg border border-ink-100 bg-white p-6">
+                  <h3 className="h4">{review.author}</h3>
+                  <p className="mt-2 text-sm">{review.rating} out of 5 · <time dateTime={review.datePublished}>{review.datePublished}</time></p>
+                  <p className="mt-3 text-slate-600">{review.body}</p>
+                  {review.sourceUrl ? <a href={review.sourceUrl} className="mt-3 inline-block underline underline-offset-4">Read original review</a> : null}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Related products (section-owning, paper) — same category, 4.
           Renders nothing when the list is empty. */}
