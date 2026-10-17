@@ -14,10 +14,10 @@ export const META_PIXEL_BASE = `
   if (window.__vitalMetaInitialized) return;
   window.__vitalMetaInitialized = true;
   // Use explicit events only; do not enable automatic form-field matching.
+  window.fbq.disablePushState = true;
   fbq('set', 'autoConfig', false, '${META_PIXEL_ID}');
   fbq('init', '${META_PIXEL_ID}');
-  fbq('trackSingle', '${META_PIXEL_ID}', 'PageView');
-  window.__vitalMetaLastPath = location.pathname;
+  // PageView is sent only by the route tracker after hydration.
 })();
 `;
 
@@ -29,15 +29,34 @@ declare global {
   }
 }
 
-export function trackMetaEvent(event: 'Lead' | 'Contact' | 'PageView'): void {
-  if (typeof window === 'undefined') return;
-  if (window.location.hostname.toLowerCase().startsWith('admin.')) return;
-  if (/^\/admin(?:\/|$)/.test(window.location.pathname)) return;
-  if (!window.__vitalMetaInitialized || !window.fbq) return;
+export function trackMetaEvent(event: 'Lead' | 'Contact' | 'PageView'): boolean {
+  if (typeof window === 'undefined') return false;
+  if (window.location.hostname.toLowerCase().startsWith('admin.')) return false;
+  if (/^\/admin(?:\/|$)/.test(window.location.pathname)) return false;
+  if (!window.__vitalMetaInitialized || !window.fbq) return false;
   try {
     // No names, emails, phone numbers, artwork or form values are sent here.
     window.fbq('trackSingle', META_PIXEL_ID, event);
+    return true;
   } catch {
     // Tracking must never interrupt navigation or a successful form submission.
+    return false;
   }
+}
+
+/** Treat a trailing slash as the same route. */
+export function normalizeMetaPath(path: string): string {
+  return path.replace(/\/+$/, '') || '/';
+}
+
+/** One PageView per consecutive route, shared across mounts and Strict Mode. */
+export function trackMetaPageView(pathname: string): boolean {
+  if (typeof window === 'undefined') return false;
+  const path = normalizeMetaPath(pathname);
+  // Never label a stale render as the new browser URL during navigation.
+  if (path !== normalizeMetaPath(window.location.pathname)) return false;
+  if (window.__vitalMetaLastPath === path) return false;
+  if (!trackMetaEvent('PageView')) return false;
+  window.__vitalMetaLastPath = path;
+  return true;
 }

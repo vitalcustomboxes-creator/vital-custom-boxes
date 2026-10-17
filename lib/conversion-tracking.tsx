@@ -7,7 +7,7 @@ import {
   GOOGLE_ADS_CONVERSION_ID,
   type ConversionKey,
 } from '@/lib/conversion-ids';
-import { trackMetaEvent } from '@/lib/meta-pixel';
+import { trackMetaEvent, trackMetaPageView } from '@/lib/meta-pixel';
 
 declare global {
   interface Window {
@@ -57,13 +57,30 @@ export function ConversionClickTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!pathname || !window.__vitalMetaInitialized) return;
-    if (/^\/admin(?:\/|$)/.test(pathname)) return;
-    // The head script sends the first PageView. Track subsequent SPA routes.
-    // A window-level path guard also avoids duplicates in React Strict Mode.
-    if (window.__vitalMetaLastPath === pathname) return;
-    trackMetaEvent('PageView');
-    window.__vitalMetaLastPath = pathname;
+    if (!pathname) return;
+    if (/^\/admin(?:\/|$)/.test(pathname)) {
+      window.__vitalMetaLastPath = undefined;
+      return;
+    }
+
+    // Retry briefly if initialization or the browser URL is not ready yet.
+    // Cleanup cancels stale routes; the shared guard prevents repeat events.
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let cancelled = false;
+    let attempts = 0;
+
+    const sendPageView = () => {
+      if (cancelled) return;
+      if (trackMetaPageView(pathname)) return;
+      attempts += 1;
+      if (attempts < 10) timer = setTimeout(sendPageView, 100);
+    };
+
+    sendPageView();
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
   }, [pathname]);
 
   useEffect(() => {
