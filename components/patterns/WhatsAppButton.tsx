@@ -1,13 +1,4 @@
-/**
- * components/patterns/WhatsAppButton.tsx — Server Component.
- *
- * Floating WhatsApp launcher (adopted from the competitor UX audit). The
- * number is single-sourced from content/globals.json (globals.phoneHref) so
- * it never drifts from the rest of the site. Pure link — no client JS.
- *
- * Positioned bottom-right; on mobile it sits ABOVE the StickyMobileCTA bar
- * (which occupies the bottom edge under lg) so the two never overlap.
- */
+/** Floating WhatsApp launcher. WhatsApp uses a separate business number. */
 import type { Globals } from '@/lib/types';
 
 const DEFAULT_MESSAGE =
@@ -18,10 +9,9 @@ export interface WhatsAppButtonProps {
   message?: string;
 }
 
-export function WhatsAppButton({ globals, message = DEFAULT_MESSAGE }: WhatsAppButtonProps) {
-  // tel:+18284550798 -> 18284550798 (digits only, E.164 without the +)
-  const digits = (globals.phoneHref || '').replace(/[^\d]/g, '');
-  if (!digits) return null;
+export function WhatsAppButton({ message = DEFAULT_MESSAGE }: WhatsAppButtonProps) {
+  // WhatsApp: +1 (610) 998-8971. The call number remains in globals.
+  const digits = '16109988971';
   const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 
   return (

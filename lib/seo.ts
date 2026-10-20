@@ -727,10 +727,10 @@ export const CATEGORY_META: Record<string, PageMeta> = {
  */
 export const STATIC_PAGE_META: Record<string, PageMeta> = {
   "/": {
-    title: "Custom Packaging Boxes Wholesale | Vital Custom Boxes",
+    title: "Custom Packaging Boxes USA | Vital Custom Boxes",
     description:
-      "Custom packaging boxes with logo, made to order in the USA. Fast quotes, free design support and free US shipping on every order.",
-    h1: "Custom Packaging Boxes That Build Your Brand",
+      "Custom printed boxes with logo for US businesses. Get wholesale packaging quotes, free design support, a digital proof and free US shipping.",
+    h1: "Custom Printed Boxes with Logo for US Businesses",
   },
   "/products": {
     title: "Shop All Custom Packaging Products | Vital Custom Boxes",

@@ -39,7 +39,6 @@ import { Tabs } from "@/components/ui";
 import {
   getCategories,
   getCategory,
-  getFaqs,
   getGlobals,
   getPosts,
   getRatingSummary,
@@ -56,6 +55,22 @@ import {
 import type { Product } from "@/lib/types";
 
 const home = STATIC_PAGE_META["/"];
+
+/** Priority pages use their existing canonical routes. */
+const PACKAGING_LINKS = [
+  { label: "Custom Mailer Boxes", href: "/shop/custom-mailer-boxes/" },
+  { label: "Custom Shipping Boxes", href: "/custom-shipping-boxes/" },
+  { label: "Custom Rigid Boxes", href: "/shop/custom-rigid-boxes/" },
+  { label: "Custom Gift Boxes", href: "/shop/custom-gift-boxes/" },
+  { label: "Custom Kraft Boxes", href: "/custom-kraft-boxes/" },
+  { label: "Custom Corrugated Boxes", href: "/custom-corrugated-boxes/" },
+  { label: "Custom Product Boxes", href: "/shop/custom-boxes/" },
+  { label: "Custom Cosmetic Boxes", href: "/shop/custom-cosmetics-boxes/" },
+  { label: "Custom Bakery Boxes", href: "/shop/custom-bakery-boxes/" },
+  { label: "Custom Soap Boxes", href: "/shop/custom-cosmetics-boxes/custom-soap-boxes/" },
+  { label: "Custom Candle Boxes", href: "/shop/custom-candle-boxes/" },
+  { label: "Custom Apparel & Clothing Boxes", href: "/shop/custom-apparel-boxes/" },
+];
 
 export const metadata = buildMetadata({
   title: home.title,
@@ -134,7 +149,32 @@ export default async function HomePage() {
       : []),
   ];
 
-  const faqs = getFaqs().slice(0, 6);
+  const faqs = [
+    {
+      question: "Can I order custom boxes with my logo for my US business?",
+      answer: "Yes. Share your product dimensions, quantity, logo and artwork requirements. We will confirm a suitable structure, material, printing and finish for your custom packaging. Free design support and a digital proof are included before production.",
+    },
+    {
+      question: "What affects wholesale custom box pricing?",
+      answer: "Pricing depends on box dimensions, material, structure, print coverage, finishing, inserts and order quantity. Request a quote for your exact specifications rather than comparing unit prices for different box sizes or quantities.",
+    },
+    {
+      question: "What is the minimum order for custom printed boxes?",
+      answer: `Our minimum order policy is ${globals.moq}. Available quantities depend on your chosen packaging structure and customization. Include your preferred run size when requesting a quote.`,
+    },
+    {
+      question: "Do you offer free shipping across the United States?",
+      answer: `${globals.shipping}. Provide your delivery ZIP code and any special delivery requirements with your quote request so the shipping terms and destination can be confirmed.`,
+    },
+    {
+      question: "How long does custom packaging production and delivery take?",
+      answer: `${globals.sla}. Production and shipping transit are separate stages. Share your required arrival date and delivery ZIP code so we can confirm the schedule for your order.`,
+    },
+    {
+      question: "Should I choose cardstock, kraft, corrugated or rigid boxes?",
+      answer: "Cardstock is commonly used for printed retail cartons; kraft offers a natural paper appearance; corrugated board is often selected for mailers and shipping boxes; and rigid board is used for presentation packaging. Product weight, fit, inserts and shipping conditions determine the final specification. Recyclability depends on the complete construction and local collection rules.",
+    },
+  ];
   const posts = getPosts().slice(0, 4);
   const reviews = getReviews();
   const ratingSummary = getRatingSummary();
@@ -156,22 +196,20 @@ export default async function HomePage() {
       <Hero
         heading={
           <>
-            Custom boxes made<br className="hidden sm:inline" /> easy{" "}
-            <span className="text-terra-500">for retail</span>
+            Custom Printed Boxes with Logo<br className="hidden sm:inline" />{" "}
+            <span className="text-terra-500">for US Businesses</span>
           </>
         }
         sub={
           <>
-            Supercharge your brand through the power of{" "}
-            <strong className="font-semibold text-white">custom boxes</strong> and{" "}
-            <strong className="font-semibold text-white">custom packaging</strong> that&apos;s
-            big on wow-factor. With low minimums, free design expertise, super fast delivery
-            and unlimited customization, our packaging specialists will help you create eye-catching{" "}
-            <strong className="font-semibold text-white">custom shipping boxes</strong> that stand out from the crowd.
+            Order custom packaging boxes for your retail, e-commerce or subscription
+            brand. Choose your size, material, printing and finishes with free design
+            support, a digital proof before production and free US shipping.
+            Request wholesale pricing for your order quantity.
           </>
         }
         primaryCta={{
-          label: "Get Free Quote",
+          label: "Get a Free Packaging Quote",
           href: "/get-custom-quote/",
         }}
       />
@@ -190,8 +228,8 @@ export default async function HomePage() {
           <div className="reveal mb-10 grid gap-6 md:mb-12 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="flex flex-col gap-3">
               <p className="eyebrow">Shop by Packaging Type</p>
-              <h2 className="max-w-[16ch]">Find the right packaging faster</h2>
-              <p className="lead max-w-[56ch] text-slate-600">
+              <h2 className="w-full">Custom Packaging Boxes for Retail and E-Commerce</h2>
+              <p className="lead w-full text-slate-600">
                 Start with the category closest to your product. Each path
                 groups box styles, materials, and finishes around real shelf,
                 shipping, and labeling needs.
@@ -201,7 +239,7 @@ export default async function HomePage() {
               href="/shop/"
               className="press inline-flex h-11 items-center justify-center rounded-md border border-ink-700 px-6 font-display text-base font-semibold text-ink-700 transition-colors duration-200 ease-brand hover:bg-ink-700 hover:text-white"
             >
-              Shop all packaging
+              Browse All Custom Packaging
             </Link>
           </div>
 
@@ -226,6 +264,22 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+          <nav aria-labelledby="popular-packaging-heading" className="mt-10 rounded-lg border border-ink-100 bg-white p-6 md:p-8">
+            <h3 id="popular-packaging-heading" className="h4">Explore Custom Box Styles and Materials</h3>
+            <p className="mt-3 max-w-[65ch] text-sm text-slate-600">
+              Compare mailers for e-commerce orders, rigid boxes for presentation,
+              and printed product packaging for retail shelves.
+            </p>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {PACKAGING_LINKS.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="flex min-h-11 items-center rounded-md px-3 py-2 text-sm font-semibold text-ink-900 underline underline-offset-4 transition-colors hover:bg-kraft-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink-700">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <p className="mt-8 text-center text-sm text-slate-600">
             Not seeing the exact structure?
             {" "}
@@ -236,6 +290,81 @@ export default async function HomePage() {
               Send your product details and we will recommend the right shop path.
             </Link>
           </p>
+        </div>
+      </section>
+
+      <section className="section bg-paper-50" aria-labelledby="wholesale-packaging-heading">
+        <div className="container-hm">
+          <div className="max-w-[75ch]">
+            <p className="eyebrow">Plan your packaging</p>
+            <h2 id="wholesale-packaging-heading" className="mt-3">Custom Boxes with Logo at Wholesale Prices</h2>
+            <p className="mt-4 text-slate-600">
+              Choose custom printed boxes around what you sell and how customers receive it.
+              A retail carton needs readable artwork and a good shelf fit; an e-commerce
+              mailer needs a suitable structure, room for protection and a secure closure.
+              Vital Custom Boxes helps US businesses compare these options before requesting
+              a production quote.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <article className="rounded-lg border border-ink-100 bg-kraft-100 p-6">
+              <h3 className="h4">Match the Box to Your Product and Delivery Method</h3>
+              <p className="mt-3 text-slate-600">
+                Measure your finished product, including caps, wrapping or accessories.
+                Tell us its weight and whether it will be displayed on a shelf, handed
+                to a customer or shipped individually. Inserts and protective packing
+                should be included when planning the internal dimensions. A presentation
+                box may need a separate outer shipping carton.
+              </p>
+              <p className="mt-4 text-sm">
+                Compare <Link href="/shop/custom-boxes/" className="font-semibold underline underline-offset-4">custom product boxes</Link>,{" "}
+                <Link href="/shop/custom-mailer-boxes/" className="font-semibold underline underline-offset-4">custom mailer boxes</Link> and{" "}
+                <Link href="/custom-shipping-boxes/" className="font-semibold underline underline-offset-4">custom shipping boxes</Link>.
+              </p>
+            </article>
+            <article className="rounded-lg border border-ink-100 bg-kraft-100 p-6">
+              <h3 className="h4">Understand Your Wholesale Packaging Quote</h3>
+              <p className="mt-3 text-slate-600">
+                Unit pricing changes with size, stock, order quantity, print coverage and
+                finishing. Foil, windows, inserts and multi-piece structures can change
+                the specification and cost. Share the quantities you are considering so
+                your quote can compare the same box design at different run sizes.
+              </p>
+              <p className="mt-4 text-sm">
+                <Link href="/get-custom-quote/" className="font-semibold underline underline-offset-4">Request wholesale custom box pricing</Link>{" "}
+                with your dimensions, artwork notes and delivery ZIP code.
+              </p>
+            </article>
+            <article className="rounded-lg border border-ink-100 bg-kraft-100 p-6">
+              <h3 className="h4">Select Materials for Retail, Shipping or Presentation</h3>
+              <p className="mt-3 text-slate-600">
+                Cardstock suits many printed retail cartons. Kraft offers a natural paper
+                appearance, corrugated board adds a fluted structure for mailers and
+                shippers, and rigid board supports presentation boxes. Strength depends
+                on board grade, construction and the packed product; material names alone
+                do not establish shipping protection.
+              </p>
+              <p className="mt-4 text-sm">
+                Explore <Link href="/custom-kraft-boxes/" className="font-semibold underline underline-offset-4">custom kraft boxes</Link>,{" "}
+                <Link href="/custom-corrugated-boxes/" className="font-semibold underline underline-offset-4">custom corrugated boxes</Link> and{" "}
+                <Link href="/shop/custom-rigid-boxes/" className="font-semibold underline underline-offset-4">custom rigid boxes</Link>, or read our{" "}
+                <Link href="/materials/" className="font-semibold underline underline-offset-4">packaging materials guide</Link>.
+              </p>
+            </article>
+            <article className="rounded-lg border border-ink-100 bg-kraft-100 p-6">
+              <h3 className="h4">Prepare Your Logo, Artwork and Print Finish</h3>
+              <p className="mt-3 text-slate-600">
+                Provide your logo, approved text, brand colors and any barcode artwork.
+                Discuss inside and outside printing, ink coverage and finishes such as
+                foil, embossing or spot UV for the selected stock. Review panel placement,
+                dimensions and supplied text on the digital proof before approving production.
+              </p>
+              <p className="mt-4 text-sm">
+                <Link href="/how-it-works/" className="font-semibold underline underline-offset-4">See how custom packaging orders work</Link>{" "}
+                or <Link href="/get-custom-quote/" className="font-semibold underline underline-offset-4">ask about printing and finish options</Link>.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -292,7 +421,7 @@ export default async function HomePage() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-kraft-100">
                 <Image
                   src={processImage}
-                  alt="Custom packaging artwork proof and finished box"
+                  alt="Custom packaging box example"
                   fill
                   className="object-cover"
                   sizes="(min-width: 1024px) 35vw, (min-width: 768px) 60vw, 100vw"
@@ -374,6 +503,7 @@ export default async function HomePage() {
                 content: (
                   <div className="overflow-hidden rounded-lg border border-ink-100">
                     <table className="w-full border-collapse text-left text-sm">
+                      <caption className="sr-only">Custom packaging materials, printing, production and shipping information</caption>
                       <tbody className="divide-y divide-ink-100">
                         {[
                           ["Materials", "SBS cardstock, kraft, corrugated, rigid board, and eco-friendly stocks"],
@@ -385,7 +515,7 @@ export default async function HomePage() {
                           ["Proofing", "Digital proof approval before production"],
                         ].map(([label, value]) => (
                           <tr key={label}>
-                            <th className="w-1/3 bg-kraft-100 px-4 py-3 font-display text-sm font-semibold text-ink-900">
+                            <th scope="row" className="w-1/3 bg-kraft-100 px-4 py-3 font-display text-sm font-semibold text-ink-900">
                               {label}
                             </th>
                             <td className="bg-white px-4 py-3 text-slate-600">
@@ -452,7 +582,7 @@ export default async function HomePage() {
           <ImageText
             image={{
               src: aboutImage,
-              alt: "Custom rigid boxes produced by Vital Custom Boxes",
+              alt: "Custom rigid packaging boxes",
             }}
             eyebrow="Why Vital Custom Boxes"
             title="Support from first dieline to delivered pallet"
@@ -486,8 +616,8 @@ export default async function HomePage() {
             <p className="eyebrow">Printing &amp; finishes</p>
             <h2>We turn every box into a mini-billboard</h2>
             <p className="lead max-w-[52ch] text-slate-600">
-              Advanced offset and digital printing with CMYK and PMS colour
-              matching makes your logo, brand colours, and artwork land with
+              Advanced offset and digital printing with CMYK and PMS color
+              matching makes your logo, brand colors, and artwork land with
               vivid precision on cardboard, kraft, corrugated, or rigid stock.
             </p>
             <p className="max-w-[52ch] text-slate-600">
@@ -511,8 +641,8 @@ export default async function HomePage() {
                 d: "Short pilot runs to high-volume — matched to your quantity.",
               },
               {
-                t: "CMYK + PMS colour",
-                d: "Brand-accurate colour matching on every material.",
+                t: "CMYK + PMS color",
+                d: "Brand-accurate color matching on every material.",
               },
               {
                 t: "Foil stamping",
@@ -605,7 +735,7 @@ export default async function HomePage() {
               href="/materials/"
               className="text-sm font-semibold text-terra-600 underline underline-offset-4 transition-colors duration-150 ease-brand hover:text-terra-500"
             >
-              Read the full materials guide
+              Compare Cardstock, Kraft, Corrugated and Rigid Packaging Materials
             </Link>
           </p>
         </div>
@@ -637,6 +767,38 @@ export default async function HomePage() {
               Visit the blog
             </Link>
           </p>
+        </div>
+      </section>
+
+      <section className="section bg-paper-50" aria-labelledby="us-packaging-heading">
+        <div className="container-hm grid gap-8 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <p className="eyebrow">Serving US businesses</p>
+            <h2 id="us-packaging-heading" className="mt-3">Custom Packaging with Free US Shipping</h2>
+            <p className="mt-4 max-w-[65ch] text-slate-600">
+              Vital Custom Boxes serves retail, food, beauty and e-commerce brands
+              across the United States. Our business address is {globals.address}.
+              Share your delivery ZIP code, box dimensions, quantity and required
+              arrival date so we can confirm your packaging specifications and schedule.
+            </p>
+            <p className="mt-4 max-w-[65ch] text-slate-600">
+              {globals.shipping}. {globals.sla}. Production time and transit time
+              are separate; your delivery schedule is confirmed with your quote.
+            </p>
+          </div>
+          <div className="rounded-lg border border-ink-100 bg-kraft-100 p-6 md:p-8">
+            <h3 className="h4">Plan Your Custom Box Order</h3>
+            <ul className="mt-4 flex flex-col gap-3 text-slate-600">
+              <li>Free design support and a digital proof before production</li>
+              <li>Order quantity: {globals.moq}</li>
+              <li>Custom dimensions, materials, printing and finishing options</li>
+              <li>Shipping requirements reviewed for your US destination</li>
+            </ul>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-4">
+              <Link href="/get-custom-quote/" className="inline-flex min-h-11 items-center font-semibold text-ink-900 underline underline-offset-4">Get a US Packaging Quote</Link>
+              <Link href="/shipping-policy/" className="inline-flex min-h-11 items-center font-semibold text-ink-900 underline underline-offset-4">Read Our Shipping Policy</Link>
+            </div>
+          </div>
         </div>
       </section>
 

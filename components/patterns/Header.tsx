@@ -94,7 +94,7 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
   const pathname = usePathname();
   const router = useRouter();
   const groups = useMemo(() => groupNavCategories(categories), [categories]);
-  const whatsappDigits = globals.phoneHref.replace(/[^\d]/g, '');
+  const whatsappDigits = '16109988971';
   const whatsappHref = whatsappDigits
     ? `https://wa.me/${whatsappDigits}?text=${encodeURIComponent('Hi! I would like a custom packaging quote.')}`
     : null;
