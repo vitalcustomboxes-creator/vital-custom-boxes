@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 import type { Globals } from '@/lib/types';
 
 export interface StickyMobileCTAProps {

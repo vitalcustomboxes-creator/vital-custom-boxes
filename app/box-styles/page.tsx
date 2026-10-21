@@ -11,7 +11,7 @@ import { PageHero } from "@/components/blocks/PageHero";
 import { CTABand } from "@/components/patterns/CTABand";
 import { Dieline } from "@/components/patterns/Dieline";
 import { ProductCard } from "@/components/patterns/ProductCard";
-import { Reveal } from "@/components/ui";
+import { Reveal } from '@/components/ui/reveal';
 import { getCategories, getGlobals } from "@/lib/content";
 import { getPublicProducts } from "@/lib/public-products";
 import { categoryPath } from "@/lib/routes";

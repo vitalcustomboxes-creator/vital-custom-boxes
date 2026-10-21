@@ -2,12 +2,11 @@
 
 /** Two-row Vital header: brand/contact row, dark navigation and existing mega menus. */
 
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Mail, Menu, Phone, Search } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { ChevronDown, Mail, Menu, Phone, Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { categoryPath } from '@/lib/routes';
 import {
   useEffect,
   useMemo,
@@ -17,9 +16,8 @@ import {
   type FormEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
-  type CSSProperties,
 } from 'react';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 import type { Globals } from '@/lib/types';
 import { MobileNavDrawer } from './MobileNavDrawer';
 import {
@@ -31,6 +29,8 @@ import {
   type NavGroup,
 } from './nav-types';
 
+const HeaderPanels = dynamic(() => import('./HeaderPanels').then((module) => module.HeaderPanels), { ssr: false });
+
 export interface HeaderProps {
   globals: Globals;
   /** All 22 categories as light projections — Header groups them itself. */
@@ -40,49 +40,10 @@ export interface HeaderProps {
 
 const HOVER_INTENT_MS = 150;
 
-/* Apple-style mega-menu motion. The shell morphs its height (0 ↔ measured
-   content, and group-to-group) on this soft, weighty deceleration curve; the
-   content crossfades while links cascade up. Keep in sync with --dur-nav /
-   --ease-nav in tokens.css. */
-const NAV_EASE = [0.32, 0.72, 0, 1] as const;
-const NAV_PANEL_TRANSITION = { duration: 0.44, ease: NAV_EASE, type: 'tween' as const };
-
-/* Entrance is a per-item cascade (the group stays opaque and only orchestrates);
-   on exit the whole group fades fast so a group→group switch reads as a crossfade
-   layered over the height morph. */
-const megaGroupVariants = {
-  initial: { opacity: 1 },
-  animate: { opacity: 1, transition: { delayChildren: 0.03, staggerChildren: 0.02 } },
-  exit: { opacity: 0, transition: { duration: 0.18, ease: NAV_EASE } },
-};
-/** Sub-orchestrator so the eyebrow leads and the tiles cascade after it. */
-const megaListVariants = {
-  initial: {},
-  animate: { transition: { staggerChildren: 0.022 } },
-  exit: {},
-};
-/** Each cascading row (eyebrow + every tile): rises + fades into place. */
-const megaItemVariants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: NAV_EASE } },
-  exit: { opacity: 0, transition: { duration: 0.1 } },
-};
-
 const navLinkClass =
   'flex h-12 items-center gap-1 whitespace-nowrap px-2 text-[13px] font-semibold text-white transition-colors duration-150 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white xl:px-3 xl:text-sm';
 const iconButtonClass =
   'press flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink-700 transition-colors duration-150 ease-brand hover:bg-ink-100';
-const tileClass =
-  'group/tile relative z-10 flex items-center gap-3 rounded-md p-2 transition-colors duration-150 ease-brand focus-visible:bg-paper-50';
-
-type MegaIndicator = {
-  key: string;
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-};
-
 /** Compare a link href against the current pathname (trailing-slash safe). */
 function isActivePath(pathname: string | null, href: string): boolean {
   if (!pathname) return false;
@@ -103,51 +64,16 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [megaIndicator, setMegaIndicator] = useState<MegaIndicator | null>(null);
-  const [panelHeight, setPanelHeight] = useState(0);
+  const [panelsActivated, setPanelsActivated] = useState(false);
+  const [focusPanel, setFocusPanel] = useState(false);
 
   const headerRef = useRef<HTMLElement | null>(null);
-  const panelInnerRef = useRef<HTMLDivElement | null>(null);
   const triggerRefs = useRef(new Map<string, HTMLButtonElement>());
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeGroup = useMemo(() => groups.find((group) => group.key === openMenu) ?? null, [groups, openMenu]);
-
-  /* Group actually rendered in the panel. While open it tracks the active group
-     (crisp switching). On CLOSE we hold the last group so its content rides the
-     height collapse in flow — clipped, not popped out — then unmount once the
-     panel has finished closing (see onAnimationComplete). This is what makes the
-     close read as a single smooth collapse instead of "content vanishes, blank
-     strip shrinks". */
-  const [heldGroup, setHeldGroup] = useState<NavGroup | null>(null);
-  useEffect(() => {
-    if (activeGroup) setHeldGroup(activeGroup);
-  }, [activeGroup]);
-  const displayGroup = activeGroup ?? heldGroup;
-
-  /* Reduced motion: neutralise the morph + cascade to instant reveals (Framer
-     ignores the CSS prefers-reduced-motion block, so gate it here). */
-  const reduceMotion = useReducedMotion();
-  const { panelT, groupV, listV, itemV } = useMemo(() => {
-    if (reduceMotion) {
-      const instant = { duration: 0 };
-      return {
-        panelT: instant,
-        groupV: { initial: { opacity: 1 }, animate: { opacity: 1 }, exit: { opacity: 0, transition: instant } },
-        listV: { initial: {}, animate: {}, exit: {} },
-        itemV: { initial: { opacity: 1, y: 0 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 1 } },
-      };
-    }
-    return {
-      panelT: NAV_PANEL_TRANSITION,
-      groupV: megaGroupVariants,
-      listV: megaListVariants,
-      itemV: megaItemVariants,
-    };
-  }, [reduceMotion]);
 
   /* ---------------- sticky blur-in after 80px (rAF-throttled) ------------- */
   useEffect(() => {
@@ -197,13 +123,6 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
     return () => document.removeEventListener('pointerdown', onPointerDown);
   }, [openMenu, searchOpen]);
 
-  /* ---------------- focus management for the search popover --------------- */
-  useEffect(() => {
-    if (!searchOpen) return;
-    const raf = requestAnimationFrame(() => searchInputRef.current?.focus());
-    return () => cancelAnimationFrame(raf);
-  }, [searchOpen]);
-
   useEffect(
     () => () => {
       if (openTimer.current) clearTimeout(openTimer.current);
@@ -212,23 +131,8 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
     [],
   );
 
-  /* ---------------- Apple-style height morph ------------------------------ */
-  /* Track the active group's rendered height so the shared panel can animate
-     0 ↔ content on open/close AND morph smoothly between groups. ResizeObserver
-     is the source of truth: it settles after popLayout has pulled the outgoing
-     group out of flow, so it always reads the incoming group's height — no
-     effect-ordering guesswork, and it re-measures on viewport resize too. */
-  useEffect(() => {
-    const el = panelInnerRef.current;
-    if (!el) return;
-    const measure = () => setPanelHeight(el.offsetHeight);
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    measure();
-    return () => ro.disconnect();
-  }, []);
-
   const open = (key: string) => {
+    setPanelsActivated(true);
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setSearchOpen(false);
     setOpenMenu(key);
@@ -236,7 +140,6 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
 
   const closeMenus = () => {
     if (openTimer.current) clearTimeout(openTimer.current);
-    setMegaIndicator(null);
     setOpenMenu(null);
   };
 
@@ -250,7 +153,6 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
   const onZoneLeave = (e: ReactPointerEvent) => {
     if (e.pointerType !== 'mouse') return;
     if (openTimer.current) clearTimeout(openTimer.current);
-    setMegaIndicator(null);
     closeTimer.current = setTimeout(() => setOpenMenu(null), HOVER_INTENT_MS);
   };
   const onPanelEnter = (e: ReactPointerEvent) => {
@@ -265,12 +167,7 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
 
   const openAndFocusPanel = (group: NavGroup) => {
     open(group.key);
-    requestAnimationFrame(() => {
-      document
-        .getElementById('mega-menu-panel')
-        ?.querySelector<HTMLElement>('a')
-        ?.focus();
-    });
+    setFocusPanel(true);
   };
 
   const onTriggerKeyDown = (group: NavGroup) => (e: ReactKeyboardEvent) => {
@@ -300,49 +197,20 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
   const onHeaderBlur = (e: ReactFocusEvent) => {
     const next = e.relatedTarget;
     if (next instanceof Node && headerRef.current?.contains(next)) return;
-    setMegaIndicator(null);
     setOpenMenu(null);
-  };
-
-  const onMegaTileEnter = (key: string) => (e: ReactPointerEvent<HTMLElement>) => {
-    if (e.pointerType !== 'mouse') return;
-    const list = e.currentTarget.closest<HTMLElement>('[data-mega-list]');
-    if (!list) return;
-
-    const itemRect = e.currentTarget.getBoundingClientRect();
-    const listRect = list.getBoundingClientRect();
-    setMegaIndicator({
-      key,
-      left: itemRect.left - listRect.left,
-      top: itemRect.top - listRect.top,
-      width: itemRect.width,
-      height: itemRect.height,
-    });
-  };
-
-  const megaIndicatorStyle = (key: string): CSSProperties => {
-    if (!megaIndicator || megaIndicator.key !== key) {
-      return { opacity: 0 };
-    }
-
-    return {
-      opacity: 1,
-      transform: `translate3d(${megaIndicator.left}px, ${megaIndicator.top}px, 0)`,
-      width: megaIndicator.width,
-      height: megaIndicator.height,
-    };
   };
 
   const onSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     // Progressive enhancement: plain GET works without JS; with JS we keep
     // client-side navigation. Empty queries just go to the shop hub.
     e.preventDefault();
-    const q = searchInputRef.current?.value.trim() ?? '';
+    const q = String(new FormData(e.currentTarget).get('q') ?? '').trim();
     setSearchOpen(false);
     router.push(q ? `/shop/?q=${encodeURIComponent(q)}` : '/shop/');
   };
 
   const toggleSearch = () => {
+    setPanelsActivated(true);
     setOpenMenu(null);
     setSearchOpen((v) => !v);
   };
@@ -457,145 +325,18 @@ export function Header({ globals, categories, logoUrl = DEFAULT_LOGO_URL }: Head
           className="menu-scrim"
         />
 
-        {/* Mega panel — Apple-style. The shared shell morphs its height (0 ↔ the
-            measured active-group height, and group→group) on --ease-nav, so it
-            opens, resizes, and closes in place instead of collapsing. Groups
-            crossfade via `popLayout` (outgoing pulled out of flow so the panel
-            sizes to the incoming one), and the links cascade up on reveal. */}
-        <motion.div
-          id="mega-menu-panel"
-          data-open={openMenu ? '' : undefined}
-          onPointerEnter={onPanelEnter}
-          onPointerLeave={onZoneLeave}
-          className="menu-pop-shell absolute inset-x-0 top-full hidden lg:block"
-          initial={false}
-          animate={{ height: openMenu ? panelHeight : 0 }}
-          transition={panelT}
-          onAnimationComplete={() => {
-            // Panel finished collapsing — now it's safe to unmount the held group.
-            if (!openMenu) setHeldGroup(null);
-          }}
-          style={{ pointerEvents: openMenu ? 'auto' : 'none' }}
-        >
-          <div ref={panelInnerRef} className="menu-pop-inner border-t border-ink-100 bg-white shadow-e3">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {displayGroup ? (
-                <motion.div
-                  key={displayGroup.key}
-                  variants={groupV}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="container-hm py-8"
-                >
-                  <motion.p variants={itemV} className="eyebrow mb-4">
-                    {displayGroup.label}
-                  </motion.p>
-                  <motion.ul
-                    variants={listV}
-                    data-mega-list
-                    className="relative grid grid-cols-3 gap-1 xl:grid-cols-4"
-                    onPointerLeave={() => setMegaIndicator(null)}
-                  >
-                    <span
-                      aria-hidden="true"
-                      style={megaIndicatorStyle(displayGroup.key)}
-                      className="pointer-events-none absolute left-0 top-0 z-0 rounded-md bg-paper-50 opacity-0 transition-[transform,width,height,opacity] duration-300 ease-brand"
-                    />
-                    {displayGroup.categories.map((category) => (
-                      <motion.li key={category.slug} variants={itemV}>
-                        <Link
-                          href={categoryPath(category)}
-                          className={tileClass}
-                          onPointerEnter={onMegaTileEnter(displayGroup.key)}
-                        >
-                          <span className="relative z-10 h-14 w-14 shrink-0 overflow-hidden rounded-md bg-kraft-100">
-                            <Image
-                              src={category.imageUrl}
-                              alt=""
-                              fill
-                              sizes="56px"
-                              className="object-cover"
-                            />
-                          </span>
-                          <span className="relative z-10 text-sm font-semibold text-ink-700 transition-colors duration-150 ease-brand group-hover/tile:text-terra-600">
-                            {category.name}
-                          </span>
-                        </Link>
-                      </motion.li>
-                    ))}
-                    <motion.li variants={itemV}>
-                      <Link
-                        href={displayGroup.viewAllHref}
-                        className={tileClass}
-                        onPointerEnter={onMegaTileEnter(displayGroup.key)}
-                      >
-                        <span className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-kraft-100 text-ink-700">
-                          <ArrowRight size={18} aria-hidden="true" />
-                        </span>
-                        <span className="relative z-10 text-sm font-semibold text-terra-600 transition-colors duration-150 ease-brand group-hover/tile:text-terra-500">
-                          {displayGroup.viewAllLabel}
-                        </span>
-                      </Link>
-                    </motion.li>
-                  </motion.ul>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-
-        {/* Inline search popover (GET /shop/?q=). It uses the same height morph
-            and content reveal as the desktop mega menus so switching between
-            navigation actions feels like one coherent system. */}
-        <motion.div
-          id="header-search"
-          data-open={searchOpen ? '' : undefined}
-          className="menu-pop-shell absolute inset-x-0 top-full"
-          initial={false}
-          animate={{ height: searchOpen ? 'auto' : 0 }}
-          transition={panelT}
-          style={{ pointerEvents: searchOpen ? 'auto' : 'none' }}
-        >
-          <div className="menu-pop-inner border-t border-ink-100 bg-white shadow-e3">
-            <AnimatePresence initial={false}>
-              {searchOpen ? (
-                <motion.form
-                  key="header-search-form"
-                  role="search"
-                  action="/shop/"
-                  method="get"
-                  onSubmit={onSearchSubmit}
-                  variants={groupV}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  className="container-hm flex flex-wrap items-end gap-3 py-4"
-                >
-                  <motion.div variants={itemV} className="flex min-w-[200px] flex-1 flex-col gap-1.5">
-                    {/* Visible label — placeholders are never labels (audit). */}
-                    <label htmlFor="header-search-input" className="text-sm font-semibold text-ink-700">
-                      Search products
-                    </label>
-                    <input
-                      ref={searchInputRef}
-                      id="header-search-input"
-                      name="q"
-                      type="search"
-                      placeholder="e.g. mailer boxes"
-                      className="h-11 w-full rounded-md border border-ink-100 bg-white px-4 text-base text-ink-900 transition-[border-color,box-shadow] duration-200 ease-brand placeholder:text-slate-400 hover:border-slate-400 focus:border-terra-500 focus:shadow-[0_0_0_3px_var(--color-terra-100)] focus:outline-none"
-                    />
-                  </motion.div>
-                  <motion.div variants={itemV}>
-                    <Button type="submit" variant="primary" size="md">
-                      Search
-                    </Button>
-                  </motion.div>
-                </motion.form>
-              ) : null}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+        {panelsActivated ? (
+          <HeaderPanels
+            openMenu={openMenu}
+            activeGroup={activeGroup}
+            searchOpen={searchOpen}
+            focusPanel={focusPanel}
+            onPanelFocused={() => setFocusPanel(false)}
+            onPanelEnter={onPanelEnter}
+            onZoneLeave={onZoneLeave}
+            onSearchSubmit={onSearchSubmit}
+          />
+        ) : null}
       </header>
 
       {/* Mobile nav drawer — portaled to <body> by the FE-1 Drawer shell */}

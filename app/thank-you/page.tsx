@@ -10,7 +10,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Mail, MailCheck, Phone } from "lucide-react";
-import { Button } from "@/components/ui";
+import { Button } from '@/components/ui/button';
 import { getGlobals } from "@/lib/content";
 import { buildMetadata, STATIC_PAGE_META } from "@/lib/seo";
 

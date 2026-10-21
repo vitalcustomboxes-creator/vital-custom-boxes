@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { countries } from "country-data-list";
+import countryOptions from "@/content/country-options.json";
 import { CircleFlag } from "react-circle-flags";
-import { getCountries, type Country as PhoneCountry } from "react-phone-number-input";
+import type { Country as PhoneCountry } from "react-phone-number-input";
 import { Combobox, type ComboboxOption } from "./combobox";
 
 export interface CountryOption {
@@ -13,34 +13,8 @@ export interface CountryOption {
   name: string;
 }
 
-interface CountryRecord {
-  alpha2: string;
-  alpha3: string;
-  countryCallingCodes: string[];
-  emoji?: string;
-  name: string;
-  status: string;
-}
-
-const PHONE_COUNTRIES = new Set<string>(getCountries());
-
-/** ISO-backed options from the component recommended by the client. */
-export const COUNTRY_OPTIONS: CountryOption[] = (countries.all as CountryRecord[])
-  .filter(
-    (country) =>
-      country.emoji &&
-      country.status !== "deleted" &&
-      country.alpha2 !== "KP" &&
-      PHONE_COUNTRIES.has(country.alpha2) &&
-      country.countryCallingCodes[0],
-  )
-  .map((country) => ({
-    alpha2: country.alpha2 as PhoneCountry,
-    alpha3: country.alpha3,
-    callingCode: country.countryCallingCodes[0],
-    name: country.name,
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name));
+/** Compact projection of the existing ISO options; no full country database in client JS. */
+export const COUNTRY_OPTIONS = countryOptions as CountryOption[];
 
 const COMBOBOX_OPTIONS: ComboboxOption[] = COUNTRY_OPTIONS.map((country) => ({
   value: country.alpha2,

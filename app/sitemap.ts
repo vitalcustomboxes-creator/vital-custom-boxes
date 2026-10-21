@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(lastModified ? { lastModified } : {}),
   });
 
-  return [
+  const entries = [
     // Hubs (labelled separately from the static registry — see lib/routes.ts).
     entry("/"),
     entry("/shop/"),
@@ -57,4 +57,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ),
     ),
   ];
+  return Array.from(new Map(entries.map((item) => [item.url, item])).values());
 }

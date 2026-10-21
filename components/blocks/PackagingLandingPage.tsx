@@ -5,7 +5,7 @@ import { CTABand } from '@/components/patterns/CTABand';
 import { ProductCard } from '@/components/patterns/ProductCard';
 import { SpecTable } from '@/components/patterns/SpecTable';
 import { FAQAccordion } from '@/components/patterns/FAQAccordion';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 import { getCategory, getGlobals, getPosts } from '@/lib/content';
 import { getPublicProducts } from '@/lib/public-products';
 import { breadcrumbSchema, faqSchema, JsonLd } from '@/lib/seo';

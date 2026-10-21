@@ -1,4 +1,4 @@
-import { AdminPortal } from '@/components/admin/AdminPortal';
+import { AdminWorkspace } from '@/components/admin/AdminWorkspace';
 import { toAdminProductListItem } from '@/lib/admin-product';
 import { getCategories } from '@/lib/content';
 import { getPublicProducts } from '@/lib/public-products';
@@ -21,5 +21,5 @@ export default async function AdminPage() {
     toAdminProductListItem(product, categoryNames.get(product.category)),
   );
 
-  return <AdminPortal initialProducts={products} categories={categories} />;
+  return <AdminWorkspace initialProducts={products} categories={categories} />;
 }

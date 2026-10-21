@@ -299,7 +299,9 @@ async function checkSitemapAndRobots() {
             headers: { accept: "text/html" },
           });
           const html = await response.text();
-          const titles = [...html.matchAll(/<title[^>]*>([\s\S]*?)<\/title>/gi)];
+          // SVG <title> labels describe icons; they are not document titles.
+          const documentHtml = html.replace(/<svg\b[^>]*>[\s\S]*?<\/svg>/gi, "");
+          const titles = [...documentHtml.matchAll(/<title[^>]*>([\s\S]*?)<\/title>/gi)];
           const canonicals = [
             ...html.matchAll(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"[^>]*>/gi),
           ];
@@ -388,7 +390,7 @@ async function checkSitemapAndRobots() {
 /* ------------------------------ server boot ------------------------------ */
 
 const nextBin = join(ROOT, "node_modules", "next", "dist", "bin", "next");
-const child = spawn(process.execPath, [nextBin, "start", "-p", String(PORT)], {
+const child = spawn(process.execPath, [nextBin, "start", "--hostname", "127.0.0.1", "-p", String(PORT)], {
   cwd: ROOT,
   detached: true,
   stdio: ["ignore", "pipe", "pipe"],
@@ -505,7 +507,7 @@ try {
     console.log(`\n[qa-crawl] PASS — ${routes.length}/${routes.length} representative pages clean\n`);
     exitCode = 0;
   } else {
-    console.error(`\n[qa-crawl] FAIL — ${failedPages}/${ROUTES.length} page(s) with findings\n`);
+    console.error(`\n[qa-crawl] FAIL — ${failedPages}/${routes.length} check(s) with findings\n`);
   }
 } catch (error) {
   console.error(`[qa-crawl] ERROR: ${error.message}`);

@@ -1,0 +1,146 @@
+[
+  {
+    "source": "/shop/custom-mylar-bags/",
+    "destination": "/shop/mylar-bags/"
+  },
+  {
+    "source": "/shop/custom-printed-paper-bags/",
+    "destination": "/shop/custom-printed-bags/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/custom-eyeliner-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/custom-eyeliner-boxes/"
+  },
+  {
+    "source": "/shop/custom-mylar-bags/custom-die-cut-mylar-bags/",
+    "destination": "/shop/mylar-bags/die-cut-mylar-bags/"
+  },
+  {
+    "source": "/shop/custom-food-boxes/custom-french-fry-boxes/",
+    "destination": "/shop/custom-takeout-boxes/custom-french-fries-boxes/"
+  },
+  {
+    "source": "/shop/other-custom-boxes/custom-mailer-boxes/",
+    "destination": "/shop/custom-mailer-boxes/custom-mailer-boxes/"
+  },
+  {
+    "source": "/shop/custom-display-boxes/customized-display-boxes/",
+    "destination": "/shop/custom-display-boxes/display-boxes/"
+  },
+  {
+    "source": "/shop/custom-mylar-bags/custom-spout-pouches/",
+    "destination": "/shop/mylar-bags/custom-spout-pouches/"
+  },
+  {
+    "source": "/shop/custom-jewelry-boxes/custom-earring-cards/",
+    "destination": "/shop/custom-gift-boxes/custom-earring-cards/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/custom-eyelash-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/custom-eyelash-boxes/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/custom-lip-gloss-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/custom-lip-gloss-boxes/"
+  },
+  {
+    "source": "/shop/custom-printed-paper-bags/sos-bags/",
+    "destination": "/shop/custom-printed-bags/sos-bags/"
+  },
+  {
+    "source": "/shop/custom-rigid-boxes/two-piece-rigid-boxes/",
+    "destination": "/shop/custom-rigid-boxes/custom-two-piece-boxes/"
+  },
+  {
+    "source": "/shop/custom-gift-boxes/custom-christmas-boxes/",
+    "destination": "/shop/custom-events-packaging/custom-christmas-boxes/"
+  },
+  {
+    "source": "/shop/custom-mylar-bags/custom-weed-bags/",
+    "destination": "/shop/mylar-bags/custom-weed-bags/"
+  },
+  {
+    "source": "/shop/folding-cartons/auto-lock-bottom-boxes/",
+    "destination": "/shop/custom-boxes/auto-lock-bottom-boxes/"
+  },
+  {
+    "source": "/shop/custom-jewelry-boxes/custom-anklet-boxes/",
+    "destination": "/shop/custom-gift-boxes/custom-anklet-boxes/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/custom-press-on-nail-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/custom-press-on-nail-boxes/"
+  },
+  {
+    "source": "/shop/custom-cbd-boxes/custom-hemp-boxes/",
+    "destination": "/shop/custom-cbd-boxes/hemp-boxes/"
+  },
+  {
+    "source": "/shop/custom-cbd-boxes/custom-cigar-boxes/",
+    "destination": "/shop/custom-tobacco-packaging/custom-cigar-boxes/"
+  },
+  {
+    "source": "/shop/custom-rigid-boxes/custom-book-style-rigid-boxes/",
+    "destination": "/shop/custom-rigid-boxes/custom-book-style-boxes/"
+  },
+  {
+    "source": "/shop/custom-jewelry-boxes/",
+    "destination": "/shop/custom-gift-boxes/custom-jewelry-boxes/"
+  },
+  {
+    "source": "/shop/folding-cartons/straight-tuck-end-boxes/",
+    "destination": "/shop/custom-boxes/straight-tuck-end-boxes/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/"
+  },
+  {
+    "source": "/shop/folding-cartons/reverse-tuck-end-boxes/",
+    "destination": "/shop/custom-boxes/reverse-tuck-end-boxes/"
+  },
+  {
+    "source": "/shop/other-custom-boxes/custom-pillow-boxes/",
+    "destination": "/shop/custom-gift-boxes/custom-pillow-boxes/"
+  },
+  {
+    "source": "/shop/other-custom-boxes/custom-box-inserts/",
+    "destination": "/shop/custom-insert-boxes/custom-box-inserts/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/custom-cream-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/custom-cream-boxes/"
+  },
+  {
+    "source": "/shop/custom-cosmetic-boxes/custom-lotion-boxes/",
+    "destination": "/shop/custom-cosmetics-boxes/custom-lotion-boxes/"
+  },
+  {
+    "source": "/shop/custom-printed-paper-bags/custom-gift-bags/",
+    "destination": "/shop/custom-printed-bags/custom-gift-bags/"
+  },
+  {
+    "source": "/shop/custom-candle-boxes/kraft-candle-boxes/",
+    "destination": "/shop/custom-candle-boxes/custom-kraft-candle-boxes/"
+  },
+  {
+    "source": "/shop/other-custom-boxes/custom-gable-boxes/",
+    "destination": "/shop/custom-food-boxes/custom-gable-boxes/"
+  },
+  {
+    "source": "/shop/other-custom-boxes/medicine-boxes/",
+    "destination": "/shop/custom-product-packaging-boxes/custom-medicine-boxes/"
+  },
+  {
+    "source": "/shop/custom-printed-paper-bags/custom-bakery-bags/",
+    "destination": "/shop/custom-bakery-boxes/bakery-bags/"
+  },
+  {
+    "source": "/shop/folding-cartons/",
+    "destination": "/shop/custom-boxes/"
+  },
+  {
+    "source": "/shop/other-custom-boxes/",
+    "destination": "/shop/custom-boxes/"
+  }
+]

@@ -3,9 +3,10 @@
 import { useId } from "react";
 import PhoneInput, {
   type Country,
+  type FlagProps,
   type Value,
 } from "react-phone-number-input";
-import flags from "react-phone-number-input/flags";
+import { CircleFlag } from "react-circle-flags";
 import labels from "react-phone-number-input/locale/en.json";
 import { cx } from "./cn";
 import {
@@ -16,6 +17,10 @@ import {
   inputStateDefault,
   inputStateError,
 } from "./field";
+
+function CountryFlag({ country, countryName }: FlagProps) {
+  return <CircleFlag countryCode={country.toLowerCase()} alt={countryName} height={20} width={20} />;
+}
 
 export interface PhoneNumberInputProps {
   id?: string;
@@ -62,7 +67,7 @@ export function PhoneNumberInput({
         international
         limitMaxLength
         countryCallingCodeEditable
-        flags={flags}
+        flagComponent={CountryFlag}
         labels={labels}
         required={required}
         autoComplete={autoComplete}

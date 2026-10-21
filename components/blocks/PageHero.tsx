@@ -10,7 +10,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { InteriorHero } from "@/components/patterns/Hero";
-import { Breadcrumbs } from "@/components/ui";
+import { Breadcrumbs } from '@/components/ui/breadcrumbs';
 
 export interface Crumb {
   name: string;

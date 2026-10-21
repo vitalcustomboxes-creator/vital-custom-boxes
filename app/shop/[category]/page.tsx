@@ -8,7 +8,7 @@ import { CTABand } from "@/components/patterns/CTABand";
 import { FAQAccordion } from "@/components/patterns/FAQAccordion";
 import { ProductCard } from "@/components/patterns/ProductCard";
 import { SpecTable } from "@/components/patterns/SpecTable";
-import { Button } from "@/components/ui";
+import { Button } from '@/components/ui/button';
 import { getCategories, getCategory, getFaqs, getGlobals, getPosts } from "@/lib/content";
 import { getPublicProducts } from "@/lib/public-products";
 import { CATEGORY_PACKAGING_SEO, packagingTopicLinks, selectPackagingPosts } from "@/lib/packaging-seo";

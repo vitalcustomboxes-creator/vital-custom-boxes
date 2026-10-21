@@ -12,7 +12,7 @@ import type { Metadata } from "next";
 import { Search } from "lucide-react";
 import { PageHero } from "@/components/blocks/PageHero";
 import { CategoryTile } from "@/components/patterns/CategoryTile";
-import { Button } from "@/components/ui";
+import { Button } from '@/components/ui/button';
 import { getCategories } from "@/lib/content";
 
 export const metadata: Metadata = {

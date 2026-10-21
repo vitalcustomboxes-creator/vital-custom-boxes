@@ -35,7 +35,7 @@ import { Hero } from "@/components/patterns/Hero";
 import { ProcessSteps } from "@/components/patterns/ProcessSteps";
 import { ProductCard } from "@/components/patterns/ProductCard";
 import { ReviewWall } from "@/components/patterns/ReviewWall";
-import { Tabs } from "@/components/ui";
+import { Tabs } from '@/components/ui/tabs';
 import {
   getCategories,
   getCategory,
@@ -64,7 +64,7 @@ const PACKAGING_LINKS = [
   { label: "Custom Gift Boxes", href: "/shop/custom-gift-boxes/" },
   { label: "Custom Kraft Boxes", href: "/custom-kraft-boxes/" },
   { label: "Custom Corrugated Boxes", href: "/custom-corrugated-boxes/" },
-  { label: "Custom Product Boxes", href: "/shop/custom-boxes/" },
+  { label: "Custom Product Boxes", href: "/shop/custom-product-packaging-boxes/" },
   { label: "Custom Cosmetic Boxes", href: "/shop/custom-cosmetics-boxes/" },
   { label: "Custom Bakery Boxes", href: "/shop/custom-bakery-boxes/" },
   { label: "Custom Soap Boxes", href: "/custom-soap-boxes/" },

@@ -1,4 +1,4 @@
-import { ProductEditor } from '@/components/admin/ProductEditor';
+import { ProductEditorWorkspace } from '@/components/admin/AdminWorkspace';
 import { createEmptyAdminProduct, toAdminProduct } from '@/lib/admin-product';
 import { getCategories, getProducts } from '@/lib/content';
 
@@ -10,5 +10,5 @@ export default async function EditProductPage({ params }: { params: Promise<{ sl
   const initialProduct = product
     ? toAdminProduct(product, categoryNames.get(product.category))
     : { ...createEmptyAdminProduct(categories[0]), slug };
-  return <ProductEditor mode="edit" initialProduct={initialProduct} categories={categories} />;
+  return <ProductEditorWorkspace mode="edit" initialProduct={initialProduct} categories={categories} />;
 }

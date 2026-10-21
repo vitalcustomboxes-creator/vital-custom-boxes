@@ -22,7 +22,8 @@
 import { ChevronLeft, ChevronRight, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Drawer } from '@/components/ui';
+import { Button } from '@/components/ui/button';
+import { Drawer } from '@/components/ui/drawer';
 import { categoryPath } from '@/lib/routes';
 import type { Globals } from '@/lib/types';
 import { groupNavCategories, type NavCategory } from './nav-types';

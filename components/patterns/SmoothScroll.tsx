@@ -7,7 +7,9 @@
  * the admin workspace. Touch scrolling also stays native (`syncTouch: false`).
  */
 import type { LenisOptions } from 'lenis';
-import { ReactLenis } from 'lenis/react';
+import dynamic from 'next/dynamic';
+
+const ReactLenis = dynamic(() => import('lenis/react').then((module) => module.ReactLenis), { ssr: false });
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

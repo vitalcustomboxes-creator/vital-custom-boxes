@@ -18,6 +18,10 @@
  *   - redirect sources (see lib/redirects.ts) and /api/*
  */
 
+import legacyUrlRedirects from '@/content/legacy-url-redirects.json';
+
+const legacyPaths = new Map(legacyUrlRedirects.map(({ source, destination }) => [source, destination]));
+
 export interface StaticRoute {
   /** Human label for the HTML sitemap. */
   name: string;
@@ -41,7 +45,8 @@ export function categoryPath(category: CategoryRouteInput): string {
 }
 
 export function productPath(product: ProductRouteInput): string {
-  return `/shop/${product.category}/${product.slug}/`;
+  const path = `/shop/${product.category}/${product.slug}/`;
+  return legacyPaths.get(path) ?? path;
 }
 
 export function legacyProductPath(slug: string): string {

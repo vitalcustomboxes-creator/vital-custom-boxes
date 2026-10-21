@@ -23,7 +23,8 @@
 import { Check } from 'lucide-react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
-import { Button, Rating } from '@/components/ui';
+import { Button } from '@/components/ui/button';
+import { Rating } from '@/components/ui/rating';
 import { Dieline } from './Dieline';
 import { HeroImageCarousel, type HeroCarouselImage } from './HeroImageCarousel';
 

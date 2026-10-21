@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 // Canonical one-off wrapper lives in components/ui (FE-1) — it also injects
 // `--stagger-i` on children past the nth-child(12) CSS fallback. Re-exported
 // here so layout code can grab both tools from one module.
-export { Reveal, type RevealProps } from '@/components/ui';
+export { Reveal, type RevealProps } from '@/components/ui/reveal';
 
 const SELECTOR = '.reveal:not([data-inview]), .reveal-stagger:not([data-inview])';
 

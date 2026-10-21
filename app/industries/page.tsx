@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/blocks/PageHero";
 import { CategoryTile } from "@/components/patterns/CategoryTile";
 import { CTABand } from "@/components/patterns/CTABand";
-import { Reveal } from "@/components/ui";
+import { Reveal } from '@/components/ui/reveal';
 import { getCategories, getGlobals } from "@/lib/content";
 import { getPublicProducts } from "@/lib/public-products";
 import { breadcrumbSchema, buildMetadata, JsonLd, STATIC_PAGE_META } from "@/lib/seo";

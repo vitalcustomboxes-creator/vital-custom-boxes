@@ -69,7 +69,7 @@ if (MODE === "dev") {
 
 const nextBin = join(ROOT, "node_modules", "next", "dist", "bin", "next");
 // detached → own process group, so the whole tree can be killed at the end.
-const child = spawn(process.execPath, [nextBin, MODE, "-p", String(PORT)], {
+const child = spawn(process.execPath, [nextBin, MODE, "--hostname", "127.0.0.1", "-p", String(PORT)], {
   cwd: ROOT,
   detached: true,
   stdio: ["ignore", "pipe", "pipe"],

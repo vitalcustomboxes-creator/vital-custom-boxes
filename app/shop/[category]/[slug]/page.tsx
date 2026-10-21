@@ -28,7 +28,9 @@ import { CTABand } from "@/components/patterns/CTABand";
 import { FAQAccordion } from "@/components/patterns/FAQAccordion";
 import { GalleryLightbox } from "@/components/patterns/GalleryLightbox";
 import { SpecTable } from "@/components/patterns/SpecTable";
-import { Badge, Breadcrumbs, Button } from "@/components/ui";
+import { Badge } from '@/components/ui/badge';
+import { Breadcrumbs } from '@/components/ui/breadcrumbs';
+import { Button } from '@/components/ui/button';
 import {
   getCategory,
   getGlobals,

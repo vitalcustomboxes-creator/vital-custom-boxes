@@ -15,23 +15,20 @@
 import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { CircleAlert } from "lucide-react";
-import {
-  getCountryCallingCode,
-  parsePhoneNumber,
-  type Country as PhoneCountry,
-  type Value as PhoneValue,
+import type {
+  Country as PhoneCountry,
+  Value as PhoneValue,
 } from "react-phone-number-input";
-import {
-  Button,
-  CountryDropdown,
-  Input,
-  PhoneNumberInput,
-  Textarea,
-  type CountryOption,
-} from "@/components/ui";
+import { Button } from '@/components/ui/button';
+import { CountryDropdown, type CountryOption } from '@/components/ui/country-dropdown';
+import { Input } from '@/components/ui/input';
+import { DeferredPhoneNumberInput } from '@/components/ui/deferred-phone-number-input';
+import phoneCallingCodes from '@/content/phone-calling-codes.json';
+import { Textarea } from '@/components/ui/textarea';
 import { countryByCode } from "@/components/ui/country-dropdown";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { HONEYPOT_FIELD, type ActionResult } from "@/lib/forms";
+import { HONEYPOT_FIELD } from "@/lib/form-constants";
+import type { ActionResult } from "@/lib/forms";
 
 export interface LeadFormField {
   kind: "input" | "textarea" | "phone" | "country";
@@ -78,14 +75,13 @@ export function LeadForm({ action, fields, submitLabel, idPrefix }: LeadFormProp
     // selected country's shorter mask; this remains the international fallback.
     if (value && value.replace(/\D/g, "").length > 15) return;
     setPhone(value);
-    if (!value || country || hasSynchronized.current) return;
-    fillCountryOnce(parsePhoneNumber(value)?.country);
+    // The phone widget supplies country detection through onCountryChange.
   };
 
   const handleCountryChange = (nextCountry: CountryOption | null) => {
     setCountry(nextCountry);
     if (!nextCountry || phone || hasSynchronized.current) return;
-    const prefix = `+${getCountryCallingCode(nextCountry.alpha2)}` as PhoneValue;
+    const prefix = phoneCallingCodes[nextCountry.alpha2] as PhoneValue;
     hasSynchronized.current = true;
     autoFilledPhonePrefix.current = prefix;
     setPhone(prefix);
@@ -106,6 +102,11 @@ export function LeadForm({ action, fields, submitLabel, idPrefix }: LeadFormProp
 
     const formData = new FormData(event.currentTarget);
     const phoneField = fields.find((field) => field.kind === "phone");
+    if (phoneField) {
+      // Both the ordinary fallback and the enhanced widget keep E.164 state.
+      // The widget's visible input contains display spacing, not storage data.
+      formData.set(phoneField.name, phone ?? "");
+    }
     if (
       phoneField &&
       autoFilledPhonePrefix.current &&
@@ -168,7 +169,7 @@ export function LeadForm({ action, fields, submitLabel, idPrefix }: LeadFormProp
             rows={field.rows ?? 5}
           />
         ) : field.kind === "phone" ? (
-          <PhoneNumberInput
+          <DeferredPhoneNumberInput
             key={field.name}
             id={`${idPrefix}-${field.name}`}
             name={field.name}

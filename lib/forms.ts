@@ -10,6 +10,8 @@
  * https://www.vitalcustomboxes.com/get-a-quote/ (verified 2026-07-12).
  */
 import { z } from 'zod';
+import { HONEYPOT_FIELD } from './form-constants';
+export { HONEYPOT_FIELD } from './form-constants';
 import {
   CATEGORY_SLUGS,
   DIMENSION_UNITS,
@@ -36,7 +38,6 @@ export {
  * "website" (autocomplete="off", tabIndex={-1}, aria-hidden wrapper). Humans
  * leave it empty; bots fill it and get a silent `{ ok: true }`.
  */
-export const HONEYPOT_FIELD = 'website';
 
 /* -------------------------------- helpers -------------------------------- */
 

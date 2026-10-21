@@ -1,0 +1,1466 @@
+[
+  {
+    "alpha2": "AF",
+    "alpha3": "AFG",
+    "callingCode": "+93",
+    "name": "Afghanistan"
+  },
+  {
+    "alpha2": "AX",
+    "alpha3": "ALA",
+    "callingCode": "+358",
+    "name": "Åland Islands"
+  },
+  {
+    "alpha2": "AL",
+    "alpha3": "ALB",
+    "callingCode": "+355",
+    "name": "Albania"
+  },
+  {
+    "alpha2": "DZ",
+    "alpha3": "DZA",
+    "callingCode": "+213",
+    "name": "Algeria"
+  },
+  {
+    "alpha2": "AS",
+    "alpha3": "ASM",
+    "callingCode": "+1 684",
+    "name": "American Samoa"
+  },
+  {
+    "alpha2": "AD",
+    "alpha3": "AND",
+    "callingCode": "+376",
+    "name": "Andorra"
+  },
+  {
+    "alpha2": "AO",
+    "alpha3": "AGO",
+    "callingCode": "+244",
+    "name": "Angola"
+  },
+  {
+    "alpha2": "AI",
+    "alpha3": "AIA",
+    "callingCode": "+1 264",
+    "name": "Anguilla"
+  },
+  {
+    "alpha2": "AG",
+    "alpha3": "ATG",
+    "callingCode": "+1 268",
+    "name": "Antigua And Barbuda"
+  },
+  {
+    "alpha2": "AR",
+    "alpha3": "ARG",
+    "callingCode": "+54",
+    "name": "Argentina"
+  },
+  {
+    "alpha2": "AM",
+    "alpha3": "ARM",
+    "callingCode": "+374",
+    "name": "Armenia"
+  },
+  {
+    "alpha2": "AW",
+    "alpha3": "ABW",
+    "callingCode": "+297",
+    "name": "Aruba"
+  },
+  {
+    "alpha2": "AC",
+    "alpha3": "ASC",
+    "callingCode": "+247",
+    "name": "Ascension Island"
+  },
+  {
+    "alpha2": "AU",
+    "alpha3": "AUS",
+    "callingCode": "+61",
+    "name": "Australia"
+  },
+  {
+    "alpha2": "AT",
+    "alpha3": "AUT",
+    "callingCode": "+43",
+    "name": "Austria"
+  },
+  {
+    "alpha2": "AZ",
+    "alpha3": "AZE",
+    "callingCode": "+994",
+    "name": "Azerbaijan"
+  },
+  {
+    "alpha2": "BS",
+    "alpha3": "BHS",
+    "callingCode": "+1 242",
+    "name": "Bahamas"
+  },
+  {
+    "alpha2": "BH",
+    "alpha3": "BHR",
+    "callingCode": "+973",
+    "name": "Bahrain"
+  },
+  {
+    "alpha2": "BD",
+    "alpha3": "BGD",
+    "callingCode": "+880",
+    "name": "Bangladesh"
+  },
+  {
+    "alpha2": "BB",
+    "alpha3": "BRB",
+    "callingCode": "+1 246",
+    "name": "Barbados"
+  },
+  {
+    "alpha2": "BY",
+    "alpha3": "BLR",
+    "callingCode": "+375",
+    "name": "Belarus"
+  },
+  {
+    "alpha2": "BE",
+    "alpha3": "BEL",
+    "callingCode": "+32",
+    "name": "Belgium"
+  },
+  {
+    "alpha2": "BZ",
+    "alpha3": "BLZ",
+    "callingCode": "+501",
+    "name": "Belize"
+  },
+  {
+    "alpha2": "BJ",
+    "alpha3": "BEN",
+    "callingCode": "+229",
+    "name": "Benin"
+  },
+  {
+    "alpha2": "BM",
+    "alpha3": "BMU",
+    "callingCode": "+1 441",
+    "name": "Bermuda"
+  },
+  {
+    "alpha2": "BT",
+    "alpha3": "BTN",
+    "callingCode": "+975",
+    "name": "Bhutan"
+  },
+  {
+    "alpha2": "BO",
+    "alpha3": "BOL",
+    "callingCode": "+591",
+    "name": "Bolivia, Plurinational State Of"
+  },
+  {
+    "alpha2": "BQ",
+    "alpha3": "BES",
+    "callingCode": "+599",
+    "name": "Bonaire, Sint Eustatius And Saba"
+  },
+  {
+    "alpha2": "BA",
+    "alpha3": "BIH",
+    "callingCode": "+387",
+    "name": "Bosnia & Herzegovina"
+  },
+  {
+    "alpha2": "BW",
+    "alpha3": "BWA",
+    "callingCode": "+267",
+    "name": "Botswana"
+  },
+  {
+    "alpha2": "BR",
+    "alpha3": "BRA",
+    "callingCode": "+55",
+    "name": "Brazil"
+  },
+  {
+    "alpha2": "IO",
+    "alpha3": "IOT",
+    "callingCode": "+246",
+    "name": "British Indian Ocean Territory"
+  },
+  {
+    "alpha2": "BN",
+    "alpha3": "BRN",
+    "callingCode": "+673",
+    "name": "Brunei Darussalam"
+  },
+  {
+    "alpha2": "BG",
+    "alpha3": "BGR",
+    "callingCode": "+359",
+    "name": "Bulgaria"
+  },
+  {
+    "alpha2": "BF",
+    "alpha3": "BFA",
+    "callingCode": "+226",
+    "name": "Burkina Faso"
+  },
+  {
+    "alpha2": "BI",
+    "alpha3": "BDI",
+    "callingCode": "+257",
+    "name": "Burundi"
+  },
+  {
+    "alpha2": "CV",
+    "alpha3": "CPV",
+    "callingCode": "+238",
+    "name": "Cabo Verde"
+  },
+  {
+    "alpha2": "KH",
+    "alpha3": "KHM",
+    "callingCode": "+855",
+    "name": "Cambodia"
+  },
+  {
+    "alpha2": "CM",
+    "alpha3": "CMR",
+    "callingCode": "+237",
+    "name": "Cameroon"
+  },
+  {
+    "alpha2": "CA",
+    "alpha3": "CAN",
+    "callingCode": "+1",
+    "name": "Canada"
+  },
+  {
+    "alpha2": "KY",
+    "alpha3": "CYM",
+    "callingCode": "+1 345",
+    "name": "Cayman Islands"
+  },
+  {
+    "alpha2": "CF",
+    "alpha3": "CAF",
+    "callingCode": "+236",
+    "name": "Central African Republic"
+  },
+  {
+    "alpha2": "TD",
+    "alpha3": "TCD",
+    "callingCode": "+235",
+    "name": "Chad"
+  },
+  {
+    "alpha2": "CL",
+    "alpha3": "CHL",
+    "callingCode": "+56",
+    "name": "Chile"
+  },
+  {
+    "alpha2": "CN",
+    "alpha3": "CHN",
+    "callingCode": "+86",
+    "name": "China"
+  },
+  {
+    "alpha2": "CX",
+    "alpha3": "CXR",
+    "callingCode": "+61",
+    "name": "Christmas Island"
+  },
+  {
+    "alpha2": "CC",
+    "alpha3": "CCK",
+    "callingCode": "+61",
+    "name": "Cocos (Keeling) Islands"
+  },
+  {
+    "alpha2": "CO",
+    "alpha3": "COL",
+    "callingCode": "+57",
+    "name": "Colombia"
+  },
+  {
+    "alpha2": "KM",
+    "alpha3": "COM",
+    "callingCode": "+269",
+    "name": "Comoros"
+  },
+  {
+    "alpha2": "CK",
+    "alpha3": "COK",
+    "callingCode": "+682",
+    "name": "Cook Islands"
+  },
+  {
+    "alpha2": "CR",
+    "alpha3": "CRI",
+    "callingCode": "+506",
+    "name": "Costa Rica"
+  },
+  {
+    "alpha2": "CI",
+    "alpha3": "CIV",
+    "callingCode": "+225",
+    "name": "Côte d'Ivoire"
+  },
+  {
+    "alpha2": "HR",
+    "alpha3": "HRV",
+    "callingCode": "+385",
+    "name": "Croatia"
+  },
+  {
+    "alpha2": "CU",
+    "alpha3": "CUB",
+    "callingCode": "+53",
+    "name": "Cuba"
+  },
+  {
+    "alpha2": "CW",
+    "alpha3": "CUW",
+    "callingCode": "+599",
+    "name": "Curacao"
+  },
+  {
+    "alpha2": "CY",
+    "alpha3": "CYP",
+    "callingCode": "+357",
+    "name": "Cyprus"
+  },
+  {
+    "alpha2": "CZ",
+    "alpha3": "CZE",
+    "callingCode": "+420",
+    "name": "Czech Republic"
+  },
+  {
+    "alpha2": "CD",
+    "alpha3": "COD",
+    "callingCode": "+243",
+    "name": "Democratic Republic Of Congo"
+  },
+  {
+    "alpha2": "DK",
+    "alpha3": "DNK",
+    "callingCode": "+45",
+    "name": "Denmark"
+  },
+  {
+    "alpha2": "DJ",
+    "alpha3": "DJI",
+    "callingCode": "+253",
+    "name": "Djibouti"
+  },
+  {
+    "alpha2": "DM",
+    "alpha3": "DMA",
+    "callingCode": "+1 767",
+    "name": "Dominica"
+  },
+  {
+    "alpha2": "DO",
+    "alpha3": "DOM",
+    "callingCode": "+1 809",
+    "name": "Dominican Republic"
+  },
+  {
+    "alpha2": "EC",
+    "alpha3": "ECU",
+    "callingCode": "+593",
+    "name": "Ecuador"
+  },
+  {
+    "alpha2": "EG",
+    "alpha3": "EGY",
+    "callingCode": "+20",
+    "name": "Egypt"
+  },
+  {
+    "alpha2": "SV",
+    "alpha3": "SLV",
+    "callingCode": "+503",
+    "name": "El Salvador"
+  },
+  {
+    "alpha2": "GQ",
+    "alpha3": "GNQ",
+    "callingCode": "+240",
+    "name": "Equatorial Guinea"
+  },
+  {
+    "alpha2": "ER",
+    "alpha3": "ERI",
+    "callingCode": "+291",
+    "name": "Eritrea"
+  },
+  {
+    "alpha2": "EE",
+    "alpha3": "EST",
+    "callingCode": "+372",
+    "name": "Estonia"
+  },
+  {
+    "alpha2": "SZ",
+    "alpha3": "SWZ",
+    "callingCode": "+268",
+    "name": "Eswatini"
+  },
+  {
+    "alpha2": "ET",
+    "alpha3": "ETH",
+    "callingCode": "+251",
+    "name": "Ethiopia"
+  },
+  {
+    "alpha2": "FK",
+    "alpha3": "FLK",
+    "callingCode": "+500",
+    "name": "Falkland Islands"
+  },
+  {
+    "alpha2": "FO",
+    "alpha3": "FRO",
+    "callingCode": "+298",
+    "name": "Faroe Islands"
+  },
+  {
+    "alpha2": "FJ",
+    "alpha3": "FJI",
+    "callingCode": "+679",
+    "name": "Fiji"
+  },
+  {
+    "alpha2": "FI",
+    "alpha3": "FIN",
+    "callingCode": "+358",
+    "name": "Finland"
+  },
+  {
+    "alpha2": "FR",
+    "alpha3": "FRA",
+    "callingCode": "+33",
+    "name": "France"
+  },
+  {
+    "alpha2": "GF",
+    "alpha3": "GUF",
+    "callingCode": "+594",
+    "name": "French Guiana"
+  },
+  {
+    "alpha2": "PF",
+    "alpha3": "PYF",
+    "callingCode": "+689",
+    "name": "French Polynesia"
+  },
+  {
+    "alpha2": "GA",
+    "alpha3": "GAB",
+    "callingCode": "+241",
+    "name": "Gabon"
+  },
+  {
+    "alpha2": "GM",
+    "alpha3": "GMB",
+    "callingCode": "+220",
+    "name": "Gambia"
+  },
+  {
+    "alpha2": "GE",
+    "alpha3": "GEO",
+    "callingCode": "+995",
+    "name": "Georgia"
+  },
+  {
+    "alpha2": "DE",
+    "alpha3": "DEU",
+    "callingCode": "+49",
+    "name": "Germany"
+  },
+  {
+    "alpha2": "GH",
+    "alpha3": "GHA",
+    "callingCode": "+233",
+    "name": "Ghana"
+  },
+  {
+    "alpha2": "GI",
+    "alpha3": "GIB",
+    "callingCode": "+350",
+    "name": "Gibraltar"
+  },
+  {
+    "alpha2": "GR",
+    "alpha3": "GRC",
+    "callingCode": "+30",
+    "name": "Greece"
+  },
+  {
+    "alpha2": "GL",
+    "alpha3": "GRL",
+    "callingCode": "+299",
+    "name": "Greenland"
+  },
+  {
+    "alpha2": "GD",
+    "alpha3": "GRD",
+    "callingCode": "+473",
+    "name": "Grenada"
+  },
+  {
+    "alpha2": "GP",
+    "alpha3": "GLP",
+    "callingCode": "+590",
+    "name": "Guadeloupe"
+  },
+  {
+    "alpha2": "GU",
+    "alpha3": "GUM",
+    "callingCode": "+1 671",
+    "name": "Guam"
+  },
+  {
+    "alpha2": "GT",
+    "alpha3": "GTM",
+    "callingCode": "+502",
+    "name": "Guatemala"
+  },
+  {
+    "alpha2": "GG",
+    "alpha3": "GGY",
+    "callingCode": "+44",
+    "name": "Guernsey"
+  },
+  {
+    "alpha2": "GN",
+    "alpha3": "GIN",
+    "callingCode": "+224",
+    "name": "Guinea"
+  },
+  {
+    "alpha2": "GW",
+    "alpha3": "GNB",
+    "callingCode": "+245",
+    "name": "Guinea-bissau"
+  },
+  {
+    "alpha2": "GY",
+    "alpha3": "GUY",
+    "callingCode": "+592",
+    "name": "Guyana"
+  },
+  {
+    "alpha2": "HT",
+    "alpha3": "HTI",
+    "callingCode": "+509",
+    "name": "Haiti"
+  },
+  {
+    "alpha2": "HN",
+    "alpha3": "HND",
+    "callingCode": "+504",
+    "name": "Honduras"
+  },
+  {
+    "alpha2": "HK",
+    "alpha3": "HKG",
+    "callingCode": "+852",
+    "name": "Hong Kong"
+  },
+  {
+    "alpha2": "HU",
+    "alpha3": "HUN",
+    "callingCode": "+36",
+    "name": "Hungary"
+  },
+  {
+    "alpha2": "IS",
+    "alpha3": "ISL",
+    "callingCode": "+354",
+    "name": "Iceland"
+  },
+  {
+    "alpha2": "IN",
+    "alpha3": "IND",
+    "callingCode": "+91",
+    "name": "India"
+  },
+  {
+    "alpha2": "ID",
+    "alpha3": "IDN",
+    "callingCode": "+62",
+    "name": "Indonesia"
+  },
+  {
+    "alpha2": "IR",
+    "alpha3": "IRN",
+    "callingCode": "+98",
+    "name": "Iran, Islamic Republic Of"
+  },
+  {
+    "alpha2": "IQ",
+    "alpha3": "IRQ",
+    "callingCode": "+964",
+    "name": "Iraq"
+  },
+  {
+    "alpha2": "IE",
+    "alpha3": "IRL",
+    "callingCode": "+353",
+    "name": "Ireland"
+  },
+  {
+    "alpha2": "IM",
+    "alpha3": "IMN",
+    "callingCode": "+44",
+    "name": "Isle Of Man"
+  },
+  {
+    "alpha2": "IL",
+    "alpha3": "ISR",
+    "callingCode": "+972",
+    "name": "Israel"
+  },
+  {
+    "alpha2": "IT",
+    "alpha3": "ITA",
+    "callingCode": "+39",
+    "name": "Italy"
+  },
+  {
+    "alpha2": "JM",
+    "alpha3": "JAM",
+    "callingCode": "+1 876",
+    "name": "Jamaica"
+  },
+  {
+    "alpha2": "JP",
+    "alpha3": "JPN",
+    "callingCode": "+81",
+    "name": "Japan"
+  },
+  {
+    "alpha2": "JE",
+    "alpha3": "JEY",
+    "callingCode": "+44",
+    "name": "Jersey"
+  },
+  {
+    "alpha2": "JO",
+    "alpha3": "JOR",
+    "callingCode": "+962",
+    "name": "Jordan"
+  },
+  {
+    "alpha2": "KZ",
+    "alpha3": "KAZ",
+    "callingCode": "+7",
+    "name": "Kazakhstan"
+  },
+  {
+    "alpha2": "KE",
+    "alpha3": "KEN",
+    "callingCode": "+254",
+    "name": "Kenya"
+  },
+  {
+    "alpha2": "KI",
+    "alpha3": "KIR",
+    "callingCode": "+686",
+    "name": "Kiribati"
+  },
+  {
+    "alpha2": "KR",
+    "alpha3": "KOR",
+    "callingCode": "+82",
+    "name": "Korea, Republic Of"
+  },
+  {
+    "alpha2": "XK",
+    "alpha3": "XKX",
+    "callingCode": "+383",
+    "name": "Kosovo"
+  },
+  {
+    "alpha2": "KW",
+    "alpha3": "KWT",
+    "callingCode": "+965",
+    "name": "Kuwait"
+  },
+  {
+    "alpha2": "KG",
+    "alpha3": "KGZ",
+    "callingCode": "+996",
+    "name": "Kyrgyzstan"
+  },
+  {
+    "alpha2": "LA",
+    "alpha3": "LAO",
+    "callingCode": "+856",
+    "name": "Lao People's Democratic Republic"
+  },
+  {
+    "alpha2": "LV",
+    "alpha3": "LVA",
+    "callingCode": "+371",
+    "name": "Latvia"
+  },
+  {
+    "alpha2": "LB",
+    "alpha3": "LBN",
+    "callingCode": "+961",
+    "name": "Lebanon"
+  },
+  {
+    "alpha2": "LS",
+    "alpha3": "LSO",
+    "callingCode": "+266",
+    "name": "Lesotho"
+  },
+  {
+    "alpha2": "LR",
+    "alpha3": "LBR",
+    "callingCode": "+231",
+    "name": "Liberia"
+  },
+  {
+    "alpha2": "LY",
+    "alpha3": "LBY",
+    "callingCode": "+218",
+    "name": "Libya"
+  },
+  {
+    "alpha2": "LI",
+    "alpha3": "LIE",
+    "callingCode": "+423",
+    "name": "Liechtenstein"
+  },
+  {
+    "alpha2": "LT",
+    "alpha3": "LTU",
+    "callingCode": "+370",
+    "name": "Lithuania"
+  },
+  {
+    "alpha2": "LU",
+    "alpha3": "LUX",
+    "callingCode": "+352",
+    "name": "Luxembourg"
+  },
+  {
+    "alpha2": "MO",
+    "alpha3": "MAC",
+    "callingCode": "+853",
+    "name": "Macao"
+  },
+  {
+    "alpha2": "MG",
+    "alpha3": "MDG",
+    "callingCode": "+261",
+    "name": "Madagascar"
+  },
+  {
+    "alpha2": "MW",
+    "alpha3": "MWI",
+    "callingCode": "+265",
+    "name": "Malawi"
+  },
+  {
+    "alpha2": "MY",
+    "alpha3": "MYS",
+    "callingCode": "+60",
+    "name": "Malaysia"
+  },
+  {
+    "alpha2": "MV",
+    "alpha3": "MDV",
+    "callingCode": "+960",
+    "name": "Maldives"
+  },
+  {
+    "alpha2": "ML",
+    "alpha3": "MLI",
+    "callingCode": "+223",
+    "name": "Mali"
+  },
+  {
+    "alpha2": "MT",
+    "alpha3": "MLT",
+    "callingCode": "+356",
+    "name": "Malta"
+  },
+  {
+    "alpha2": "MH",
+    "alpha3": "MHL",
+    "callingCode": "+692",
+    "name": "Marshall Islands"
+  },
+  {
+    "alpha2": "MQ",
+    "alpha3": "MTQ",
+    "callingCode": "+596",
+    "name": "Martinique"
+  },
+  {
+    "alpha2": "MR",
+    "alpha3": "MRT",
+    "callingCode": "+222",
+    "name": "Mauritania"
+  },
+  {
+    "alpha2": "MU",
+    "alpha3": "MUS",
+    "callingCode": "+230",
+    "name": "Mauritius"
+  },
+  {
+    "alpha2": "YT",
+    "alpha3": "MYT",
+    "callingCode": "+262",
+    "name": "Mayotte"
+  },
+  {
+    "alpha2": "MX",
+    "alpha3": "MEX",
+    "callingCode": "+52",
+    "name": "Mexico"
+  },
+  {
+    "alpha2": "FM",
+    "alpha3": "FSM",
+    "callingCode": "+691",
+    "name": "Micronesia, Federated States Of"
+  },
+  {
+    "alpha2": "MD",
+    "alpha3": "MDA",
+    "callingCode": "+373",
+    "name": "Moldova"
+  },
+  {
+    "alpha2": "MC",
+    "alpha3": "MCO",
+    "callingCode": "+377",
+    "name": "Monaco"
+  },
+  {
+    "alpha2": "MN",
+    "alpha3": "MNG",
+    "callingCode": "+976",
+    "name": "Mongolia"
+  },
+  {
+    "alpha2": "ME",
+    "alpha3": "MNE",
+    "callingCode": "+382",
+    "name": "Montenegro"
+  },
+  {
+    "alpha2": "MS",
+    "alpha3": "MSR",
+    "callingCode": "+1 664",
+    "name": "Montserrat"
+  },
+  {
+    "alpha2": "MA",
+    "alpha3": "MAR",
+    "callingCode": "+212",
+    "name": "Morocco"
+  },
+  {
+    "alpha2": "MZ",
+    "alpha3": "MOZ",
+    "callingCode": "+258",
+    "name": "Mozambique"
+  },
+  {
+    "alpha2": "MM",
+    "alpha3": "MMR",
+    "callingCode": "+95",
+    "name": "Myanmar"
+  },
+  {
+    "alpha2": "NA",
+    "alpha3": "NAM",
+    "callingCode": "+264",
+    "name": "Namibia"
+  },
+  {
+    "alpha2": "NR",
+    "alpha3": "NRU",
+    "callingCode": "+674",
+    "name": "Nauru"
+  },
+  {
+    "alpha2": "NP",
+    "alpha3": "NPL",
+    "callingCode": "+977",
+    "name": "Nepal"
+  },
+  {
+    "alpha2": "NL",
+    "alpha3": "NLD",
+    "callingCode": "+31",
+    "name": "Netherlands"
+  },
+  {
+    "alpha2": "NC",
+    "alpha3": "NCL",
+    "callingCode": "+687",
+    "name": "New Caledonia"
+  },
+  {
+    "alpha2": "NZ",
+    "alpha3": "NZL",
+    "callingCode": "+64",
+    "name": "New Zealand"
+  },
+  {
+    "alpha2": "NI",
+    "alpha3": "NIC",
+    "callingCode": "+505",
+    "name": "Nicaragua"
+  },
+  {
+    "alpha2": "NE",
+    "alpha3": "NER",
+    "callingCode": "+227",
+    "name": "Niger"
+  },
+  {
+    "alpha2": "NG",
+    "alpha3": "NGA",
+    "callingCode": "+234",
+    "name": "Nigeria"
+  },
+  {
+    "alpha2": "NU",
+    "alpha3": "NIU",
+    "callingCode": "+683",
+    "name": "Niue"
+  },
+  {
+    "alpha2": "NF",
+    "alpha3": "NFK",
+    "callingCode": "+672",
+    "name": "Norfolk Island"
+  },
+  {
+    "alpha2": "MK",
+    "alpha3": "MKD",
+    "callingCode": "+389",
+    "name": "North Macedonia"
+  },
+  {
+    "alpha2": "MP",
+    "alpha3": "MNP",
+    "callingCode": "+1 670",
+    "name": "Northern Mariana Islands"
+  },
+  {
+    "alpha2": "NO",
+    "alpha3": "NOR",
+    "callingCode": "+47",
+    "name": "Norway"
+  },
+  {
+    "alpha2": "OM",
+    "alpha3": "OMN",
+    "callingCode": "+968",
+    "name": "Oman"
+  },
+  {
+    "alpha2": "PK",
+    "alpha3": "PAK",
+    "callingCode": "+92",
+    "name": "Pakistan"
+  },
+  {
+    "alpha2": "PW",
+    "alpha3": "PLW",
+    "callingCode": "+680",
+    "name": "Palau"
+  },
+  {
+    "alpha2": "PS",
+    "alpha3": "PSE",
+    "callingCode": "+970",
+    "name": "Palestinian Territory, Occupied"
+  },
+  {
+    "alpha2": "PA",
+    "alpha3": "PAN",
+    "callingCode": "+507",
+    "name": "Panama"
+  },
+  {
+    "alpha2": "PG",
+    "alpha3": "PNG",
+    "callingCode": "+675",
+    "name": "Papua New Guinea"
+  },
+  {
+    "alpha2": "PY",
+    "alpha3": "PRY",
+    "callingCode": "+595",
+    "name": "Paraguay"
+  },
+  {
+    "alpha2": "PE",
+    "alpha3": "PER",
+    "callingCode": "+51",
+    "name": "Peru"
+  },
+  {
+    "alpha2": "PH",
+    "alpha3": "PHL",
+    "callingCode": "+63",
+    "name": "Philippines"
+  },
+  {
+    "alpha2": "PL",
+    "alpha3": "POL",
+    "callingCode": "+48",
+    "name": "Poland"
+  },
+  {
+    "alpha2": "PT",
+    "alpha3": "PRT",
+    "callingCode": "+351",
+    "name": "Portugal"
+  },
+  {
+    "alpha2": "PR",
+    "alpha3": "PRI",
+    "callingCode": "+1 787",
+    "name": "Puerto Rico"
+  },
+  {
+    "alpha2": "QA",
+    "alpha3": "QAT",
+    "callingCode": "+974",
+    "name": "Qatar"
+  },
+  {
+    "alpha2": "CG",
+    "alpha3": "COG",
+    "callingCode": "+242",
+    "name": "Republic Of Congo"
+  },
+  {
+    "alpha2": "RE",
+    "alpha3": "REU",
+    "callingCode": "+262",
+    "name": "Reunion"
+  },
+  {
+    "alpha2": "RO",
+    "alpha3": "ROU",
+    "callingCode": "+40",
+    "name": "Romania"
+  },
+  {
+    "alpha2": "RU",
+    "alpha3": "RUS",
+    "callingCode": "+7",
+    "name": "Russia"
+  },
+  {
+    "alpha2": "RW",
+    "alpha3": "RWA",
+    "callingCode": "+250",
+    "name": "Rwanda"
+  },
+  {
+    "alpha2": "BL",
+    "alpha3": "BLM",
+    "callingCode": "+590",
+    "name": "Saint Barthélemy"
+  },
+  {
+    "alpha2": "SH",
+    "alpha3": "SHN",
+    "callingCode": "+290",
+    "name": "Saint Helena, Ascension And Tristan Da Cunha"
+  },
+  {
+    "alpha2": "KN",
+    "alpha3": "KNA",
+    "callingCode": "+1 869",
+    "name": "Saint Kitts And Nevis"
+  },
+  {
+    "alpha2": "LC",
+    "alpha3": "LCA",
+    "callingCode": "+1 758",
+    "name": "Saint Lucia"
+  },
+  {
+    "alpha2": "MF",
+    "alpha3": "MAF",
+    "callingCode": "+590",
+    "name": "Saint Martin"
+  },
+  {
+    "alpha2": "PM",
+    "alpha3": "SPM",
+    "callingCode": "+508",
+    "name": "Saint Pierre And Miquelon"
+  },
+  {
+    "alpha2": "VC",
+    "alpha3": "VCT",
+    "callingCode": "+1 784",
+    "name": "Saint Vincent And The Grenadines"
+  },
+  {
+    "alpha2": "WS",
+    "alpha3": "WSM",
+    "callingCode": "+685",
+    "name": "Samoa"
+  },
+  {
+    "alpha2": "SM",
+    "alpha3": "SMR",
+    "callingCode": "+378",
+    "name": "San Marino"
+  },
+  {
+    "alpha2": "ST",
+    "alpha3": "STP",
+    "callingCode": "+239",
+    "name": "Sao Tome and Principe"
+  },
+  {
+    "alpha2": "SA",
+    "alpha3": "SAU",
+    "callingCode": "+966",
+    "name": "Saudi Arabia"
+  },
+  {
+    "alpha2": "SN",
+    "alpha3": "SEN",
+    "callingCode": "+221",
+    "name": "Senegal"
+  },
+  {
+    "alpha2": "RS",
+    "alpha3": "SRB",
+    "callingCode": "+381",
+    "name": "Serbia"
+  },
+  {
+    "alpha2": "SC",
+    "alpha3": "SYC",
+    "callingCode": "+248",
+    "name": "Seychelles"
+  },
+  {
+    "alpha2": "SL",
+    "alpha3": "SLE",
+    "callingCode": "+232",
+    "name": "Sierra Leone"
+  },
+  {
+    "alpha2": "SG",
+    "alpha3": "SGP",
+    "callingCode": "+65",
+    "name": "Singapore"
+  },
+  {
+    "alpha2": "SX",
+    "alpha3": "SXM",
+    "callingCode": "+1 721",
+    "name": "Sint Maarten"
+  },
+  {
+    "alpha2": "SK",
+    "alpha3": "SVK",
+    "callingCode": "+421",
+    "name": "Slovakia"
+  },
+  {
+    "alpha2": "SI",
+    "alpha3": "SVN",
+    "callingCode": "+386",
+    "name": "Slovenia"
+  },
+  {
+    "alpha2": "SB",
+    "alpha3": "SLB",
+    "callingCode": "+677",
+    "name": "Solomon Islands"
+  },
+  {
+    "alpha2": "SO",
+    "alpha3": "SOM",
+    "callingCode": "+252",
+    "name": "Somalia"
+  },
+  {
+    "alpha2": "ZA",
+    "alpha3": "ZAF",
+    "callingCode": "+27",
+    "name": "South Africa"
+  },
+  {
+    "alpha2": "SS",
+    "alpha3": "SSD",
+    "callingCode": "+211",
+    "name": "South Sudan"
+  },
+  {
+    "alpha2": "ES",
+    "alpha3": "ESP",
+    "callingCode": "+34",
+    "name": "Spain"
+  },
+  {
+    "alpha2": "LK",
+    "alpha3": "LKA",
+    "callingCode": "+94",
+    "name": "Sri Lanka"
+  },
+  {
+    "alpha2": "SD",
+    "alpha3": "SDN",
+    "callingCode": "+249",
+    "name": "Sudan"
+  },
+  {
+    "alpha2": "SR",
+    "alpha3": "SUR",
+    "callingCode": "+597",
+    "name": "Suriname"
+  },
+  {
+    "alpha2": "SJ",
+    "alpha3": "SJM",
+    "callingCode": "+47",
+    "name": "Svalbard And Jan Mayen"
+  },
+  {
+    "alpha2": "SE",
+    "alpha3": "SWE",
+    "callingCode": "+46",
+    "name": "Sweden"
+  },
+  {
+    "alpha2": "CH",
+    "alpha3": "CHE",
+    "callingCode": "+41",
+    "name": "Switzerland"
+  },
+  {
+    "alpha2": "SY",
+    "alpha3": "SYR",
+    "callingCode": "+963",
+    "name": "Syrian Arab Republic"
+  },
+  {
+    "alpha2": "TW",
+    "alpha3": "TWN",
+    "callingCode": "+886",
+    "name": "Taiwan"
+  },
+  {
+    "alpha2": "TJ",
+    "alpha3": "TJK",
+    "callingCode": "+992",
+    "name": "Tajikistan"
+  },
+  {
+    "alpha2": "TZ",
+    "alpha3": "TZA",
+    "callingCode": "+255",
+    "name": "Tanzania, United Republic Of"
+  },
+  {
+    "alpha2": "TH",
+    "alpha3": "THA",
+    "callingCode": "+66",
+    "name": "Thailand"
+  },
+  {
+    "alpha2": "TL",
+    "alpha3": "TLS",
+    "callingCode": "+670",
+    "name": "Timor-Leste, Democratic Republic of"
+  },
+  {
+    "alpha2": "TG",
+    "alpha3": "TGO",
+    "callingCode": "+228",
+    "name": "Togo"
+  },
+  {
+    "alpha2": "TK",
+    "alpha3": "TKL",
+    "callingCode": "+690",
+    "name": "Tokelau"
+  },
+  {
+    "alpha2": "TO",
+    "alpha3": "TON",
+    "callingCode": "+676",
+    "name": "Tonga"
+  },
+  {
+    "alpha2": "TT",
+    "alpha3": "TTO",
+    "callingCode": "+1 868",
+    "name": "Trinidad And Tobago"
+  },
+  {
+    "alpha2": "TA",
+    "alpha3": "TAA",
+    "callingCode": "+290",
+    "name": "Tristan de Cunha"
+  },
+  {
+    "alpha2": "TN",
+    "alpha3": "TUN",
+    "callingCode": "+216",
+    "name": "Tunisia"
+  },
+  {
+    "alpha2": "TR",
+    "alpha3": "TUR",
+    "callingCode": "+90",
+    "name": "Turkiye"
+  },
+  {
+    "alpha2": "TM",
+    "alpha3": "TKM",
+    "callingCode": "+993",
+    "name": "Turkmenistan"
+  },
+  {
+    "alpha2": "TC",
+    "alpha3": "TCA",
+    "callingCode": "+1 649",
+    "name": "Turks And Caicos Islands"
+  },
+  {
+    "alpha2": "TV",
+    "alpha3": "TUV",
+    "callingCode": "+688",
+    "name": "Tuvalu"
+  },
+  {
+    "alpha2": "UG",
+    "alpha3": "UGA",
+    "callingCode": "+256",
+    "name": "Uganda"
+  },
+  {
+    "alpha2": "UA",
+    "alpha3": "UKR",
+    "callingCode": "+380",
+    "name": "Ukraine"
+  },
+  {
+    "alpha2": "AE",
+    "alpha3": "ARE",
+    "callingCode": "+971",
+    "name": "United Arab Emirates"
+  },
+  {
+    "alpha2": "GB",
+    "alpha3": "GBR",
+    "callingCode": "+44",
+    "name": "United Kingdom"
+  },
+  {
+    "alpha2": "US",
+    "alpha3": "USA",
+    "callingCode": "+1",
+    "name": "United States"
+  },
+  {
+    "alpha2": "UY",
+    "alpha3": "URY",
+    "callingCode": "+598",
+    "name": "Uruguay"
+  },
+  {
+    "alpha2": "UZ",
+    "alpha3": "UZB",
+    "callingCode": "+998",
+    "name": "Uzbekistan"
+  },
+  {
+    "alpha2": "VU",
+    "alpha3": "VUT",
+    "callingCode": "+678",
+    "name": "Vanuatu"
+  },
+  {
+    "alpha2": "VA",
+    "alpha3": "VAT",
+    "callingCode": "+379",
+    "name": "Vatican City State"
+  },
+  {
+    "alpha2": "VE",
+    "alpha3": "VEN",
+    "callingCode": "+58",
+    "name": "Venezuela, Bolivarian Republic Of"
+  },
+  {
+    "alpha2": "VN",
+    "alpha3": "VNM",
+    "callingCode": "+84",
+    "name": "Vietnam"
+  },
+  {
+    "alpha2": "VG",
+    "alpha3": "VGB",
+    "callingCode": "+1 284",
+    "name": "Virgin Islands (British)"
+  },
+  {
+    "alpha2": "VI",
+    "alpha3": "VIR",
+    "callingCode": "+1 340",
+    "name": "Virgin Islands (US)"
+  },
+  {
+    "alpha2": "WF",
+    "alpha3": "WLF",
+    "callingCode": "+681",
+    "name": "Wallis And Futuna"
+  },
+  {
+    "alpha2": "EH",
+    "alpha3": "ESH",
+    "callingCode": "+212",
+    "name": "Western Sahara"
+  },
+  {
+    "alpha2": "YE",
+    "alpha3": "YEM",
+    "callingCode": "+967",
+    "name": "Yemen"
+  },
+  {
+    "alpha2": "ZM",
+    "alpha3": "ZMB",
+    "callingCode": "+260",
+    "name": "Zambia"
+  },
+  {
+    "alpha2": "ZW",
+    "alpha3": "ZWE",
+    "callingCode": "+263",
+    "name": "Zimbabwe"
+  }
+]

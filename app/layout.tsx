@@ -40,7 +40,7 @@ import type { ReactNode } from "react";
 import { toNavCategories } from "@/components/patterns/nav-types";
 import { SiteChrome } from "@/components/patterns/SiteChrome";
 import { SmoothScroll } from "@/components/patterns/SmoothScroll";
-import { ToastProvider } from "@/components/ui";
+import { ToastProvider } from '@/components/ui/toast';
 import { getCategories, getGlobals } from "@/lib/content";
 import { ConversionClickTracker } from "@/lib/conversion-tracking";
 import { GOOGLE_ADS_CONVERSION_ID } from "@/lib/conversion-ids";
