@@ -16,6 +16,87 @@ export interface PackagingLanding {
 }
 
 export const PACKAGING_LANDINGS: Record<string, PackagingLanding> = {
+  "custom-soap-boxes": {
+  "slug": "custom-soap-boxes",
+  "title": "Custom Soap Boxes",
+  "seoTitle": "Custom Soap Boxes with Logo USA | Vital Custom Boxes",
+  "h1": "Custom Soap Boxes with Logo",
+  "description": "Custom soap boxes for US skincare and handmade soap brands. Compare cartons, sleeves and wraps with free design support, a digital proof and free US shipping.",
+  "intro": "Custom soap boxes should fit the finished bar with any wrapping or liner included. Compare a closed carton for retail presentation with a sleeve or band that leaves part of the bar visible. Share the bar dimensions, weight, wrapping method and artwork, including the ingredient and product information you need to supply. For multi-bar gifts, discuss inserts and spacing. Paper packaging does not make soap moisture-proof: confirm the intended storage conditions and any liner requirements before production.",
+  "productSlugs": [
+    "custom-soap-boxes",
+    "custom-soap-cigar-bands",
+    "custom-soap-sleeves",
+    "custom-soap-wrapping-paper"
+  ],
+  "heroProduct": "custom-soap-boxes",
+  "guide": [
+    "Measure the finished soap bar with its wrapping or liner.",
+    "Choose a closed carton, sleeve, band or wrapping paper.",
+    "Provide your logo and approved product labeling artwork.",
+    "Confirm inserts and spacing for multi-bar gift sets.",
+    "Share quantity, your US delivery ZIP code and the required arrival date."
+  ],
+  "specs": [
+    {
+      "label": "Materials",
+      "value": "Kraft or printed paperboard for cartons; paper stock and thickness confirmed for bands and wraps."
+    },
+    {
+      "label": "Styles",
+      "value": "Folding cartons, soap sleeves, cigar bands and wrapping paper."
+    },
+    {
+      "label": "Sizes",
+      "value": "Internal carton dimensions and wrap coverage matched to the finished bar."
+    },
+    {
+      "label": "Printing",
+      "value": "Logo, supplied product text and barcode placement on approved artwork panels."
+    },
+    {
+      "label": "Finishes",
+      "value": "Coatings, windows, foil and embossing considered for the selected carton and stock."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Should I choose a soap box, sleeve or band?",
+      "answer": "A closed carton covers the bar; sleeves and bands leave part of it visible. Choose around your wrapping method, retail display and supplied product information."
+    },
+    {
+      "question": "Can soap packaging be made around my bar size?",
+      "answer": "Yes. Measure the finished bar with its wrapping or liner and confirm internal dimensions. Include spacing or an insert when packing more than one bar."
+    },
+    {
+      "question": "Are paper soap boxes moisture-proof?",
+      "answer": "Paper packaging alone is not a moisture barrier. Explain the storage and handling conditions and ask whether a suitable liner or separate wrapping is needed."
+    }
+  ],
+  "related": [
+    {
+      "name": "Custom Cosmetics Boxes",
+      "href": "/shop/custom-cosmetics-boxes/"
+    },
+    {
+      "name": "Custom Kraft Boxes",
+      "href": "/custom-kraft-boxes/"
+    },
+    {
+      "name": "Custom Gift Boxes",
+      "href": "/shop/custom-gift-boxes/"
+    },
+    {
+      "name": "Custom Product Boxes",
+      "href": "/shop/custom-product-packaging-boxes/"
+    }
+  ],
+  "blogSlugs": [
+    "what-is-a-dieline-in-packaging-print",
+    "matte-vs-gloss-lamination-for-packaging"
+  ],
+  "blogPattern": "dieline|lamination"
+},
   "custom-shipping-boxes": {
     "slug": "custom-shipping-boxes",
     "title": "Custom Shipping Boxes",

@@ -62,21 +62,23 @@ function detailSections(tab: SubmissionTab, data: Record<string, unknown>): Deta
 
   if (tab === 'quote') {
     const product = take('productName') ?? take('product');
-    customer.push({ label: 'Shipping Location', value: take('country') });
+    customer.push({ label: 'Shipping Address', value: take('address'), block: true });
+    customer.push({ label: 'Shipping Country / Location', value: take('country') });
     claimed.add('categorySlug');
     claimed.add('boxType');
     sections.push({ title: 'Customer Information', rows: customer, tinted: true });
 
-    const [length, width, depth] = [take('length'), take('width'), take('depth')];
+    const [length, width, depth] = [take('length'), take('width'), take('height') ?? take('depth')];
+    const unit = take('unit') ?? 'in';
     sections.push({
       title: 'Order Specifications',
       rows: [
         {
           label: 'Dimensions',
-          value: [length, width, depth].every(hasValue) ? `${length}" × ${width}" × ${depth}"` : undefined,
+          value: [length, width, depth].every(hasValue) ? `${length} × ${width} × ${depth} ${unit}` : undefined,
         },
         { label: 'Stock Type', value: take('stock') },
-        { label: 'Color Options', value: take('colors') },
+        { label: 'Color Options', value: take('color') ?? take('colors') },
         { label: 'Color Surface', value: take('surface') },
         { label: 'Lamination', value: take('lamination') },
         { label: 'Quantity', value: take('quantity') },

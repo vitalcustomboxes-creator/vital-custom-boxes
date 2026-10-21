@@ -67,7 +67,7 @@ const PACKAGING_LINKS = [
   { label: "Custom Product Boxes", href: "/shop/custom-boxes/" },
   { label: "Custom Cosmetic Boxes", href: "/shop/custom-cosmetics-boxes/" },
   { label: "Custom Bakery Boxes", href: "/shop/custom-bakery-boxes/" },
-  { label: "Custom Soap Boxes", href: "/shop/custom-cosmetics-boxes/custom-soap-boxes/" },
+  { label: "Custom Soap Boxes", href: "/custom-soap-boxes/" },
   { label: "Custom Candle Boxes", href: "/shop/custom-candle-boxes/" },
   { label: "Custom Apparel & Clothing Boxes", href: "/shop/custom-apparel-boxes/" },
 ];
@@ -538,7 +538,7 @@ export default async function HomePage() {
                         {ratingSummary.ratingValue.toFixed(1)}/5
                       </p>
                       <p className="mt-1 text-sm font-semibold text-ink-700">
-                        Based on {ratingSummary.reviewCount}+ reviews
+                        Based on {ratingSummary.reviewCount} published customer testimonials
                       </p>
                       <Link
                         href="/reviews/"

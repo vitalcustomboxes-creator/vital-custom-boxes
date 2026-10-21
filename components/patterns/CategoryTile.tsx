@@ -30,7 +30,7 @@ export function CategoryTile({ category, count, className }: CategoryTileProps) 
   return (
     <Link
       href={categoryPath(category)}
-      aria-label={label}
+      aria-label={`${label} — View collection`}
       className={cn(
         'group card-lift relative flex h-full flex-col overflow-hidden rounded-xl border border-ink-100 bg-white shadow-e1 transition-[border-color,box-shadow,transform] duration-300 ease-brand hover:border-terra-200 hover:shadow-e3 focus-visible:border-terra-500 focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_var(--color-terra-100)]',
         className,

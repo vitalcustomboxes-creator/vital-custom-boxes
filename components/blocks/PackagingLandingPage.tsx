@@ -27,7 +27,7 @@ export async function PackagingLandingPage({ page }: { page: PackagingLanding })
     { name: page.title, href: `/${page.slug}/` },
   ];
   // No category parameter: these topics are not CMS category IDs.
-  const quoteHref = '/get-custom-quote/';
+  const quoteHref = `/get-custom-quote/?notes=${encodeURIComponent(`Packaging interest: ${page.title}\nSource page: /${page.slug}/`)}`;
   const posts = selectPackagingPosts(getPosts(), page.blogSlugs ?? []);
   const faqs = [
     ...page.faqs.slice(0, 3),
@@ -136,7 +136,7 @@ export async function PackagingLandingPage({ page }: { page: PackagingLanding })
         </div>
       </section>
       <FAQAccordion faqs={faqs} className="bg-kraft-100" />
-      <CTABand heading={`Request your ${page.title.toLowerCase()} quote`} sub="Send your dimensions, quantity, artwork requirements and US delivery ZIP code." phone={globals.phone} phoneHref={globals.phoneHref} />
+      <CTABand defaultSpecs={{ notes: `Packaging interest: ${page.title}\nSource page: /${page.slug}/` }} heading={`Request your ${page.title.toLowerCase()} quote`} sub="Send your dimensions, quantity, artwork requirements and US delivery ZIP code." phone={globals.phone} phoneHref={globals.phoneHref} />
     </>
   );
 }

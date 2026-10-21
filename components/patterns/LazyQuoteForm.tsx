@@ -10,8 +10,10 @@ const QuoteForm = dynamic(
     loading: () => (
       <div
         className="min-h-[420px] animate-pulse rounded-lg border border-ink-100 bg-kraft-100"
-        aria-label="Loading quote form"
-      />
+        role="status"
+      >
+        <span className="sr-only">Loading quote form…</span>
+      </div>
     ),
   },
 );

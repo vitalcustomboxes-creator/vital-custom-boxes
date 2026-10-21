@@ -27,12 +27,12 @@ import { RelatedProducts } from "@/components/blocks/RelatedProducts";
 import { CTABand } from "@/components/patterns/CTABand";
 import { FAQAccordion } from "@/components/patterns/FAQAccordion";
 import { GalleryLightbox } from "@/components/patterns/GalleryLightbox";
-import { ProductSpecConfigurator } from "@/components/patterns/ProductSpecConfigurator";
 import { SpecTable } from "@/components/patterns/SpecTable";
 import { Badge, Breadcrumbs, Button } from "@/components/ui";
 import {
   getCategory,
   getGlobals,
+  getPosts,
   getProducts,
 } from "@/lib/content";
 import { getPublicProduct, getPublicProducts } from "@/lib/public-products";
@@ -50,6 +50,8 @@ import { categoryPath as buildCategoryPath, productPath as buildProductPath } fr
 import { getProductPricing, formatProductPriceRange } from "@/lib/product-pricing";
 import { getProductReviewSummary } from "@/lib/product-reviews";
 import type { Product } from "@/lib/types";
+import { CATEGORY_PACKAGING_SEO, selectPackagingPosts } from "@/lib/packaging-seo";
+import { productGallery, productSpecValue } from "@/lib/product-presentation";
 
 interface Params {
   category: string;
@@ -148,26 +150,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const faqs = product.faqs ?? [];
   const hasFaqs = faqs.length > 0;
-  const galleryImages =
-    product.images && product.images.length > 0
-      ? product.images
-      : [
-          {
-            src: product.imageUrl,
-            alt:
-              product.imageAlt ??
-              `${product.name} — custom printed ${categoryName} packaging`,
-          },
-          ...related.slice(0, 4).map((item) => ({
-            src: item.imageUrl,
-            alt:
-              item.imageAlt ??
-              `${item.name} — related ${categoryName} packaging example`,
-          })),
-        ].filter(
-          (image, index, images) =>
-            images.findIndex((candidate) => candidate.src === image.src) === index,
-        );
+  const galleryImages = productGallery(product);
+  const categorySeo = CATEGORY_PACKAGING_SEO[product.category];
+  const specFallback = (label: string, fallback: string) =>
+    categorySeo?.specs.find((row) => row.label === label)?.value ?? fallback;
+  const guideSlugs = product.slug.includes('soap')
+    ? ['what-is-a-dieline-in-packaging-print', 'matte-vs-gloss-lamination-for-packaging']
+    : categorySeo?.blogSlugs ?? ['what-is-a-dieline-in-packaging-print', 'types-of-packaging'];
+  const guides = selectPackagingPosts(getPosts(), guideSlugs);
 
   const crumbs = [
     { name: "Home", href: "/" },
@@ -296,18 +286,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </a>
               </div>
 
-              {/* On-page spec configurator (UX-D): builds a deep link that
-                  pre-fills the quote form with the chosen specs. Quote-only
-                  model preserved — final pricing confirmed by quote. */}
-              <div className="mt-6">
-                <ProductSpecConfigurator
-                  productSlug={product.slug}
-                  productName={product.name}
-                  categorySlug={product.category}
-                  categoryName={categoryName}
-                  productPath={productPath}
-                />
-              </div>
 
               {category?.regulated ? (
                 /* ISSUES (SEO-2 §7) — disclaimer on regulated products. */
@@ -360,8 +338,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 { label: "Category", value: categoryName },
                 {
                   label: "Materials",
-                  value:
-                    "Cardstock (SBS), kraft, corrugated, or rigid board — matched to your product",
+                  value: productSpecValue(product.materials, specFallback("Materials", "Stock and board grade confirmed with your quote.")),
                 },
                 {
                   label: "Sizes",
@@ -369,13 +346,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 },
                 {
                   label: "Printing",
-                  value:
-                    "Full-color CMYK and PMS spot colors, inside and outside",
+                  value: specFallback("Printing", "Logo, artwork coverage and available print surfaces confirmed for your chosen construction."),
                 },
                 {
                   label: "Finishes",
-                  value:
-                    "Matte, gloss, soft-touch, spot UV, foil stamping, embossing, window patching",
+                  value: productSpecValue(product.finishes, specFallback("Finishes", "Finish options confirmed for your selected stock and artwork.")),
                 },
               ]}
             />
@@ -430,6 +405,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
         products={related}
         title={`More ${categoryName.toLowerCase()}`}
       />
+
+      <section className="section bg-paper-50" aria-labelledby="product-guides-heading">
+        <div className="container-hm">
+          <p className="eyebrow">Before you order</p>
+          <h2 id="product-guides-heading" className="mt-3">Plan your {product.name.toLowerCase()} order</h2>
+          <p className="mt-3 max-w-[65ch] text-slate-600">
+            Include your packed product dimensions, quantity and US delivery ZIP code.
+            Review the stock, artwork and digital proof before approving production.
+            Production time and delivery transit are separate stages.
+          </p>
+          <nav aria-label={`${product.name} planning resources`}>
+            <ul className="mt-6 grid gap-3 md:grid-cols-2">
+              {[
+                ...guides.map((post) => ({ name: post.title, href: `/blog/${post.slug}/` })),
+                { name: 'Compare Packaging Materials', href: '/materials/' },
+                { name: 'US Shipping Policy', href: '/shipping-policy/' },
+                ...(product.slug.includes('soap') ? [{ name: 'Compare Custom Soap Boxes and Wraps', href: '/custom-soap-boxes/' }] : []),
+              ].map((link) => <li key={link.href}><Link href={link.href} className="inline-flex min-h-11 items-center font-semibold text-terra-600 underline underline-offset-4">{link.name}</Link></li>)}
+            </ul>
+          </nav>
+        </div>
+      </section>
 
       {/* ONE FAQ block (section-owning, kraft), only when this product has
           captured FAQs — FAQAccordion renders nothing for an empty list. */}

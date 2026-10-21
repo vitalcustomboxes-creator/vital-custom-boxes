@@ -90,7 +90,12 @@ export function getReviews(): Review[] {
 
 /** Aggregate rating summary from content/ratings.json (hero badge + JSON-LD). */
 export function getRatingSummary(): RatingSummary {
-  return readJson<RatingSummary>('ratings.json');
+  const reviews = getReviews().filter((review) => review.verified && review.source !== 'placeholder');
+  return {
+    ratingValue: reviews.length ? Math.round(reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length * 10) / 10 : 0,
+    reviewCount: reviews.length,
+    bestRating: 5,
+  };
 }
 
 export function getFaqs(): Faq[] {

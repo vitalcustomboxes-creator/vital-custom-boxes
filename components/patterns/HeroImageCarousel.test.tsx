@@ -59,3 +59,9 @@ describe('HeroImageCarousel', () => {
     ).toHaveAttribute('aria-current', 'true');
   });
 });
+it('continues rendering when the selected slide is removed', () => {
+  const { rerender } = render(<HeroImageCarousel images={images} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Show packaging image 3' }));
+  rerender(<HeroImageCarousel images={images.slice(0, 1)} />);
+  expect(screen.getByRole('img', { name: 'One' })).toBeInTheDocument();
+});

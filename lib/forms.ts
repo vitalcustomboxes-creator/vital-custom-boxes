@@ -194,6 +194,7 @@ export const quoteSchema = z.object({
   email: requiredEmail,
   phone: requiredPhone,
   country: optionalText('Country', 80),
+  address: optionalText('Shipping address', 300),
   notes: optionalText('Notes', 2000),
 });
 
@@ -293,6 +294,7 @@ export function quoteFromFormData(fd: FormData): Record<string, unknown> {
     email: str(fd, 'email'),
     phone: str(fd, 'phone'),
     country: str(fd, 'country'),
+    address: str(fd, 'address'),
     notes: str(fd, 'notes'),
   };
 }

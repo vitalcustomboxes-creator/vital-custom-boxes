@@ -1,3 +1,5 @@
+import { PACKAGING_LANDINGS } from './packaging-landings';
+
 export interface PackagingSeoConfig {
   title: string;
   h1: string;
@@ -184,6 +186,7 @@ export const CATEGORY_PACKAGING_SEO: Record<string, PackagingSeoConfig> = {
       }
     ],
     "relatedSlugs": [
+      "custom-soap-boxes",
       "custom-product-packaging-boxes",
       "custom-rigid-boxes",
       "custom-insert-boxes",
@@ -355,9 +358,22 @@ export function selectPackagingPosts<T extends { slug: string }>(posts: T[], slu
 
 export function packagingTopicLinks(slugs: string[]): { name: string; href: string }[] {
   const topics: Record<string, string> = {
+    "custom-soap-boxes": "Custom Soap Boxes",
     "custom-shipping-boxes": "Custom Shipping Boxes",
     "custom-kraft-boxes": "Custom Kraft Boxes",
     "custom-corrugated-boxes": "Custom Corrugated Boxes",
   };
   return slugs.flatMap((slug) => topics[slug] ? [{ name: topics[slug], href: `/${slug}/` }] : []);
+}
+
+/** Link an informational guide back to the buyer pages that recommend it. */
+export function packagingLinksForPost(postSlug: string): { name: string; href: string }[] {
+  const categories = Object.entries(CATEGORY_PACKAGING_SEO)
+    .filter(([, page]) => page.blogSlugs.includes(postSlug))
+    .map(([slug, page]) => ({ name: page.h1, href: `/shop/${slug}/` }));
+  const topics = Object.values(PACKAGING_LANDINGS)
+    .filter((page) => page.blogSlugs?.includes(postSlug))
+    .map((page) => ({ name: page.title, href: `/${page.slug}/` }));
+  const links = [...categories.slice(0, 2), ...topics.slice(0, 2), ...categories.slice(2), ...topics.slice(2)];
+  return links.slice(0, 4);
 }

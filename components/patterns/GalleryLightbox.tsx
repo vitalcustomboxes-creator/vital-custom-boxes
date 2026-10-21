@@ -29,7 +29,7 @@ export interface GalleryLightboxProps {
 }
 
 export function GalleryLightbox({ images, alt, className }: GalleryLightboxProps) {
-  const [index, setIndex] = useState(0);
+  const [selectedIndex, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const [zoomOrigin, setZoomOrigin] = useState({ x: 50, y: 50 });
@@ -41,14 +41,15 @@ export function GalleryLightbox({ images, alt, className }: GalleryLightboxProps
     typeof img === 'string' ? { src: img } : img,
   );
   const count = items.length;
+  const index = Math.min(selectedIndex, Math.max(0, count - 1));
   const baseAlt = alt ?? items[0]?.alt ?? 'Product image';
   const imageAlt = (i: number) => {
     const itemAlt = items[i]?.alt ?? baseAlt;
     return count > 1 ? `${itemAlt} — image ${i + 1} of ${count}` : itemAlt;
   };
 
-  const next = useCallback(() => setIndex((i) => (i + 1) % count), [count]);
-  const prev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count]);
+  const next = useCallback(() => setIndex((i) => (Math.min(i, count - 1) + 1) % Math.max(1, count)), [count]);
+  const prev = useCallback(() => setIndex((i) => (Math.min(i, count - 1) - 1 + count) % Math.max(1, count)), [count]);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -142,7 +143,7 @@ export function GalleryLightbox({ images, alt, className }: GalleryLightboxProps
         onPointerMove={moveZoom}
         onPointerLeave={() => setZoomed(false)}
         onPointerCancel={() => setZoomed(false)}
-        aria-label="Open image viewer"
+        aria-label={`Open image viewer for ${baseAlt}`}
         aria-haspopup="dialog"
         className="card-media relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-lg border border-ink-100 bg-white"
       >

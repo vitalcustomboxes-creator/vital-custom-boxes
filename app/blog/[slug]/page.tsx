@@ -12,6 +12,8 @@
  */
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import { packagingLinksForPost } from "@/lib/packaging-seo";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/blocks/PageHero";
 import { AuthorBox } from "@/components/patterns/AuthorBox";
@@ -115,6 +117,7 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
   if (!post) notFound();
 
   const globals = getGlobals();
+  const packagingLinks = packagingLinksForPost(post.slug);
   const { blocks, headings } = parseBody(post.body);
   const related = getPosts()
     .filter((p) => p.slug !== post.slug)
@@ -173,6 +176,15 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
               ),
             )}
 
+            {packagingLinks.length ? (
+              <nav aria-labelledby="article-packaging-heading" className="mt-10 rounded-lg border border-ink-100 bg-kraft-100 p-6">
+                <h2 id="article-packaging-heading" className="h3">Explore packaging for your next order</h2>
+                <p className="mt-3 text-sm text-slate-600">Compare box styles, then request dimensions, printing and a quote for your US delivery destination.</p>
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {packagingLinks.map((link) => <li key={link.href}><Link href={link.href} className="inline-flex min-h-11 items-center font-semibold text-terra-600 underline underline-offset-4">{link.name}</Link></li>)}
+                </ul>
+              </nav>
+            ) : null}
             <div className="mt-12">
               <AuthorBox />
             </div>

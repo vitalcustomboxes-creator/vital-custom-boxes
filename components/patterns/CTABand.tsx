@@ -16,6 +16,7 @@ export interface CTABandProps {
   heading?: string;
   sub?: string;
   defaultProduct?: QuoteFormProps['defaultProduct'];
+  defaultSpecs?: QuoteFormProps['defaultSpecs'];
   /** globals.phone — display format, rendered verbatim. */
   phone?: string;
   /** globals.phoneHref — e.g. "tel:+12136926437". */
@@ -26,6 +27,7 @@ export function CTABand({
   heading = 'Ready to start your packaging project?',
   sub,
   defaultProduct,
+  defaultSpecs,
   phone,
   phoneHref,
 }: CTABandProps) {
@@ -35,6 +37,7 @@ export function CTABand({
         <LazyQuoteForm
           action={submitQuote}
           defaultProduct={defaultProduct}
+          defaultSpecs={defaultSpecs}
           heading={heading}
           description={sub}
         />

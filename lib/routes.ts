@@ -49,6 +49,7 @@ export function legacyProductPath(slug: string): string {
 }
 
 export const STATIC_CONTENT_ROUTES: StaticRoute[] = [
+  { name: "Custom Soap Boxes", path: "/custom-soap-boxes/", group: "explore" },
   { name: "Custom Shipping Boxes", path: "/custom-shipping-boxes/", group: "explore" },
   { name: "Custom Kraft Boxes", path: "/custom-kraft-boxes/", group: "explore" },
   { name: "Custom Corrugated Boxes", path: "/custom-corrugated-boxes/", group: "explore" },

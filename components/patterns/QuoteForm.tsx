@@ -17,12 +17,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Combobox, type ComboboxOption } from '@/components/ui/combobox';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { FileUpload } from '@/components/ui/file-upload';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 // import {
 //   QUOTE_COLORS,
@@ -106,14 +104,15 @@ const validators: Record<string, FieldValidator> = {
       return `Quantity must be a whole number of ${MIN_QUANTITY} or more`;
     return null;
   },
-  country: requiredField('Enter your shipping address'),
+  address: requiredField('Enter your shipping address'),
+  country: requiredField('Enter your shipping country'),
 };
 
 const FIELD_ORDER = [
   'length', 'width', 'depth',
   'name', 'email', 'phone', 'stock',
   'colors', 'surface', 'lamination', 'quantity',
-  'country', 'artwork',
+  'address', 'country', 'artwork',
 ];
 
 const FIELD_LABELS: Record<string, string> = {
@@ -128,7 +127,8 @@ const FIELD_LABELS: Record<string, string> = {
   surface: 'Print surface',
   lamination: 'Lamination',
   quantity: 'Quantity',
-  country: 'Shipping address',
+  address: 'Shipping address',
+  country: 'Shipping country',
   artwork: 'Artwork files',
 };
 
@@ -609,16 +609,26 @@ export function QuoteForm({
               error={errors.quantity}
             />
 
-            {/* Shipping Country */}
-          <Input
-            id={fieldId('country')}
-            name="country"
-            label="Shipping Address (Street, City, State, ZIP Code)"
-            required
-            placeholder="Shipping Country"
-            autoComplete="country-name"
-            error={errors.country}
-          />
+            <Input
+              id={fieldId('address')}
+              name="address"
+              label="Shipping Address (Street, City, State, ZIP Code)"
+              required
+              maxLength={300}
+              placeholder="Street, City, State, ZIP Code"
+              autoComplete="street-address"
+              error={errors.address}
+            />
+            <Input
+              id={fieldId('country')}
+              name="country"
+              label="Shipping Country"
+              required
+              maxLength={80}
+              defaultValue="United States"
+              autoComplete="country-name"
+              error={errors.country}
+            />
           </div>
 
           {/* Finishes checkboxes */}

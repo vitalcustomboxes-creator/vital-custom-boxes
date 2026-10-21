@@ -55,7 +55,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const products = allProducts.filter((product) => product.category === slug);
   const seo = CATEGORY_PACKAGING_SEO[slug];
   const h1 = seo?.h1 ?? CATEGORY_META[slug]?.h1 ?? category.name;
-  const quoteHref = `/get-custom-quote/?category=${encodeURIComponent(slug)}`;
+  const quoteHref = `/get-custom-quote/?category=${encodeURIComponent(slug)}&notes=${encodeURIComponent(`Packaging interest: ${category.name}\nSource page: /shop/${slug}/`)}`;
   const faqs = seo ? [
     ...(category.faqs ?? []).slice(0, 2),
     { question: `What is the minimum order for ${category.name.toLowerCase()}?`, answer: `Our minimum-order guidance is ${globals.moq}. Available run sizes depend on the structure, stock and customization. Include your preferred quantity with your quote request.` },
@@ -125,6 +125,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </div>
     </section>
     <FAQAccordion faqs={faqs} className="bg-kraft-100" />
-    <CTABand heading={`Request Your ${category.name} Quote`} sub="Send your product dimensions, quantity, artwork requirements and US delivery ZIP code." phone={globals.phone} phoneHref={globals.phoneHref} />
+    <CTABand defaultSpecs={{ notes: `Packaging interest: ${category.name}\nSource page: /shop/${slug}/` }} heading={`Request Your ${category.name} Quote`} sub="Send your product dimensions, quantity, artwork requirements and US delivery ZIP code." phone={globals.phone} phoneHref={globals.phoneHref} />
   </>;
 }

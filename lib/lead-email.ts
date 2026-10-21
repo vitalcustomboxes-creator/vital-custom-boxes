@@ -182,7 +182,8 @@ async function leadSections(
         field(payload, 'company'),
         field(payload, 'email'),
         field(payload, 'phone'),
-        field(payload, 'country'),
+        field(payload, 'address', 'Shipping address'),
+        field(payload, 'country', 'Shipping country'),
       ]),
     },
     {

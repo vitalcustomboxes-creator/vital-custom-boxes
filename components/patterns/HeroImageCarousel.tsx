@@ -15,10 +15,12 @@ export interface HeroImageCarouselProps {
 
 export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
   const slides = useMemo(() => images.filter((image) => image.src), [images]);
-  const [active, setActive] = useState(0);
+  const [selectedIndex, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const active = Math.min(selectedIndex, Math.max(0, slides.length - 1));
 
   useEffect(() => {
-    if (slides.length < 2) return undefined;
+    if (slides.length < 2 || paused) return undefined;
 
     const media =
       typeof window.matchMedia === 'function'
@@ -27,11 +29,11 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
     if (media?.matches) return undefined;
 
     const timer = window.setInterval(() => {
-      setActive((current) => (current + 1) % slides.length);
+      setActive((current) => (Math.min(current, slides.length - 1) + 1) % slides.length);
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, [active, slides.length]);
+  }, [active, slides.length, paused]);
 
   if (slides.length === 0) {
     return null;
@@ -42,11 +44,11 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
   };
 
   const goPrevious = () => {
-    setActive((current) => (current - 1 + slides.length) % slides.length);
+    setActive((current) => (Math.min(current, slides.length - 1) - 1 + slides.length) % slides.length);
   };
 
   const goNext = () => {
-    setActive((current) => (current + 1) % slides.length);
+    setActive((current) => (Math.min(current, slides.length - 1) + 1) % slides.length);
   };
 
   return (
@@ -66,6 +68,14 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
 
       {slides.length > 1 ? (
         <>
+          <button
+            type="button"
+            onClick={() => setPaused((current) => !current)}
+            aria-label={paused ? 'Play packaging slideshow' : 'Pause packaging slideshow'}
+            className="absolute right-3 top-3 z-10 min-h-11 rounded-md bg-white/90 px-3 text-sm font-semibold text-ink-900 shadow-e1 motion-reduce:hidden"
+          >
+            {paused ? 'Play' : 'Pause'}
+          </button>
           <button
             type="button"
             aria-label="Previous packaging image"
